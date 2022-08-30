@@ -2,24 +2,17 @@
 =========================================================
 * Material Dashboard 2 React - v2.1.0
 =========================================================
-
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
 * Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
 Coded by www.creative-tim.com
-
  =========================================================
-
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
 /** 
   All of the routes for the Material Dashboard 2 React are added here,
   You can add a new route, customize the routes and delete the routes here.
-
   Once you add a new route on this file it will be visible automatically on
   the Sidenav.
-
   For adding a new route you can follow the existing routes in the routes array.
   1. The `type` key with the `collapse` value is used for a route.
   2. The `type` key with the `title` value is used for a title inside the Sidenav. 
@@ -34,7 +27,6 @@ Coded by www.creative-tim.com
   10. The `title` key is only for the item with the type of `title` and its used for the title text on the Sidenav.
   10. The `component` key is used to store the component of its route.
 */
-
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
@@ -44,10 +36,13 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
-
+// STAC Portal pages
+import PublicSources from "pages/PublicSources/PublicSources";
+import Validator from "pages/Validator/Validator";
+import AreaDownloader from "pages/AreaDownloader/AreaDownloader";
+import Settings from "pages/Settings/Settings";
 // @mui icons
 import Icon from "@mui/material/Icon";
-
 const routes = [
   {
     type: "collapse",
@@ -56,6 +51,46 @@ const routes = [
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "Public Sources",
+    key: "public-sources",
+    icon: <Icon fontSize="small">public</Icon>,
+    route: "/public-sources",
+    component: <PublicSources />,
+  },
+  {
+    type: "collapse",
+    name: "Validator",
+    key: "validator",
+    icon: <Icon fontSize="small">verified_user</Icon>,
+    route: "/validator",
+    component: <Validator />,
+  },
+  {
+    type: "collapse",
+    name: "Area Downloader",
+    key: "area-downloader",
+    icon: <Icon fontSize="small">cloud_download</Icon>,
+    route: "/area-downloader",
+    component: <AreaDownloader />,
+  },
+  {
+    type: "collapse",
+    name: "Jupyter Hub",
+    key: "jupyter-hub",
+    icon: <Icon fontSize="small">code</Icon>,
+    route: "/jupyter-hub",
+    component: <div>Jupyter Hub</div>,
+  },
+  {
+    type: "collapse",
+    name: "Settings",
+    key: "settings",
+    icon: <Icon fontSize="small">settings</Icon>,
+    route: "/settings",
+    component: <Settings />,
   },
   {
     type: "collapse",
@@ -114,5 +149,4 @@ const routes = [
     component: <SignUp />,
   },
 ];
-
 export default routes;
