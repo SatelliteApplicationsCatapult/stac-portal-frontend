@@ -35,6 +35,7 @@ import PublicSources from "pages/PublicSources/PublicSources";
 import Validator from "pages/Validator/Validator";
 import AreaDownloader from "pages/AreaDownloader/AreaDownloader";
 import Settings from "pages/Settings/Settings";
+import Applications from "pages/Applications/Applications";
 // @mui icons
 import Icon from "@mui/material/Icon";
 const routes = [
@@ -72,11 +73,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Jupyter Hub",
-    key: "jupyter-hub",
+    name: "Applications",
+    key: "applications",
     icon: <Icon fontSize="small">code</Icon>,
-    route: "/jupyter-hub",
-    component: <div>Jupyter Hub</div>,
+    route: "/applications",
+    component: <Applications />,
   },
   {
     type: "collapse",
