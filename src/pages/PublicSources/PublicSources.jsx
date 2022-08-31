@@ -11,8 +11,8 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
+import authorsTableData from "./data/authorsTableData";
+import projectsTableData from "./data/projectsTableData";
 
 const PublicSources = () => {
   const { columns: pColumns, rows: pRows } = projectsTableData();
