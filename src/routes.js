@@ -30,8 +30,6 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
 // STAC Portal pages
 import PublicSources from "pages/PublicSources/PublicSources";
 import Validator from "pages/Validator/Validator";
@@ -87,22 +85,6 @@ const routes = [
     icon: <Icon fontSize="small">settings</Icon>,
     route: "/settings",
     component: <Settings />,
-  },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
-    component: <SignIn />,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
   },
 ];
 export default routes;
