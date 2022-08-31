@@ -35,6 +35,25 @@ import configs from "examples/Charts/BarCharts/VerticalBarChart/configs";
 // Material Dashboard 2 React base styles
 import colors from "assets/theme/base/colors";
 
+// Chart JS configuration
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 function VerticalBarChart({ icon, title, description, height, chart }) {
   const chartDatasets = chart.datasets
     ? chart.datasets.map((dataset) => ({
