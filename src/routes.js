@@ -31,12 +31,10 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 
 // STAC Portal pages
-import PublicSources from "pages/PublicSources/PublicSources";
 import Validator from "pages/Validator/Validator";
-import AreaDownloader from "pages/AreaDownloader/AreaDownloader";
-import Settings from "pages/Settings/Settings";
+import LoadAPI from "pages/LoadAPI/LoadAPI";
 import Applications from "pages/Applications/Applications";
-import Uploader from "pages/Uploader/Uploader";
+import LoadLocal from "pages/LoadLocal/LoadLocal";
 import Searcher from "pages/Searcher/Searcher";
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -56,18 +54,18 @@ const routes = [
   {
     type: "collapse",
     name: "Load Local Data",
-    key: "uploader",
+    key: "load-local-data",
     icon: <Icon fontSize="small">storage</Icon>,
-    route: "/upload",
-    component: <Uploader />,
+    route: "/load-local-data",
+    component: <LoadLocal />,
   },
   {
     type: "collapse",
     name: "Load STAC API's",
-    key: "stac-data-loader",
+    key: "STAC-data-loader",
     icon: <Icon fontSize="small">cloud_upload</Icon>,
     route: "/STAC-data-loader",
-    component: <AreaDownloader />,
+    component: <LoadAPI />,
   },
   {
     type: "collapse",
@@ -95,7 +93,7 @@ const routes = [
     name: "Apps",
     key: "apps",
     icon: <Icon fontSize="small">apps</Icon>,
-    route: "/applications",
+    route: "/apps",
     component: <Applications />,
   },
 
@@ -104,7 +102,7 @@ const routes = [
     name: "Analytics",
     key: "Analytics",
     icon: <Icon fontSize="small">bar_chart</Icon>,
-    route: "/dashboard",
+    route: "/Analytics",
     component: <Dashboard />,
   },
 ];

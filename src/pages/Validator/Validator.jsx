@@ -16,6 +16,23 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 
 const Validator = () => {
+  const handleSubmit = () => {
+    let textField = document.getElementById("text-field");
+    fetch("http://localhost:5000/validate/json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        json: textField.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -31,9 +48,6 @@ const Validator = () => {
           color="info"
           onClick={() => {
             navigator.clipboard.readText().then((text) => {
-              // Paste into text field
-              console.log(text);
-              // get text field
               const textField = document.getElementById("text-field");
               textField.value = text;
             });
@@ -46,7 +60,7 @@ const Validator = () => {
         <MDButton
           variant="contained"
           color="primary"
-          onClick={() => {}}
+          onClick={handleSubmit}
           startIcon={<Icon>task_alt</Icon>}
         >
           Validate JSON

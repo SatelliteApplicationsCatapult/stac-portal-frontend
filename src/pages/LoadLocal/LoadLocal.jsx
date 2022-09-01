@@ -16,7 +16,7 @@ import { useState } from "react";
 
 import UploaderForm from "./components/UploaderForm";
 
-const Uploader = () => {
+const LoadLocal = () => {
   const [files, setFiles] = useState([
     { name: "MYD14A2.A2022201.h35v10.061.2022215004639" },
     { name: "ESA_WorldCover_10m_2020_v100_S57W02_EPSG4326.tif" },
@@ -95,4 +95,4 @@ const Uploader = () => {
   );
 };
 
-export default Uploader;
+export default LoadLocal;
