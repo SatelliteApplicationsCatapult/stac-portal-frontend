@@ -51,27 +51,27 @@ const routes = [
   },
   {
     type: "title",
-    title: "Import",
+    title: "Manager",
   },
   {
     type: "collapse",
-    name: "Local Data Loader",
+    name: "Load Local Data",
     key: "uploader",
-    icon: <Icon fontSize="small">cloud_upload</Icon>,
+    icon: <Icon fontSize="small">storage</Icon>,
     route: "/upload",
     component: <Uploader />,
   },
   {
     type: "collapse",
-    name: "STAC Data Loader",
+    name: "Load STAC API's",
     key: "stac-data-loader",
-    icon: <Icon fontSize="small">cloud_download</Icon>,
+    icon: <Icon fontSize="small">cloud_upload</Icon>,
     route: "/STAC-data-loader",
     component: <AreaDownloader />,
   },
   {
     type: "collapse",
-    name: "STAC Collection Updater",
+    name: "Update Catalog",
     key: "updater",
     icon: <Icon fontSize="small">update</Icon>,
     route: "/updater",
@@ -89,20 +89,12 @@ const routes = [
     route: "/validator",
     component: <Validator />,
   },
-  {
-    type: "collapse",
-    name: "Public Sources",
-    key: "public-sources",
-    icon: <Icon fontSize="small">public</Icon>,
-    route: "/public-sources",
-    component: <PublicSources />,
-  },
 
   {
     type: "collapse",
     name: "Apps",
     key: "apps",
-    icon: <Icon fontSize="small">code</Icon>,
+    icon: <Icon fontSize="small">apps</Icon>,
     route: "/applications",
     component: <Applications />,
   },
@@ -111,10 +103,9 @@ const routes = [
     type: "collapse",
     name: "Analytics",
     key: "Analytics",
-    icon: <Icon fontSize="small">dashboard</Icon>,
+    icon: <Icon fontSize="small">bar_chart</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
   },
-
 ];
 export default routes;
