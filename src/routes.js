@@ -36,9 +36,15 @@ import Validator from "pages/Validator/Validator";
 import AreaDownloader from "pages/AreaDownloader/AreaDownloader";
 import Settings from "pages/Settings/Settings";
 import Applications from "pages/Applications/Applications";
+import Uploader from "pages/Uploader/Uploader";
+import Searcher from "pages/Searcher/Searcher";
 // @mui icons
 import Icon from "@mui/material/Icon";
 const routes = [
+  {
+    type: "title",
+    title: "Analytics",
+  },
   {
     type: "collapse",
     name: "Dashboard",
@@ -47,13 +53,48 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
+
+  {
+    type: "title",
+    title: "Import",
+  },
   {
     type: "collapse",
-    name: "Public Sources",
-    key: "public-sources",
-    icon: <Icon fontSize="small">public</Icon>,
-    route: "/public-sources",
-    component: <PublicSources />,
+    name: "Uploader",
+    key: "uploader",
+    icon: <Icon fontSize="small">cloud_upload</Icon>,
+    route: "/upload",
+    component: <Uploader />,
+  },
+
+  {
+    type: "collapse",
+    name: "Downloader",
+    key: "downloader",
+    icon: <Icon fontSize="small">cloud_download</Icon>,
+    route: "/area-downloader",
+    component: <AreaDownloader />,
+  },
+  {
+    type: "collapse",
+    name: "Searcher",
+    key: "searcher",
+    icon: <Icon fontSize="small">search</Icon>,
+    route: "/searcher",
+    component: <Searcher />,
+  },
+
+  {
+    type: "collapse",
+    name: "Updater",
+    key: "updater",
+    icon: <Icon fontSize="small">update</Icon>,
+    route: "/updater",
+    component: "",
+  },
+  {
+    type: "title",
+    title: "Utilities",
   },
   {
     type: "collapse",
@@ -65,16 +106,17 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Area Downloader",
-    key: "area-downloader",
-    icon: <Icon fontSize="small">cloud_download</Icon>,
-    route: "/area-downloader",
-    component: <AreaDownloader />,
+    name: "Public Sources",
+    key: "public-sources",
+    icon: <Icon fontSize="small">public</Icon>,
+    route: "/public-sources",
+    component: <PublicSources />,
   },
+
   {
     type: "collapse",
-    name: "Applications",
-    key: "applications",
+    name: "Building Blocks",
+    key: "building-blocks",
     icon: <Icon fontSize="small">code</Icon>,
     route: "/applications",
     component: <Applications />,

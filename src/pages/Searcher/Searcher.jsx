@@ -11,7 +11,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DrawMap from "../../components/DrawMap";
 import { useState } from "react";
 
-const AreaDownloader = () => {
+const Searcher = () => {
   const [AOI, setAOI] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -45,4 +45,4 @@ const AreaDownloader = () => {
     </DashboardLayout>
   );
 };
-export default AreaDownloader;
+export default Searcher;

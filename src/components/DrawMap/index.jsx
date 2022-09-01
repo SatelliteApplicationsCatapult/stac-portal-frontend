@@ -93,7 +93,7 @@ const DrawMap = ({
       "leaflet-draw-draw-rectangle"
     );
     if (drawTool.length === 1) {
-      drawTool[0].click();
+      //drawTool[0].click();
     }
 
     // Check if there is already an AOI
@@ -118,13 +118,14 @@ const DrawMap = ({
               id="outlined-basic"
               label="AOI"
               style={{ margin: 8, width: "50%" }}
-              placeholder="Placeholder"
+              placeholder="Use the draw tool on the right side of the map to create a polygon"
               margin="normal"
               InputLabelProps={{
                 shrink: true,
               }}
-              disabled
               value={AOI}
+              variant="outlined"
+              onChange={(e) => setAOI(e.target.value)}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
