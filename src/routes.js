@@ -42,40 +42,6 @@ import Searcher from "pages/Searcher/Searcher";
 import Icon from "@mui/material/Icon";
 const routes = [
   {
-    type: "title",
-    title: "Analytics",
-  },
-  {
-    type: "collapse",
-    name: "Dashboard",
-    key: "dashboard",
-    icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
-    component: <Dashboard />,
-  },
-
-  {
-    type: "title",
-    title: "Import",
-  },
-  {
-    type: "collapse",
-    name: "Uploader",
-    key: "uploader",
-    icon: <Icon fontSize="small">cloud_upload</Icon>,
-    route: "/upload",
-    component: <Uploader />,
-  },
-
-  {
-    type: "collapse",
-    name: "Downloader",
-    key: "downloader",
-    icon: <Icon fontSize="small">cloud_download</Icon>,
-    route: "/area-downloader",
-    component: <AreaDownloader />,
-  },
-  {
     type: "collapse",
     name: "Searcher",
     key: "searcher",
@@ -83,10 +49,29 @@ const routes = [
     route: "/searcher",
     component: <Searcher />,
   },
-
+  {
+    type: "title",
+    title: "Import",
+  },
   {
     type: "collapse",
-    name: "Updater",
+    name: "Local Data Loader",
+    key: "uploader",
+    icon: <Icon fontSize="small">cloud_upload</Icon>,
+    route: "/upload",
+    component: <Uploader />,
+  },
+  {
+    type: "collapse",
+    name: "STAC Data Loader",
+    key: "stac-data-loader",
+    icon: <Icon fontSize="small">cloud_download</Icon>,
+    route: "/STAC-data-loader",
+    component: <AreaDownloader />,
+  },
+  {
+    type: "collapse",
+    name: "STAC Collection Updater",
     key: "updater",
     icon: <Icon fontSize="small">update</Icon>,
     route: "/updater",
@@ -115,19 +100,21 @@ const routes = [
 
   {
     type: "collapse",
-    name: "Building Blocks",
-    key: "building-blocks",
+    name: "Apps",
+    key: "apps",
     icon: <Icon fontSize="small">code</Icon>,
     route: "/applications",
     component: <Applications />,
   },
+
   {
     type: "collapse",
-    name: "Settings",
-    key: "settings",
-    icon: <Icon fontSize="small">settings</Icon>,
-    route: "/settings",
-    component: <Settings />,
+    name: "Analytics",
+    key: "Analytics",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
   },
+
 ];
 export default routes;
