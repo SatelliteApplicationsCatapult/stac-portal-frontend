@@ -17,3 +17,11 @@ class AuthDto:
         'email': fields.String(required=True, description='The email address'),
         'password': fields.String(required=True, description='The user password '),
     })
+
+
+class CollectionsDto:
+    api = Namespace('collections', description='collection related operations')
+    collection = api.model('collections', {
+        'name': fields.String(required=True, description='collection name'),
+        'public_id': fields.String(description='collection Identifier')
+    })

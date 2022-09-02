@@ -12,7 +12,7 @@ user_auth = AuthDto.user_auth
 @api.route('/login')
 class UserLogin(Resource):
     """
-        User Login Resource
+    User Login Resource
     """
     @api.doc('user login')
     @api.expect(user_auth, validate=True)
