@@ -22,6 +22,6 @@ class AuthDto:
 class CollectionsDto:
     api = Namespace('collections', description='collection related operations')
     collection = api.model('collections', {
-        'name': fields.String(required=True, description='collection name'),
-        'public_id': fields.String(description='collection Identifier')
+        'collection_id': fields.String(required=True, description='collection id'),
+        'item_id': fields.String(required=True, description='item id'),
     })
