@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* STAC Portal - v2.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
@@ -18,7 +18,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 
-// Material Dashboard 2 React Context Provider
+// STAC Portal Context Provider
 import { MaterialUIControllerProvider } from "context";
 
 ReactDOM.render(

@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* STAC Portal - v2.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
@@ -22,7 +22,7 @@ import { Link } from "react-router-dom";
 // @mui material components
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 

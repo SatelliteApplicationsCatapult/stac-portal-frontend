@@ -2,14 +2,14 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { TextField } from "@mui/material";
 
-// Material Dashboard 2 React components
+// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import Footer from "examples/Footer";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React example components
+// STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { Box } from "@mui/system";

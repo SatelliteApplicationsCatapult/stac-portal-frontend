@@ -1,17 +1,17 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-// Material Dashboard 2 React components
+// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
-// Material Dashboard 2 React example components
+// STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // Map
 import DrawMap from "../../components/DrawMap";
 import { useState } from "react";
 
-// Material Dashboard 2 React example components
+// STAC Portal example components
 import DataTable from "examples/Tables/DataTable";
 
 import authorsTableData from "./data/authorsTableData";

@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* STAC Portal - v2.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
@@ -25,17 +25,17 @@ import { Radar } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React components
+// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // RadarChart configurations
 import configs from "examples/Charts/RadarChart/configs";
 
-// Material Dashboard 2 React base styles
+// STAC Portal base styles
 import colors from "assets/theme/base/colors";
 
-// Material Dashboard 2 React helper functions
+// STAC Portal helper functions
 import rgba from "assets/theme/functions/rgba";
 
 function RadarChart({ icon, title, description, chart }) {

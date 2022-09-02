@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 // Custom styles for MDButton
 import MDButtonRoot from "components/MDButton/MDButtonRoot";
 
-// Material Dashboard 2 React contexts
+// STAC Portal contexts
 import { useMaterialUIController } from "context";
 
 const MDButton = forwardRef(

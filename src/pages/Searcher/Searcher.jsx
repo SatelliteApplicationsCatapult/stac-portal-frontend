@@ -1,10 +1,10 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-// Material Dashboard 2 React components
+// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
-// Material Dashboard 2 React example components
+// STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // Map
@@ -16,9 +16,9 @@ import Icon from "@mui/material/Icon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-// Material Dashboard 2 React components
+// STAC Portal components
 
-// Material Dashboard 2 React examples
+// STAC Portal examples
 import DataTable from "examples/Tables/DataTable";
 
 // Data

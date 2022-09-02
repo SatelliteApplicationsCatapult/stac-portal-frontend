@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* STAC Portal - v2.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
@@ -13,13 +13,13 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Material Dashboard 2 React base styles
+// STAC Portal base styles
 import boxShadows from "assets/theme-dark/base/boxShadows";
 import typography from "assets/theme-dark/base/typography";
 import colors from "assets/theme-dark/base/colors";
 import borders from "assets/theme-dark/base/borders";
 
-// Material Dashboard 2 React helper functions
+// STAC Portal helper functions
 import pxToRem from "assets/theme-dark/functions/pxToRem";
 
 const { md } = boxShadows;

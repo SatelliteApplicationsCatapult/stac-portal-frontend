@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Material Dashboard 2 React - v2.1.0
+* STAC Portal - v2.1.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
@@ -18,7 +18,7 @@ Coded by www.creative-tim.com
   to convert the hex code into rgb for using it inside the rgba color format.
  */
 
-// Material Dashboard 2 React helper functions
+// STAC Portal helper functions
 import hexToRgb from "assets/theme-dark/functions/hexToRgb";
 
 function rgba(color, opacity) {
