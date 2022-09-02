@@ -11,7 +11,7 @@ class Config:
     DEBUG = False
     # Swagger
     RESTX_MASK_SWAGGER = False
-    BASE_STAC_API_URL = os.getenv('BASE_STAC_API_URL', 'https://stac-api-server.azurewebsites.net/')
+    BASE_STAC_API_URL = os.getenv('BASE_STAC_API_URL', 'https://planetarycomputer.microsoft.com/api/stac/v1')
 
 
 class DevelopmentConfig(Config):
