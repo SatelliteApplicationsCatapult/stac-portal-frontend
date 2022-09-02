@@ -1,4 +1,5 @@
 ./node_modules
+node_modules
 
 .DS_Store
 .env
@@ -26,3 +27,6 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+# Any __pycache__ folder
+__pycache__/
