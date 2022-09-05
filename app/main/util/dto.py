@@ -25,3 +25,11 @@ class CollectionsDto:
         'collection_id': fields.String(required=True, description='collection id'),
         'item_id': fields.String(required=True, description='item id'),
     })
+
+
+class ValidateDto:
+    api = Namespace('validate', description='validate related operations')
+    validate = api.model('validate', {
+        # takes a JSON object
+        'json': fields.Raw(required=True, description='JSON object to validate'),
+    })

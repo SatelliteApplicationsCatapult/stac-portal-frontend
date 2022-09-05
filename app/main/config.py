@@ -12,6 +12,7 @@ class Config:
     # Swagger
     RESTX_MASK_SWAGGER = False
     BASE_STAC_API_URL = os.getenv('BASE_STAC_API_URL', 'https://planetarycomputer.microsoft.com/api/stac/v1')
+    VALIDATION_STAC_URL = os.getenv('VALIDATION_STAC_URL', 'http://localhost:6789')
 
 
 class DevelopmentConfig(Config):
