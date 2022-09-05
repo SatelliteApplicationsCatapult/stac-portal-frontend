@@ -14,7 +14,7 @@ Flask-Testing==0.7.1
 gunicorn==19.7.1
 itsdangerous==0.24
 Jinja2>=2.10.1
-jsonschema==2.6.0
+jsonschema==3.2.0
 Mako==1.0.7
 psycopg2-binary==2.8.5
 pycparser==2.18
