@@ -33,3 +33,9 @@ class ValidateDto:
         # takes a JSON object
         'json': fields.Raw(required=True, description='JSON object to validate'),
     })
+
+class StacIngestionStatusDto:
+    api = Namespace('stac_ingestion_status', description='stac ingestion status related operations')
+    stac_ingestion_status = api.model('stac_ingestion_status', {
+        'status_id': fields.String(required=False, description='status id'),
+    })
