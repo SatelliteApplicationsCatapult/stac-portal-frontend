@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 from .config import config_by_name
 from flask.app import Flask
 
-db = SQLAlchemy()
+db: SQLAlchemy = SQLAlchemy()
 flask_bcrypt = Bcrypt()
 
 
