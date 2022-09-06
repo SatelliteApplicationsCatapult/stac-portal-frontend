@@ -32,7 +32,8 @@ def get_collection_by_id(collection_id: str) -> Tuple[Dict[str, str], int]:
     return {"count": 0, "status": "failed"}, response.status_code
 
 
-def get_items_by_collection_id(collection_id: str) -> Tuple[Dict[str, str], int]:
+def get_items_by_collection_id(
+        collection_id: str) -> Tuple[Dict[str, str], int]:
     response = requests.get(route("COLLECTIONS") + collection_id + "/items")
 
     if response.status_code == 200:
@@ -45,10 +46,10 @@ def get_items_by_collection_id(collection_id: str) -> Tuple[Dict[str, str], int]
     return {"count": 0, "status": "failed"}, response.status_code
 
 
-def get_item_from_collection(
-    collection_id: str, item_id: str
-) -> Tuple[Dict[str, str], int]:
-    response = requests.get(route("COLLECTIONS") + collection_id + "/items/" + item_id)
+def get_item_from_collection(collection_id: str,
+                             item_id: str) -> Tuple[Dict[str, str], int]:
+    response = requests.get(
+        route("COLLECTIONS") + collection_id + "/items/" + item_id)
 
     if response.status_code == 200:
         collection_json = response.json()

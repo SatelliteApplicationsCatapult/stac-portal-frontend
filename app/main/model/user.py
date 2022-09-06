@@ -1,4 +1,3 @@
-
 from .. import db, flask_bcrypt
 import datetime
 from app.main.model.blacklist import BlacklistToken
@@ -8,7 +7,7 @@ from typing import Union
 
 
 class User(db.Model):
-    """ User Model for storing user related details """
+    """User Model for storing user related details."""
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -25,7 +24,8 @@ class User(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = flask_bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = flask_bcrypt.generate_password_hash(
+            password).decode('utf-8')
 
     def check_password(self, password: str) -> bool:
         return flask_bcrypt.check_password_hash(self.password_hash, password)
@@ -38,22 +38,22 @@ class User(db.Model):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=5),
-                'iat': datetime.datetime.utcnow(),
-                'sub': user_id
+                'exp':
+                datetime.datetime.utcnow() +
+                datetime.timedelta(days=1, seconds=5),
+                'iat':
+                datetime.datetime.utcnow(),
+                'sub':
+                user_id
             }
-            return jwt.encode(
-                payload,
-                key,
-                algorithm='HS256'
-            )
+            return jwt.encode(payload, key, algorithm='HS256')
         except Exception as e:
             return e
 
     @staticmethod
     def decode_auth_token(auth_token: str) -> Union[str, int]:
-        """
-        Decodes the auth token
+        """Decodes the auth token.
+
         :param auth_token:
         :return: integer|string
         """

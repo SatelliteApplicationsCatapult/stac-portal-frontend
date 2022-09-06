@@ -3,9 +3,7 @@ import datetime
 
 
 class BlacklistToken(db.Model):
-    """
-    Token Model for storing JWT tokens
-    """
+    """Token Model for storing JWT tokens."""
     __tablename__ = 'blacklist_tokens'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -17,7 +15,7 @@ class BlacklistToken(db.Model):
         self.blacklisted_on = datetime.datetime.now()
 
     def __repr__(self):
-        return '<id: token: {}'.format(self.token)
+        return '<status_id: token: {}'.format(self.token)
 
     @staticmethod
     def check_blacklist(auth_token: str) -> bool:
