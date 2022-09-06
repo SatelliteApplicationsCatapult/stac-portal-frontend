@@ -7,7 +7,10 @@ from app.main.util.decorator import admin_token_required
 from ..util.dto import StacIngestionStatusDto
 from typing import Dict, Tuple
 from ..service import stac_ingestion_status_service
+
 api = StacIngestionStatusDto.api
+getDto = StacIngestionStatusDto.stac_ingestion_status_get
+postDto = StacIngestionStatusDto.stac_ingestion_status_post
 
 
 @api.route('/')
@@ -21,10 +24,10 @@ class StacIngestionStatusViaId(Resource):
     def get(self, status_id):
         return "hello world" + status_id
 
+    # @api.expect(postDto, validate=True)
     def post(self, status_id):
-
         request_data = request.get_json()
-        id = status_id
+        print(request_data)
         newly_stored_collections_count = request_data['newly_stored_collections_count']
         newly_stored_collections = ",".join(
             request_data['newly_stored_collections'])
@@ -44,4 +47,4 @@ class StacIngestionStatusViaId(Resource):
         print(updated_items_count)
         print(already_stored_items_count)
         return "hello world" + status_id
-       # return stac_ingestion_status_service.create_stac_ingestion_status_entry(request_data)
+    # return stac_ingestion_status_service.create_stac_ingestion_status_entry(request_data)
