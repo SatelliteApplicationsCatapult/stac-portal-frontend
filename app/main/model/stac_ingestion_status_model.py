@@ -18,7 +18,7 @@ class StacIngestionStatus(db.Model):
     updated_collections_count = db.Column(
         db.Integer, nullable=True, default=0)
     updated_collections = db.Column(db.Text, nullable=True,default="")
-    newly_stored_item_count = db.Column(db.Integer,nullable=True,  default=0)
+    newly_stored_items_count = db.Column(db.Integer,nullable=True,  default=0)
     updated_items_count = db.Column(db.Integer, nullable=True, default=0)
     already_stored_items_count = db.Column(
         db.Integer, nullable=True, default=0)

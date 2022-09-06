@@ -45,7 +45,7 @@ class StacIngestionStatusDto:
         'newly_stored_collections': fields.List(fields.String, required=True, description='newly stored collections'),
         'updated_collections_count': fields.Integer(required=True, description='updated collections count'),
         'updated_collections': fields.List(fields.String, required=True, description='updated collections'),
-        'newly_stored_item_count': fields.Integer(required=True, description='newly stored item count'),
+        'newly_stored_items_count': fields.Integer(required=True, description='newly stored items count'),
         'updated_items_count': fields.Integer(required=True, description='updated items count'),
         'already_stored_items_count': fields.Integer(required=True, description='already stored items count'),
     }),
