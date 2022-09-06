@@ -77,6 +77,7 @@ const Validator = () => {
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         setValidJSON(false);
         setValidatorResponse(err);
         setAlertBox({
@@ -185,7 +186,6 @@ const Validator = () => {
               document.body.appendChild(downloadAnchorNode); // required for firefox
               downloadAnchorNode.click();
               downloadAnchorNode.remove();
-
             }}
             startIcon={<Icon>save_alt</Icon>}
           >
@@ -207,11 +207,7 @@ const Validator = () => {
             Clear
           </MDButton>
         </Box>
-        <Box
-          display="flex"
-          width="100%"
-          justifyContent="flex-end"
-        >
+        <Box display="flex" width="100%" justifyContent="flex-end">
           <MDButton
             variant="contained"
             color="primary"
