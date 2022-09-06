@@ -151,7 +151,7 @@ const Validator = () => {
         ) : null}
       </Grid>
       <Box pt={4} display="flex" justifyContent="space-between">
-        <Box display="flex">
+        <Box display="flex" width="100%">
           <MDButton
             variant="contained"
             color="info"
@@ -171,9 +171,21 @@ const Validator = () => {
           <MDButton
             variant="contained"
             color="info"
+            disabled={isLoading}
             sx={{ mr: 4 }}
             onClick={() => {
-              // export
+              // export as json
+              const textField = document.getElementById("text-field");
+              const dataStr =
+                "data:text/json;charset=utf-8," +
+                encodeURIComponent(textField.value);
+              const downloadAnchorNode = document.createElement("a");
+              downloadAnchorNode.setAttribute("href", dataStr);
+              downloadAnchorNode.setAttribute("download", "stac.json");
+              document.body.appendChild(downloadAnchorNode); // required for firefox
+              downloadAnchorNode.click();
+              downloadAnchorNode.remove();
+
             }}
             startIcon={<Icon>save_alt</Icon>}
           >
