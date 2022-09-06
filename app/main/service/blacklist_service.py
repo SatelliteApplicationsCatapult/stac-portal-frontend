@@ -16,8 +16,5 @@ def save_token(token: str) -> Tuple[Dict[str, str], int]:
         }
         return response_object, 200
     except Exception as e:
-        response_object = {
-            'status': 'fail',
-            'message': e
-        }
+        response_object = {'status': 'fail', 'message': e}
         return response_object, 200

@@ -1,4 +1,3 @@
-
 from flask_testing import TestCase
 
 from app.main import db
@@ -6,7 +5,7 @@ from manage import app
 
 
 class BaseTestCase(TestCase):
-    """ Base Tests """
+    """Base Tests."""
 
     def create_app(self):
         app.config.from_object('app.main.config.TestingConfig')

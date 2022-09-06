@@ -11,15 +11,11 @@ validate = ValidateDto.validate
 
 @api.route("/json")
 class ValidateJSON(Resource):
-    """
-    Validate JSON Resource
-    """
+    """Validate JSON Resource."""
 
     @api.doc("validate_json")
     @api.expect(validate)
     def post(self) -> Tuple[Dict[str, str], int]:
-        """Validate JSON"""
+        """Validate JSON."""
         data = request.json
-        return jsonify(
-            validate_json(data=data)
-        )
+        return jsonify(validate_json(data=data))

@@ -28,10 +28,7 @@ class Auth:
 
         except Exception as e:
             print(e)
-            response_object = {
-                'status': 'fail',
-                'message': 'Try again'
-            }
+            response_object = {'status': 'fail', 'message': 'Try again'}
             return response_object, 500
 
     @staticmethod
@@ -46,10 +43,7 @@ class Auth:
                 # mark the token as blacklisted
                 return save_token(token=auth_token)
             else:
-                response_object = {
-                    'status': 'fail',
-                    'message': resp
-                }
+                response_object = {'status': 'fail', 'message': resp}
                 return response_object, 401
         else:
             response_object = {
@@ -76,10 +70,7 @@ class Auth:
                     }
                 }
                 return response_object, 200
-            response_object = {
-                'status': 'fail',
-                'message': resp
-            }
+            response_object = {'status': 'fail', 'message': resp}
             return response_object, 401
         else:
             response_object = {
