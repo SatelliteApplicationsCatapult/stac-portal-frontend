@@ -44,18 +44,28 @@ def set_stac_ingestion_status_entry(
         already_stored_items_count: int) -> Tuple[Dict[any, any]]:
     # get StacIngestionStatus object with id = status_id
     a: StacIngestionStatus = StacIngestionStatus.query.get(status_id)
-    print(type(a))
-    a.newly_stored_collections = "ivica"
-    print(a.newly_stored_collections)
-    print(type(a.newly_stored_collections))
+    # update the object
+    a.newly_stored_collections_count = newly_stored_collections_count
+    a.newly_stored_collections = ",".join(newly_stored_collections)
+    a.updated_collections_count = updated_collections_count
+    a.updated_collections = ",".join(updated_collections)
+    a.newly_stored_items_count = newly_stored_items_count
+    a.updated_items_count = updated_items_count
+    a.already_stored_items_count = already_stored_items_count
+    a.time_finished = datetime.datetime.utcnow()
+
+    # print(type(a))
+    # a.newly_stored_collections = "ivica"
+    # print(a.newly_stored_collections)
+    # print(type(a.newly_stored_collections))
     # a.id = status_id,
     # set time_finished to current time
     #time_finished = datetime.datetime.utcnow(),
     #a.time_finished = time_finished
     # print(type(a.time_finished))
-    a.newly_stored_collections_count = int(24),
-    print(a.newly_stored_collections_count)
-    print(type(a.newly_stored_collections_count))
+    # a.newly_stored_collections_count = int(24),
+    # print(a.newly_stored_collections_count)
+    # print(type(a.newly_stored_collections_count))
     # a.newly_stored_collections = ",".join(newly_stored_collections),
     # a.updated_collections_count = updated_collections_count,
     # a.updated_collections = ",".join(updated_collections),
