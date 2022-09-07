@@ -26,12 +26,15 @@ class StacIngestionStatusStart(Resource):
             source_stac_api_url, target_stac_api_url, update)
 
         data["callback_id"] = status_id
-        data["callback_url"] = "http://localhost:5000/stac-ingestion-status/" + str(status_id)
-        STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"
+        data["callback_endpoint"] = "http://172.17.0.1:5000/stac_ingestion/status/" + str(
+            status_id)  # TODO: make this environment variable
+        STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"  # TODO: this needs to accept CIDR range and try every ip
         print(data)
         # make a post request to STAC_SELECTIVE_CLONER_ENDPOINT
-        stac_selective_cloner_endpoint = requests.post(STAC_SELECTIVE_CLONER_ENDPOINT,json = data)
-        return stac_selective_cloner_endpoint.text
+        stac_selective_cloner_endpoint = requests.post(STAC_SELECTIVE_CLONER_ENDPOINT, json=data)
+        # get http code from stac_selective_cloner_endpoint
+        http_code = stac_selective_cloner_endpoint.status_code
+        return {"message": stac_selective_cloner_endpoint.text, "callback_id": status_id}, http_code
 
 
 @api.route('/status')
@@ -75,7 +78,7 @@ class StacIngestionStatusViaId(Resource):
 
             return response, 201
         except sqlalchemy.exc.IntegrityError as e:
-            return {"message": "Ingestion status already exists"}, 409
+            return {"message": "Ingestion status already exists"}, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
 
     @api.doc('Delete a stac ingestion status with specified status_id')
     def delete(self, status_id):
