@@ -4,7 +4,7 @@ import sqlite3
 from flask import current_app
 from typing import Dict, Tuple
 from ..routes import route
-from ..model.stac_ingestion_status_model import StacIngestionStatus
+from ..model.stac_ingestion_model import StacIngestionStatus
 import json
 from typing import Dict, Tuple, List
 from .. import db, flask_bcrypt

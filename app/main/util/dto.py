@@ -49,15 +49,15 @@ class ValidateDto:
 
 
 class StacIngestionStatusDto:
-    api = Namespace('stac_ingestion_status',
+    api = Namespace('stac_ingestion',
                     description='stac ingestion status related operations')
     stac_ingestion_status_get = api.model(
-        'stac_ingestion_status_get', {
+        'stac_ingestion', {
             'status_id':
             fields.String(required=False, description='status status_id'),
         })
     stac_ingestion_status_post = api.model(
-        'stac_ingestion_status_post', {
+        'stac_ingestion', {
             'newly_stored_collections_count':
             fields.Integer(required=True,
                            description='newly stored collections count'),
