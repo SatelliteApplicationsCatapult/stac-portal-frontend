@@ -2,7 +2,7 @@ import sqlalchemy
 from flask import request
 from flask_restx import Resource
 from flask import current_app
-
+import requests
 from app.main.util.decorator import admin_token_required
 from ..util.dto import StacIngestionStatusDto
 from typing import Dict, Tuple
@@ -13,7 +13,28 @@ getDto = StacIngestionStatusDto.stac_ingestion_status_get
 postDto = StacIngestionStatusDto.stac_ingestion_status_post
 
 
-@api.route('/')
+@api.route('/start')
+class StacIngestionStatusStart(Resource):
+    @api.doc('start stac ingestion status')
+    def post(self):
+        """Start stac ingestion status"""
+        data = request.json
+        source_stac_api_url = data['source_stac_api_url']
+        target_stac_api_url = data['target_stac_api_url']
+        update = data['update']
+        status_id = stac_ingestion_service.make_stac_ingestion_status_entry(
+            source_stac_api_url, target_stac_api_url, update)
+
+        data["callback_id"] = status_id
+        data["callback_url"] = "http://localhost:5000/stac-ingestion-status/" + str(status_id)
+        STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"
+        print(data)
+        # make a post request to STAC_SELECTIVE_CLONER_ENDPOINT
+        stac_selective_cloner_endpoint = requests.post(STAC_SELECTIVE_CLONER_ENDPOINT,json = data)
+        return stac_selective_cloner_endpoint.text
+
+
+@api.route('/status')
 class StacIngestionStatus(Resource):
 
     @api.doc('list_of_stac_ingestion_status')
@@ -21,7 +42,7 @@ class StacIngestionStatus(Resource):
         return stac_ingestion_service.get_all_stac_ingestion_statuses()
 
 
-@api.route('/<string:status_id>')
+@api.route('/status/<string:status_id>')
 class StacIngestionStatusViaId(Resource):
 
     @api.doc('get a stac ingestion status via status_id')
@@ -46,7 +67,7 @@ class StacIngestionStatusViaId(Resource):
         updated_items_count = request_data['updated_items_count']
         already_stored_items_count = request_data['already_stored_items_count']
         try:
-            response = stac_ingestion_service.create_stac_ingestion_status_entry(
+            response = stac_ingestion_service.set_stac_ingestion_status_entry(
                 status_id, newly_stored_collections_count,
                 newly_stored_collections, updated_collections_count,
                 updated_collections, newly_stored_items_count,
