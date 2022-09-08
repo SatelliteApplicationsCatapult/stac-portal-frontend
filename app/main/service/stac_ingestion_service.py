@@ -23,8 +23,8 @@ def get_stac_ingestion_status_by_id(id: str) -> Dict[any, any]:
     return a.as_dict()
 
 
-def make_stac_ingestion_status_entry(source_stac_api_url : str,
-                                     target_stac_api_url:str,
+def make_stac_ingestion_status_entry(source_stac_api_url: str,
+                                     target_stac_api_url: str,
                                      update: bool) -> int:
     a: StacIngestionStatus = StacIngestionStatus()
     a.source_stac_api_url = source_stac_api_url
@@ -60,8 +60,8 @@ def set_stac_ingestion_status_entry(
     # print(type(a.newly_stored_collections))
     # a.id = status_id,
     # set time_finished to current time
-    #time_finished = datetime.datetime.utcnow(),
-    #a.time_finished = time_finished
+    # time_finished = datetime.datetime.utcnow(),
+    # a.time_finished = time_finished
     # print(type(a.time_finished))
     # a.newly_stored_collections_count = int(24),
     # print(a.newly_stored_collections_count)

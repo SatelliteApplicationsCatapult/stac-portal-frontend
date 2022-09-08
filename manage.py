@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from app import blueprint
 from app.main import create_app, db
-from app.main.model import *
+from app.main.model import user, blacklist, public_catalogs_model, stac_ingestion_model
 
 app = create_app(os.getenv('PORTAL_ENV') or 'dev')
 app.register_blueprint(blueprint)

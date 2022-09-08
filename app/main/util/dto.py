@@ -48,6 +48,26 @@ class ValidateDto:
         })
 
 
+class PublicCatalogsDto:
+    api = Namespace('public_catalogs',
+                    description='public catalogs related operations')
+    add_public_catalog = api.model(
+        "add_public_catalog", {
+            'name':
+            fields.String(required=True,
+                          description='name of the public catalog'),
+            'url':
+            fields.String(required=True,
+                          description='url of the public catalog'),
+            'description':
+            fields.String(required=True,
+                          description='description of the public catalog'),
+            'stac_version':
+            fields.String(required=True,
+                          description='STAC version of the public catalog'),
+        })
+
+
 class StacIngestionStatusDto:
     api = Namespace('stac_ingestion',
                     description='stac ingestion status related operations')
