@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from app import blueprint
 from app.main import create_app, db
-from app.main.model import *
+from app.main.model import user, blacklist, public_catalogs_model, stac_ingestion_model
 
 app = create_app(os.getenv('PORTAL_ENV') or 'dev')
 app.register_blueprint(blueprint)
@@ -25,7 +25,8 @@ manager.add_command('db', MigrateCommand)
 
 @manager.command
 def run():
-    app.run()
+    # app.run on 0.0.0.0:5000
+    app.run(host='0.0.0.0', port=5000)
     db.create_all()
 
 

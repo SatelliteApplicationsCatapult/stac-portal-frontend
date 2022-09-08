@@ -11,7 +11,7 @@ def get_all_collections() -> Tuple[Dict[str, str], int]:
         collection_json = response.json()
         collection_count = len(collection_json["collections"])
         return {
-            "data": collection_json,
+            "parameters": collection_json,
             "count": collection_count,
             "status": "success",
         }, response.status_code
@@ -25,7 +25,7 @@ def get_collection_by_id(collection_id: str) -> Tuple[Dict[str, str], int]:
     if response.status_code == 200:
         collection_json = response.json()
         return {
-            "data": collection_json,
+            "parameters": collection_json,
             "status": "success",
         }, response.status_code
 
@@ -39,7 +39,7 @@ def get_items_by_collection_id(
     if response.status_code == 200:
         collection_json = response.json()
         return {
-            "data": collection_json,
+            "parameters": collection_json,
             "status": "success",
         }, response.status_code
 
@@ -54,7 +54,7 @@ def get_item_from_collection(collection_id: str,
     if response.status_code == 200:
         collection_json = response.json()
         return {
-            "data": collection_json,
+            "parameters": collection_json,
             "status": "success",
         }, response.status_code
 

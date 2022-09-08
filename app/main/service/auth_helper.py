@@ -8,7 +8,7 @@ class Auth:
     @staticmethod
     def login_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         try:
-            # fetch the user data
+            # fetch the user parameters
             user = User.query.filter_by(email=data.get('email')).first()
             if user and user.check_password(data.get('password')):
                 auth_token = User.encode_auth_token(user.id)
@@ -62,7 +62,7 @@ class Auth:
                 user = User.query.filter_by(id=resp).first()
                 response_object = {
                     'status': 'success',
-                    'data': {
+                    'parameters': {
                         'user_id': user.id,
                         'email': user.email,
                         'admin': user.admin,
