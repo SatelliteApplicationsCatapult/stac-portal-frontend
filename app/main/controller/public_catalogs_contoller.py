@@ -34,7 +34,6 @@ class PublicCatalogs(Resource):
         except IndexError as e:
             return {
                        'message': 'Some elements in json body are not present',
-                       'full_trace': str(e)
                    }, 400
 
 
