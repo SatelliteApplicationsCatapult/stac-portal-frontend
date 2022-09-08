@@ -12,7 +12,7 @@ def store_new_public_catalog(name: str, url: str, description: str,
     :param url: URL of the catalog, to stac api root
     :param description: Description of the catalog
     :param stac_version: Stac version catalogue used
-    :return: New catalogue data from database as dict
+    :return: New catalogue parameters from database as dict
     """
     a: PublicCatalog = PublicCatalog()
     a.name = name

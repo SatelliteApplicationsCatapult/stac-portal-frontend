@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 992050240c9c
+Revision ID: c79ebaa9fbcc
 Revises: 
-Create Date: 2022-09-08 11:02:02.324185
+Create Date: 2022-09-08 14:59:31.179998
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '992050240c9c'
+revision = 'c79ebaa9fbcc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,7 +32,8 @@ def upgrade():
     sa.Column('description', sa.Text(), nullable=True),
     sa.Column('stac_version', sa.Text(), nullable=True),
     sa.Column('added_on', sa.DateTime(), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('url')
     )
     op.create_table('stac_ingestion_status',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -68,7 +69,8 @@ def upgrade():
     sa.Column('associated_catalog_id', sa.Integer(), nullable=False),
     sa.Column('used_search_parameters', sa.Text(), nullable=False),
     sa.ForeignKeyConstraint(['associated_catalog_id'], ['public_catalogs.id'], ),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('used_search_parameters')
     )
     # ### end Alembic commands ###
 

@@ -16,7 +16,7 @@ class UserLogin(Resource):
     @api.doc('user login')
     @api.expect(user_auth, validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
-        # get the post data
+        # get the post parameters
         post_data = request.json
         return Auth.login_user(data=post_data)
 

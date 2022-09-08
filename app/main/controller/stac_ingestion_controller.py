@@ -1,46 +1,39 @@
 import sqlalchemy
 from flask import request
 from flask_restx import Resource
-from flask import current_app
-import requests
-from app.main.util.decorator import admin_token_required
-from ..util.dto import StacIngestionStatusDto
-from typing import Dict, Tuple
-from ..service import stac_ingestion_service
 
-api = StacIngestionStatusDto.api
-getDto = StacIngestionStatusDto.stac_ingestion_status_get
-postDto = StacIngestionStatusDto.stac_ingestion_status_post
+from ..service import stac_ingestion_service
+from ..util.dto import StacIngestionDto
+
+api = StacIngestionDto.api
 
 
 @api.route('/start')
 class StacIngestionStatusStart(Resource):
 
     @api.doc('start stac ingestion status')
+    @api.expect(StacIngestionDto.start_stac_ingestion, validate=True)
+    @api.response(200, "Okay")
+    @api.response(400, "Bad Request - Source stac api url specified is not present in the public_catalogs")
+    @api.response(412, "Target STAC API URL not found in public catalogs")
     def post(self):
         """Start stac ingestion status."""
-        data = request.json
-        source_stac_api_url = data['source_stac_api_url']
-        target_stac_api_url = data['target_stac_api_url']
-        update = data['update']
-        status_id = stac_ingestion_service.make_stac_ingestion_status_entry(
-            source_stac_api_url, target_stac_api_url, update)
-
-        data["callback_id"] = status_id
-        data[
-            "callback_endpoint"] = "http://172.17.0.1:5000/stac_ingestion/status/" + str(
-                status_id)  # TODO: make this environment variable
-        STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"  # TODO: this needs to accept CIDR range and try every ip
-        print(data)
-        # make a post request to STAC_SELECTIVE_CLONER_ENDPOINT
-        stac_selective_cloner_endpoint = requests.post(
-            STAC_SELECTIVE_CLONER_ENDPOINT, json=data)
-        # get http code from stac_selective_cloner_endpoint
-        http_code = stac_selective_cloner_endpoint.status_code
-        return {
-            "message": stac_selective_cloner_endpoint.text,
-            "callback_id": status_id
-        }, http_code
+        try:
+            ingestion_parameters = request.json
+            response_message, status_id = stac_ingestion_service.ingest_stac_data_using_selective_ingester(
+                ingestion_parameters)
+            return {
+                       "message": response_message,
+                       "callback_id": status_id
+                   }, 200
+        except ValueError as e:
+            return {
+                       'message': str(e),
+                   }, 412
+        except IndexError as e:
+            return {
+                       'message': 'Some elements in json body are not present',
+                   }, 400
 
 
 @api.route('/status')
@@ -63,6 +56,7 @@ class StacIngestionStatusViaId(Resource):
             return {'message': 'No result found'}, 404
 
     @api.doc('Save a stac ingestion status with specified status_id')
+    @api.expect(StacIngestionDto.stac_ingestion_status_post, validate=True)
     def post(self, status_id):
         request_data = request.get_json()
         print(request_data)
@@ -85,8 +79,8 @@ class StacIngestionStatusViaId(Resource):
             return response, 201
         except sqlalchemy.exc.IntegrityError as e:
             return {
-                "message": "Ingestion status already exists"
-            }, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
+                       "message": "Ingestion status already exists"
+                   }, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
 
     @api.doc('Delete a stac ingestion status with specified status_id')
     def delete(self, status_id):

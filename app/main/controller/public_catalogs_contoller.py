@@ -21,6 +21,7 @@ class PublicCatalogs(Resource):
     @api.expect(PublicCatalogsDto.add_public_catalog, validate=True)
     @api.response(201, 'Success')
     @api.response(400, 'Validation Error - Some elements are missing')
+    @api.response(409, 'Conflict - Catalog already exists')
     def post(self):
         """Store a new public catalog."""
         try:
@@ -33,8 +34,12 @@ class PublicCatalogs(Resource):
                 name, url, description, stac_version), 201
         except IndexError as e:
             return {
-                       'message': 'Some elements in json body are not present',
-                   }, 400
+                'message': 'Some elements in json body are not present',
+            }, 400
+        except sqlalchemy.exc.IntegrityError as e:
+            return {
+                'message': 'Catalog with this url already exists',
+            }, 409
 
 
 @api.route('/<int:public_catalog_id>')

@@ -35,3 +35,12 @@ class StacIngestionStatus(db.Model):
             c.name: str(getattr(self, c.name))
             for c in self.__table__.columns
         }
+
+
+class StoredSearchParameters(db.Model):
+    __tablename__ = "stored_search_parameters"
+    id: int = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    associated_catalog_id: int = db.Column(db.Integer,
+                                           db.ForeignKey('public_catalogs.id'),
+                                           nullable=False)
+    used_search_parameters: str = db.Column(db.Text, nullable=False, unique=True)
