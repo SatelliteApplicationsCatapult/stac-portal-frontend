@@ -5,7 +5,7 @@ import { useState } from "react";
 import * as L from "leaflet"; // This must be imported for use by react-leaflet
 import { MapContainer, TileLayer, FeatureGroup, Polygon } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
-import { TextField } from "@mui/material";
+import { Icon, TextField } from "@mui/material";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -24,6 +24,7 @@ const DrawMap = ({
   setEndDate,
 }) => {
   const [rectangleBounds, setRectangleBounds] = useState(null);
+  const [showMap, setShowMap] = useState(true);
 
   const handleCreate = (e) => {
     const bounds = e.layer._bounds;
@@ -89,12 +90,6 @@ const DrawMap = ({
   };
 
   const handleMount = () => {
-    const drawTool = document.getElementsByClassName(
-      "leaflet-draw-draw-rectangle"
-    );
-    if (drawTool.length === 1) {
-      //drawTool[0].click();
-    }
 
     // Check if there is already an AOI
     if (AOI) {
@@ -118,7 +113,8 @@ const DrawMap = ({
               id="outlined-basic"
               label="AOI"
               style={{ margin: 8, width: "50%" }}
-              placeholder="Use the draw tool on the right side of the map to create a polygon"
+              // If showMap is true then set placeholder to "Click to draw"
+              placeholder={"Click to draw AOI on the map"}
               margin="normal"
               InputLabelProps={{
                 shrink: true,
@@ -126,6 +122,21 @@ const DrawMap = ({
               value={AOI}
               variant="outlined"
               onChange={(e) => setAOI(e.target.value)}
+              onClick={() => {
+                setShowMap(true);
+                // Enable draw tool
+                const drawTool = document.getElementsByClassName(
+                  "leaflet-draw-draw-rectangle"
+                );
+                if (drawTool.length === 1) {
+                  // Click but dont focus
+                  drawTool[0].click();
+
+                  // Refoucs on AOI
+                  const aoi = document.getElementById("outlined-basic");
+                  aoi.focus();
+                }
+              }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
@@ -147,49 +158,67 @@ const DrawMap = ({
               variant="contained"
               color="primary"
               onClick={() => {
-                console.log(AOI);
+                // Hide map
+                setShowMap(false);
               }}
             >
-              Download AOI
+              <Icon>search</Icon> Search
             </MDButton>
           </Box>
         </div>
-        <div style={{ height: "25em", width: "100%" }}>
-          <MapContainer center={[51.505, -0.09]} zoom={7}>
-            <FeatureGroup>
-              <EditControl
-                position="topright"
-                onCreated={handleCreate}
-                onDeleted={handleDelete}
-                onMounted={handleMount}
-                onDrawStop={handleDraw}
-                draw={{
-                  rectangle: true,
-                  polyline: false,
-                  polygon: false,
-                  circle: false,
-                  marker: false,
-                  circlemarker: false,
-                }}
-                edit={{
-                  edit: false,
-                }}
-              />
-            </FeatureGroup>
+        {showMap && (
+          <div style={{ height: "25em", width: "100%" }}>
+            <MapContainer center={[51.505, -0.09]} zoom={7}>
+              <FeatureGroup>
+                <EditControl
+                  position="topright"
+                  onCreated={handleCreate}
+                  onDeleted={handleDelete}
+                  onMounted={handleMount}
+                  onDrawStop={handleDraw}
+                  draw={{
+                    rectangle: true,
+                    polyline: false,
+                    polygon: false,
+                    circle: false,
+                    marker: false,
+                    circlemarker: false,
+                  }}
+                  edit={{
+                    edit: false,
+                  }}
+                />
+              </FeatureGroup>
 
-            {rectangleBounds && (
-              <Polygon
-                positions={rectangleBounds}
-                pathOptions={{ color: "black" }}
-              />
-            )}
+              {rectangleBounds && (
+                <Polygon
+                  positions={rectangleBounds}
+                  pathOptions={{ color: "black" }}
+                />
+              )}
 
-            <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
-            />
-          </MapContainer>
-        </div>
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
+              />
+            </MapContainer>
+          </div>
+        )}
+
+        <Box display="flex" justifyContent="flex-end" alignItems="center">
+          <MDButton
+            variant="text"
+            color="primary"
+            // style hidden if showMap is false
+            style={{ display: showMap ? "block" : "none" }}
+            onClick={() => {
+              // Hide the map
+              setShowMap(!showMap);
+            }}
+          >
+            {showMap ? "Hide Map" : "Show Map"}
+          </MDButton>
+        </Box>
       </Stack>
     </>
   );

@@ -22,7 +22,7 @@ const Table = ({
        */
       renderTopToolbarCustomActions={() => (
         <>
-          {toolbarButtons.map((button) => (
+          {toolbarButtons && toolbarButtons.map((button) => (
             <Button
               color={button.color}
               className="MuiTableHead-custom-button"
