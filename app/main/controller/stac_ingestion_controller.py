@@ -8,13 +8,25 @@ from ..util.dto import StacIngestionDto
 api = StacIngestionDto.api
 
 
+@api.route('/update')
+class StacIngestion(Resource):
+
+    @api.doc('Update all stored items and collections in the database')
+    def get(self):
+        return stac_ingestion_service.update_all_ingested_collections_and_items(
+        )
+
+
 @api.route('/start')
 class StacIngestionStatusStart(Resource):
 
     @api.doc('start stac ingestion status')
     @api.expect(StacIngestionDto.start_stac_ingestion, validate=True)
     @api.response(200, "Okay")
-    @api.response(400, "Bad Request - Source stac api url specified is not present in the public_catalogs")
+    @api.response(
+        400,
+        "Bad Request - Source stac api url specified is not present in the public_catalogs"
+    )
     @api.response(412, "Target STAC API URL not found in public catalogs")
     def post(self):
         """Start stac ingestion status."""
@@ -22,18 +34,15 @@ class StacIngestionStatusStart(Resource):
             ingestion_parameters = request.json
             response_message, status_id = stac_ingestion_service.ingest_stac_data_using_selective_ingester(
                 ingestion_parameters)
-            return {
-                       "message": response_message,
-                       "callback_id": status_id
-                   }, 200
+            return {"message": response_message, "callback_id": status_id}, 200
         except ValueError as e:
             return {
-                       'message': str(e),
-                   }, 412
+                'message': str(e),
+            }, 412
         except IndexError as e:
             return {
-                       'message': 'Some elements in json body are not present',
-                   }, 400
+                'message': 'Some elements in json body are not present',
+            }, 400
 
 
 @api.route('/status')
@@ -79,8 +88,8 @@ class StacIngestionStatusViaId(Resource):
             return response, 201
         except sqlalchemy.exc.IntegrityError as e:
             return {
-                       "message": "Ingestion status already exists"
-                   }, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
+                "message": "Ingestion status already exists"
+            }, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
 
     @api.doc('Delete a stac ingestion status with specified status_id')
     def delete(self, status_id):

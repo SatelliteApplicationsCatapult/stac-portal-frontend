@@ -43,4 +43,6 @@ class StoredSearchParameters(db.Model):
     associated_catalog_id: int = db.Column(db.Integer,
                                            db.ForeignKey('public_catalogs.id'),
                                            nullable=False)
-    used_search_parameters: str = db.Column(db.Text, nullable=False, unique=True)
+    used_search_parameters: str = db.Column(db.Text,
+                                            nullable=False,
+                                            unique=True)
