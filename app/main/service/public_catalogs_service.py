@@ -4,9 +4,10 @@ from .. import db
 from ..model.public_catalogs_model import PublicCatalog
 
 
-def store_new_public_catalog(name: str, url: str, description: str, stac_version: str) -> Dict[any, any]:
-    """
-    Store a new public catalog in the database.
+def store_new_public_catalog(name: str, url: str, description: str,
+                             stac_version: str) -> Dict[any, any]:
+    """Store a new public catalog in the database.
+
     :param name: Name of the catalog
     :param url: URL of the catalog, to stac api root
     :param description: Description of the catalog
@@ -24,8 +25,7 @@ def store_new_public_catalog(name: str, url: str, description: str, stac_version
 
 
 def get_all_public_catalogs() -> List[Dict[any, any]]:
-    """
-    Get all public catalogs from the database.
+    """Get all public catalogs from the database.
 
     :return: List of all public catalogs as list of dicts
     """
@@ -34,11 +34,24 @@ def get_all_public_catalogs() -> List[Dict[any, any]]:
 
 
 def get_public_catalog_by_id(public_catalog_id: int) -> Dict[any, any]:
-    """
-    Get a public catalog by its id.
+    """Get a public catalog by its id.
 
     :param public_catalog_id: Id of the public catalog
     :return: Public catalog as dict
     """
-    a: PublicCatalog = PublicCatalog.query.filter_by(id=public_catalog_id).first()
+    a: PublicCatalog = PublicCatalog.query.filter_by(
+        id=public_catalog_id).first()
+    return a.as_dict()
+
+
+def remove_public_catalog_by_id(public_catalog_id: int) -> Dict[any, any]:
+    """Remove a public catalog by its id.
+
+    :param public_catalog_id: Id of the public catalog
+    :return: Public catalog as dict
+    """
+    a: PublicCatalog = PublicCatalog.query.filter_by(
+        id=public_catalog_id).first()
+    db.session.delete(a)
+    db.session.commit()
     return a.as_dict()

@@ -11,7 +11,6 @@ from .. import db, flask_bcrypt
 import datetime
 
 
-
 def get_all_stac_ingestion_statuses() -> List[Dict[any, any]]:
     a: StacIngestionStatus = StacIngestionStatus.query.all()
     for i in a:
@@ -61,8 +60,8 @@ def set_stac_ingestion_status_entry(
     # print(type(a.newly_stored_collections))
     # a.id = status_id,
     # set time_finished to current time
-    #time_finished = datetime.datetime.utcnow(),
-    #a.time_finished = time_finished
+    # time_finished = datetime.datetime.utcnow(),
+    # a.time_finished = time_finished
     # print(type(a.time_finished))
     # a.newly_stored_collections_count = int(24),
     # print(a.newly_stored_collections_count)
