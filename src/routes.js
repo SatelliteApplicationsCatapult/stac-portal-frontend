@@ -32,7 +32,6 @@ import Dashboard from "layouts/dashboard";
 
 // STAC Portal pages
 import Validator from "pages/Validator/Validator";
-import LoadAPI from "pages/LoadAPI/LoadAPI";
 import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import Searcher from "pages/Searcher/Searcher";
@@ -60,14 +59,6 @@ const routes = [
     icon: <Icon fontSize="small">storage</Icon>,
     route: "/load-local-data",
     component: <LoadLocal />,
-  },
-  {
-    type: "collapse",
-    name: "Load STAC API's",
-    key: "STAC-data-loader",
-    icon: <Icon fontSize="small">cloud_upload</Icon>,
-    route: "/STAC-data-loader",
-    component: <LoadAPI />,
   },
   {
     type: "collapse",
