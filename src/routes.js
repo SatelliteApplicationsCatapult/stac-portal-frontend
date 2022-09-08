@@ -36,6 +36,8 @@ import LoadAPI from "pages/LoadAPI/LoadAPI";
 import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import Searcher from "pages/Searcher/Searcher";
+import Updater from "pages/Updater/Updater";
+
 // @mui icons
 import Icon from "@mui/material/Icon";
 const routes = [
@@ -61,19 +63,11 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Load STAC API's",
-    key: "STAC-data-loader",
-    icon: <Icon fontSize="small">cloud_upload</Icon>,
-    route: "/STAC-data-loader",
-    component: <LoadAPI />,
-  },
-  {
-    type: "collapse",
     name: "Update Catalog",
     key: "updater",
     icon: <Icon fontSize="small">update</Icon>,
     route: "/updater",
-    component: "",
+    component: <Updater />,
   },
   {
     type: "title",
