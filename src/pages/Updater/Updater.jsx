@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Delete, Edit } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
+import { Tooltip, tooltipClasses } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -18,16 +18,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { retrieveAllCollections } from "interface/collections";
 
 // Table
-import MaterialReactTable, { MRT_ColumnDef } from "material-react-table";
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  MenuItem,
-  Tooltip,
-  tooltipClasses,
-} from "@mui/material";
+import Table from "components/Table";
 
 import { shortenDescription } from "./TableUtils";
 import { FindMoreCollections } from "./Modals/FindMoreCollections";
@@ -35,7 +26,9 @@ import "./Updater.scss";
 
 const Updater = () => {
   const [collections, setCollections] = useState([]);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
+  // Retrieve Collection Data
   useEffect(() => {
     async function getCollections() {
       let resp = await retrieveAllCollections();
@@ -46,43 +39,7 @@ const Updater = () => {
     getCollections();
   }, []);
 
-  const [createModalOpen, setCreateModalOpen] = useState(false);
-  const [tableData, setTableData] = useState(() => []);
-  const [validationErrors, setValidationErrors] = useState({});
-
-  const CustomWidthTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))({
-    [`& .${tooltipClasses.tooltip}`]: {
-      maxWidth: 1000,
-    },
-  });
-
-  const handleCreateNewRow = (values) => {
-    tableData.push(values);
-    setTableData([...tableData]);
-  };
-
-  const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
-    if (!Object.keys(validationErrors).length) {
-      tableData[row.index] = values;
-      //send/receive api updates here, then refetch or update local table data for re-render
-      setTableData([...tableData]);
-      exitEditingMode(); //required to exit editing mode and close modal
-    }
-  };
-
-  const getCommonEditTextFieldProps = useCallback(
-    (cell) => {
-      console.log(`Got cell: ${cell}`);
-      return {
-        error: !!validationErrors[cell.id],
-        helperText: validationErrors[cell.id],
-      };
-    },
-    [validationErrors]
-  );
-
+  // Table Columns
   const collectionColumns = useMemo(() => [
     {
       accessorFn: (row) => {
@@ -90,9 +47,6 @@ const Updater = () => {
       },
       header: "Title",
       size: 200,
-      muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        ...getCommonEditTextFieldProps(cell),
-      }),
     },
     {
       accessorFn: (row) => {
@@ -110,9 +64,6 @@ const Updater = () => {
         );
       },
       header: "Description",
-      muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        ...getCommonEditTextFieldProps(cell),
-      }),
       size: 180, //medium column
     },
     {
@@ -123,9 +74,6 @@ const Updater = () => {
         return row.license;
       },
       header: "License",
-      muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        ...getCommonEditTextFieldProps(cell),
-      }),
       size: 100, //medium column
     },
     {
@@ -141,20 +89,30 @@ const Updater = () => {
         );
       },
       header: "Providers",
-      muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        ...getCommonEditTextFieldProps(cell),
-      }),
       size: 180, //medium column
     },
     {
       accessorKey: "stac_version",
       header: "STAC Version",
       size: 20,
-      muiTableBodyCellEditTextFieldProps: ({ cell }) => ({
-        ...getCommonEditTextFieldProps(cell),
-      }),
     },
   ]);
+  const columnOrder = [
+    "Title",
+    "Description",
+    "License",
+    "Providers",
+    "stac_version",
+  ];
+
+  // Custom Tooltip Styling
+  const CustomWidthTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: 1000,
+    },
+  });
 
   return (
     <DashboardLayout>
@@ -169,107 +127,26 @@ const Updater = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <MaterialReactTable
-              displayColumnDefOptions={{
-                "mrt-row-actions": {
-                  muiTableHeadCellProps: {
-                    align: "center",
-                  },
-                  size: 120,
-                },
-              }}
+            <Table
               columns={collectionColumns}
-              initialState={{
-                columnOrder: [
-                  "Title",
-                  "Description",
-                  "License",
-                  "Providers",
-                  "stac_version",
-                  "mrt-row-actions",
-                ],
-                density: "compact",
-              }}
+              columnOrder={columnOrder}
               data={collections}
-              editingMode="modal"
-              enableEditing
-              onEditingRowSave={handleSaveRowEdits}
-              renderRowActions={({ row, table }) => (
-                <Box
-                  sx={{
-                    display: "flex",
-                    gap: "1rem",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Tooltip arrow placement="left" title="Edit">
-                    <IconButton onClick={() => table.setEditingRow(row)}>
-                      <Edit />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              )}
-              renderTopToolbarCustomActions={() => (
-                <Button
-                  color="primary"
-                  className="updater__custom-button"
-                  onClick={() => setCreateModalOpen(true)}
-                  variant="contained"
-                >
-                  <Icon fontSize="small">add</Icon>
-                  New STAC Collection
-                </Button>
-              )}
-              // Custom Styling
-              muiTopToolbarProps={{
-                sx: {
-                  padding: 0,
-                  margin: 0,
+              toolbarButtons={[
+                {
+                  label: "New STAC Collection",
+                  modalOpen: () => setCreateModalOpen(true),
+                  icon: "add",
+                  color: "primary",
                 },
-              }}
-              muiTableBodyRowProps={({ row }) => ({
-                onClick: (event) => {
-                  console.info(row);
-                },
-                sx: {
-                  cursor: "pointer", //you might want to change the cursor too when adding an onClick
-                  backgroundColor: "white",
-                },
-              })}
-              muiTableHeadRowProps={{
-                sx: {
-                  backgroundColor: "#1A73E8",
-                },
-              }}
-              muiTableHeadCellProps={{
-                sx: {
-                  color: "white!important",
-                  alignItems: "center",
-                },
-                className: "muiTableHeadCell",
-              }}
-              muiTableContainerProps={{
-                sx: {
-                  padding: 0,
-                  margin: 0,
-                },
-              }}
-              muiTablePaperProps={{
-                sx: {
-                  boxShadow: "none",
-                },
-              }}
-              muiBottomToolbarProps={{
-                sx: {
-                  boxShadow: "none",
-                },
+              ]}
+              rowClickAction={(row, table) => {
+                console.log("Clicked on row: ", row);
               }}
             />
             <FindMoreCollections
               columns={collectionColumns}
               open={createModalOpen}
               onClose={() => setCreateModalOpen(false)}
-              onSubmit={handleCreateNewRow}
             />
           </Grid>
         </Grid>
