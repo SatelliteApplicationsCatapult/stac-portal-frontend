@@ -63,14 +63,6 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Load STAC API's",
-    key: "STAC-data-loader",
-    icon: <Icon fontSize="small">cloud_upload</Icon>,
-    route: "/STAC-data-loader",
-    component: <LoadAPI />,
-  },
-  {
-    type: "collapse",
     name: "Update Catalog",
     key: "updater",
     icon: <Icon fontSize="small">update</Icon>,

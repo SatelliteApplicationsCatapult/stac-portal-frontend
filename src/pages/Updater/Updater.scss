@@ -1,0 +1,18 @@
+.updater {
+  &__custom-button {
+    color: white !important;
+  }
+}
+
+.MuiTableHead-root {
+  display: table-header-group !important;
+  background-color: gray !important;
+}
+
+.MuiTableContainer-root {
+  margin-top: 1.2em;
+}
+
+.muiTableHeadCell div {
+  align-items: flex-end !important;
+}

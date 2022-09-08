@@ -42,52 +42,7 @@ const LoadLocal = () => {
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container>
-          <Grid item xs={12}>
-            <Card
-              className="card-plain"
-              style={{
-                padding: "1.5rem",
-                marginBottom: "1.5rem",
-                borderRadius: "0.5rem",
-              }}
-            >
-              <input
-                accept="image/*"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-              />
-              <label htmlFor="raised-button-file">
-                <Button
-                  variant="raised"
-                  component="span"
-                  className="upload-button"
-                >
-                  Upload Files
-                </Button>
-              </label>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card className="uploader-dash">
-              <Card className="uploader-left">
-                {files.map((file, index) => (
-                  <div key={index} className="uploader-file">
-                    <MDTypography
-                      variant="caption"
-                      className="uploader-file-name"
-                    >
-                      {file.name}
-                    </MDTypography>
-                  </div>
-                ))}
-              </Card>
-              <Card className="uploader-right">
-                <UploaderForm selectedFile={selectedFile} />
-              </Card>
-            </Card>
-          </Grid>
+
         </Grid>
       </MDBox>
       <Footer />
