@@ -48,6 +48,11 @@ class ValidateDto:
         })
 
 
+class PublicCatalogsDto:
+    api = Namespace('public_catalogs',
+                    description='public catalogs related operations')
+
+
 class StacIngestionStatusDto:
     api = Namespace('stac_ingestion',
                     description='stac ingestion status related operations')

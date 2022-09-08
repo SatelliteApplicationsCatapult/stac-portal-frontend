@@ -11,6 +11,7 @@ from .. import db, flask_bcrypt
 import datetime
 
 
+
 def get_all_stac_ingestion_statuses() -> List[Dict[any, any]]:
     a: StacIngestionStatus = StacIngestionStatus.query.all()
     for i in a:
@@ -23,8 +24,8 @@ def get_stac_ingestion_status_by_id(id: str) -> Dict[any, any]:
     return a.as_dict()
 
 
-def make_stac_ingestion_status_entry(source_stac_api_url : str,
-                                     target_stac_api_url:str,
+def make_stac_ingestion_status_entry(source_stac_api_url: str,
+                                     target_stac_api_url: str,
                                      update: bool) -> int:
     a: StacIngestionStatus = StacIngestionStatus()
     a.source_stac_api_url = source_stac_api_url
