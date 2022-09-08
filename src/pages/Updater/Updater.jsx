@@ -22,7 +22,6 @@ import Table from "components/Table";
 
 import { shortenDescription } from "./TableUtils";
 import { FindMoreCollections } from "./Modals/FindMoreCollections";
-import "./Updater.scss";
 
 const Updater = () => {
   const [collections, setCollections] = useState([]);

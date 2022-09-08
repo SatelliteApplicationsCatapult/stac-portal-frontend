@@ -1,5 +1,6 @@
 import MaterialReactTable from "material-react-table";
 import { Button, Icon } from "@mui/material";
+import './Table.scss';
 
 const Table = ({
   columns,
@@ -24,7 +25,7 @@ const Table = ({
           {toolbarButtons.map((button) => (
             <Button
               color={button.color}
-              className="updater__custom-button"
+              className="MuiTableHead-custom-button"
               onClick={() => button.modalOpen(true)}
               variant="contained"
             >
