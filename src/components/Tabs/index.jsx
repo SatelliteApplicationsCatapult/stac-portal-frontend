@@ -29,7 +29,15 @@ const CustomizedTabs = ({ tabs }) => {
         className="tabs"
       >
         {tabs.map((tab, index) => (
-          <Tab label={tab.label} {...a11yProps(index)} />
+          <Tab
+            label={tab.label}
+            {...a11yProps(index)}
+            sx={{
+              "&.Mui-selected": {
+                color: "#fff!important",
+              },
+            }}
+          />
         ))}
       </Tabs>
       {tabs.map((tab, index) => (

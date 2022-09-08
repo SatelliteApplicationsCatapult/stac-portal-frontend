@@ -27,9 +27,7 @@ const DownloadedCollections = ({ collections, setCollections }) => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>
-              {shortenDescription(row.description)}
-            </div>
+            <div>{shortenDescription(row.description)}</div>
           </CustomWidthTooltip>
         );
       },
@@ -82,6 +80,17 @@ const DownloadedCollections = ({ collections, setCollections }) => {
         columnOrder={columnOrder}
         data={collections}
         title="Collections"
+        // Button
+        // toolbarButtons={[
+        //   {
+        //     label: "Show All Collections",
+        //     onCustomClick: () => {
+        //       setCollections([]);
+        //     },
+        //     icon: "visibility",
+        //   },
+        // ]}
+        rowsPerPage={20}
       />
     </MDBox>
   );

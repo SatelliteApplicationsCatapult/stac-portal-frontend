@@ -16,19 +16,22 @@ import DownloadedCollections from "./components/DownloadedCollections";
 import PublicCollections from "./components/PublicCollections";
 
 import { retrieveAllCollections } from "interface/collections";
+import { Card } from "@mui/material";
 
 const Searcher = () => {
   const [AOI, setAOI] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [collections, setCollections] = useState([]);
+
+  const [downloadedCollections, setDownloadedCollections] = useState([]);
+  const [publicCollections, setPublicCollections] = useState([]);
 
   // Retrieve Collection Data
   useEffect(() => {
     async function getCollections() {
       let resp = await retrieveAllCollections();
       if (resp && resp.collections) {
-        setCollections(resp.collections);
+        setDownloadedCollections(resp.collections);
       }
     }
     getCollections();
@@ -58,28 +61,37 @@ const Searcher = () => {
             </MDBox>
           </Grid>
           <Grid item xs={12}>
-            <Tabs
-              tabs={[
-                {
-                  label: "Downloaded Collections",
-                  component: (
-                    <DownloadedCollections
-                      collections={collections}
-                      setCollections={setCollections}
-                    />
-                  ),
-                },
-                {
-                  label: "Public Collections",
-                  component: (
-                    <PublicCollections
-                      collections={collections}
-                      setCollections={setCollections}
-                    />
-                  ),
-                },
-              ]}
-            />
+            <Card
+              sx={{
+                boxShadow: 3,
+                borderRadius: 2,
+                backgroundColor: "background.paper",
+                padding: 2,
+              }}
+            >
+              <Tabs
+                tabs={[
+                  {
+                    label: "Downloaded Collections",
+                    component: (
+                      <DownloadedCollections
+                        collections={downloadedCollections}
+                        setCollections={setDownloadedCollections}
+                      />
+                    ),
+                  },
+                  {
+                    label: "Public Collections",
+                    component: (
+                      <PublicCollections
+                        collections={publicCollections}
+                        setCollections={setPublicCollections}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            </Card>
           </Grid>
         </Grid>
       </MDBox>

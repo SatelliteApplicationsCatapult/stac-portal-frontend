@@ -8,7 +8,6 @@ import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 import { shortenDescription } from "../TableUtils";
 
-
 const PublicCollections = ({ collections, setCollections }) => {
   // Table Columns
   const collectionColumns = useMemo(() => [
@@ -28,8 +27,6 @@ const PublicCollections = ({ collections, setCollections }) => {
         );
       },
       header: "Downloaded",
-      size: 2,
-
     },
     {
       accessorFn: (row) => {
@@ -48,7 +45,7 @@ const PublicCollections = ({ collections, setCollections }) => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{shortenDescription(row.description)}</div>  
+            <div>{shortenDescription(row.description)}</div>
           </CustomWidthTooltip>
         );
       },
