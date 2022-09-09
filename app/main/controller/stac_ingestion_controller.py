@@ -13,8 +13,38 @@ class StacIngestion(Resource):
 
     @api.doc('Update all stored items and collections in the database')
     def get(self):
-        return stac_ingestion_service.update_all_ingested_collections_and_items(
-        )
+        result = stac_ingestion_service.update_all_collections()
+        response = []
+        for i in result:
+            response.append({
+                "message": i[0],
+                "callback_id": i[1],
+            })
+        return response, 200
+
+
+@api.route("/update/by_catalog_id")
+class StacIngestionViaId(Resource):
+
+    @api.doc('Update by specifying source catalog id and wanted collections')
+    # TODO: add dto validation
+    def post(self):
+        data = request.json
+        source_catalog_id = data['source_catalog_id']
+        collections_to_update = data['collections']
+        # TODO: Implement this
+
+
+@api.route("/update/by_catalog_url/<string:public_catalog_url>")
+class StacIngestionViaUrl(Resource):
+
+    @api.doc('Update by specifying source catalog url and wanted collections')
+    # TODO: add dto validation
+    def post(self):
+        data = request.json
+        source_catalog_url = data['source_catalog_url']
+        collections_to_update = data['collections']
+        # TODO: Implement this
 
 
 @api.route('/start')
@@ -37,12 +67,12 @@ class StacIngestionStatusStart(Resource):
             return {"message": response_message, "callback_id": status_id}, 200
         except ValueError as e:
             return {
-                'message': str(e),
-            }, 412
+                       'message': str(e),
+                   }, 412
         except IndexError as e:
             return {
-                'message': 'Some elements in json body are not present',
-            }, 400
+                       'message': 'Some elements in json body are not present',
+                   }, 400
 
 
 @api.route('/status')
@@ -86,10 +116,9 @@ class StacIngestionStatusViaId(Resource):
                 updated_items_count, already_stored_items_count)
 
             return response, 201
-        except sqlalchemy.exc.IntegrityError as e:
-            return {
-                "message": "Ingestion status already exists"
-            }, 409  # TODO: this will never throw already existing as it is updating existing record, make it throw if it does not exist
+        except sqlalchemy.orm.exc.UnmappedInstanceError as e:
+            # TODO: Test this
+            return {'message': 'No status found to update'}, 404
 
     @api.doc('Delete a stac ingestion status with specified status_id')
     def delete(self, status_id):

@@ -66,7 +66,7 @@ def ingest_stac_data_using_selective_ingester(parameters) -> [str, int]:
     parameters["callback_id"] = status_id
     parameters[
         "callback_endpoint"] = "http://172.17.0.1:5000/stac_ingestion/status/" + str(
-            status_id)  # TODO: make this environment variable
+        status_id)  # TODO: make this environment variable
     STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"  # TODO: this needs to accept CIDR range and try every ip
     # print(parameters)
     # make a post request to STAC_SELECTIVE_CLONER_ENDPOINT
@@ -99,17 +99,34 @@ def set_stac_ingestion_status_entry(
     return a.as_dict()
 
 
-def update_all_ingested_collections_and_items() -> List[Tuple[str, int]]:
-    stored_search_parameters: StoredSearchParameters = StoredSearchParameters.query.all(
-    )
+def update_all_collections() -> List[Tuple[str, int]]:
+    # Todo: test this
+    stored_search_parameters: [StoredSearchParameters] = StoredSearchParameters.query.all()
+    return _run_ingestion_task_force_update(stored_search_parameters)
+
+
+def update_specific_collections_via_catalog_id(catalog_id: int, collections: [str] = None) -> List[Tuple[str, int]]:
+    # TODO : implement this
+    pass
+
+
+def update_specific_collections_via_catalog_url(catalog_url: str, collections: [str] = None) -> List[Tuple[str, int]]:
+    # TODO : implement this
+    pass
+
+
+def _run_ingestion_task_force_update(stored_search_parameters: [StoredSearchParameters]) -> List[Tuple[str, int]]:
     responses_from_ingestion_microservice = []
     for i in stored_search_parameters:
-        used_search_parameters = json.loads(i.used_search_parameters)
-        used_search_parameters["update"] = True
-        microservice_response, work_id = ingest_stac_data_using_selective_ingester(
-            used_search_parameters)
-        responses_from_ingestion_microservice.append(
-            (microservice_response, work_id))
+        try:
+            used_search_parameters = json.loads(i.used_search_parameters)
+            used_search_parameters["update"] = True
+            microservice_response, work_id = ingest_stac_data_using_selective_ingester(
+                used_search_parameters)
+            responses_from_ingestion_microservice.append(
+                (microservice_response, work_id))
+        except ValueError:
+            pass
     return responses_from_ingestion_microservice
 
 

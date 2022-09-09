@@ -11,11 +11,6 @@ class Config:
     DEBUG = False
     # Swagger
     RESTX_MASK_SWAGGER = False
-    BASE_STAC_API_URL = os.getenv(
-        'BASE_STAC_API_URL',
-        'https://planetarycomputer.microsoft.com/api/stac/v1')
-    VALIDATION_STAC_URL = os.getenv('VALIDATION_STAC_URL',
-                                    'http://localhost:6789')
 
 
 class DevelopmentConfig(Config):
@@ -25,15 +20,20 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
         basedir, 'flask_boilerplate_main.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    BASE_STAC_API_URL = os.getenv(
+        'BASE_STAC_API_URL',
+        'https://stac-api-server.azurewebsites.net')
+    VALIDATION_STAC_URL = os.getenv('VALIDATION_STAC_URL',
+                                    'http://localhost:6789')
 
 
-class TestingConfig(Config):
-    DEBUG = True
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
-        basedir, 'flask_boilerplate_test.db')
-    PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+# class TestingConfig(Config):
+#     DEBUG = True
+#     TESTING = True
+#     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
+#         basedir, 'flask_boilerplate_test.db')
+#     PRESERVE_CONTEXT_ON_EXCEPTION = False
+#     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
@@ -43,7 +43,7 @@ class ProductionConfig(Config):
 
 
 config_by_name = dict(dev=DevelopmentConfig,
-                      test=TestingConfig,
+                      # test=TestingConfig,
                       prod=ProductionConfig)
 
 key = Config.SECRET_KEY

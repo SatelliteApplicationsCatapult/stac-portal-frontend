@@ -28,10 +28,6 @@ class PublicCatalog(db.Model):
             c.name: str(getattr(self, c.name))
             for c in self.__table__.columns
         }
-        data[
-            "number_of_ingestion_statuses_associated"] = self.get_number_of_ingestion_status(
-            )
-        data[
-            "number_of_stored_search_parameters_associated"] = self.get_number_of_stored_search_parameters(
-            )
+        data["number_of_ingestion_statuses_associated"] = self.get_number_of_ingestion_status()
+        data["number_of_stored_search_parameters_associated"] = self.get_number_of_stored_search_parameters()
         return data
