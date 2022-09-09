@@ -73,7 +73,7 @@ def ingest_stac_data_using_selective_ingester(parameters) -> [str, int]:
     port_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PORT']
     protocol_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PROTOCOL']
 
-    potential_ips = get_ip_from_cird_range(cidr_range_for_stac_selective_ingester)
+    potential_ips = get_ip_from_cird_range(cidr_range_for_stac_selective_ingester,remove_unusable=True)
 
     for ip in potential_ips:
         print("Trying to connect to: ", ip)
