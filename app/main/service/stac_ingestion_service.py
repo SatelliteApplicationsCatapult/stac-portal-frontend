@@ -14,8 +14,6 @@ from ..util.get_ip_from_cird_range import get_ip_from_cird_range
 
 def get_all_stac_ingestion_statuses() -> List[Dict[any, any]]:
     a: StacIngestionStatus = StacIngestionStatus.query.all()
-    for i in a:
-        print("Newly stored collections are: ", i.newly_stored_collections)
     return [i.as_dict() for i in a]
 
 
@@ -60,6 +58,7 @@ def ingest_stac_data_using_selective_ingester(parameters) -> [str, int]:
         db.session.add(stored_search_parameters)
         db.session.commit()
     except sqlalchemy.exc.IntegrityError:
+        # exact same search parameters already exist, no need to store them again
         pass
     finally:
         # roolback if there is an error
@@ -67,20 +66,24 @@ def ingest_stac_data_using_selective_ingester(parameters) -> [str, int]:
 
     parameters[
         "callback_endpoint"] = "http://172.17.0.1:5000/stac_ingestion/status/" + str(
-        status_id)  # TODO: make this environment variable
+            status_id)  # TODO: make this environment variable
 
-    cidr_range_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_CIDR_RANGE']
-    port_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PORT']
-    protocol_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PROTOCOL']
+    cidr_range_for_stac_selective_ingester = current_app.config[
+        'STAC_SELECTIVE_INGESTER_CIDR_RANGE']
+    port_for_stac_selective_ingester = current_app.config[
+        'STAC_SELECTIVE_INGESTER_PORT']
+    protocol_for_stac_selective_ingester = current_app.config[
+        'STAC_SELECTIVE_INGESTER_PROTOCOL']
 
-    potential_ips = get_ip_from_cird_range(cidr_range_for_stac_selective_ingester,remove_unusable=True)
+    potential_ips = get_ip_from_cird_range(
+        cidr_range_for_stac_selective_ingester, remove_unusable=True)
 
     for ip in potential_ips:
         print("Trying to connect to: ", ip)
         try:
             response = requests.post(
-                protocol_for_stac_selective_ingester + "://" + ip + ":" + str(
-                    port_for_stac_selective_ingester) + "/ingest",
+                protocol_for_stac_selective_ingester + "://" + ip + ":" +
+                str(port_for_stac_selective_ingester) + "/ingest",
                 json=parameters)
             return response.text, status_id
         except requests.exceptions.ConnectionError:
@@ -111,22 +114,52 @@ def set_stac_ingestion_status_entry(
 
 
 def update_all_collections() -> List[Tuple[str, int]]:
-    # Todo: test this
-    stored_search_parameters: [StoredSearchParameters] = StoredSearchParameters.query.all()
+    stored_search_parameters: [StoredSearchParameters
+                               ] = StoredSearchParameters.query.all()
     return _run_ingestion_task_force_update(stored_search_parameters)
 
 
-def update_specific_collections_via_catalog_id(catalog_id: int, collections: [str] = None) -> List[Tuple[str, int]]:
-    # TODO : implement this
+def update_specific_collections_via_catalog_id(catalog_id: int,
+                                               collections: [str] = None
+                                               ) -> List[Tuple[str, int]]:
+    stored_search_parameters: [StoredSearchParameters
+                               ] = StoredSearchParameters.query.filter_by(
+                                   associated_catalog_id=catalog_id).all()
+    stored_search_parameters_to_run = []
+    if collections is None or len(collections) == 0:
+        stored_search_parameters_to_run = stored_search_parameters
+        return _run_ingestion_task_force_update(
+            stored_search_parameters_to_run)
+    for stored_search_parameter in stored_search_parameters:
+        used_search_parameters = json.loads(
+            stored_search_parameter.used_search_parameters)
+        used_search_parameters_collections = used_search_parameters[
+            'collections']
+        # if any collection in used_search_parameters_collections is in collections, then add to stored_search_parameters_to_run
+        check = any(item in used_search_parameters_collections
+                    for item in collections)
+        if check:
+            stored_search_parameters_to_run.append(stored_search_parameter)
+
+    return _run_ingestion_task_force_update(stored_search_parameters_to_run)
+
+
+def update_specific_collections_via_catalog_url(catalog_url: str,
+                                                collections: [str] = None
+                                                ) -> List[Tuple[str, int]]:
+    # get the catalog id from the catalog url
+    public_catalogue_entry: PublicCatalog = PublicCatalog.query.filter_by(
+        url=catalog_url).first()
+    if public_catalogue_entry is None:
+        raise LookupError("No catalogue entry found for url: " + catalog_url)
+    return update_specific_collections_via_catalog_id(
+        public_catalogue_entry.id, collections)
     pass
 
 
-def update_specific_collections_via_catalog_url(catalog_url: str, collections: [str] = None) -> List[Tuple[str, int]]:
-    # TODO : implement this
-    pass
-
-
-def _run_ingestion_task_force_update(stored_search_parameters: [StoredSearchParameters]) -> List[Tuple[str, int]]:
+def _run_ingestion_task_force_update(
+    stored_search_parameters: [StoredSearchParameters
+                               ]) -> List[Tuple[str, int]]:
     responses_from_ingestion_microservice = []
     for i in stored_search_parameters:
         try:

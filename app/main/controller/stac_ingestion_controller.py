@@ -27,24 +27,53 @@ class StacIngestion(Resource):
 class StacIngestionViaId(Resource):
 
     @api.doc('Update by specifying source catalog id and wanted collections')
-    # TODO: add dto validation
+    @api.expect(StacIngestionDto.update_stac_collections_via_catalog_id,
+                validate=True)
     def post(self):
         data = request.json
         source_catalog_id = data['source_catalog_id']
-        collections_to_update = data['collections']
-        # TODO: Implement this
+        collections_to_update = []
+        try:
+            collections_to_update = data['collections']  # optional parameter
+        except KeyError:
+            pass
+        result = stac_ingestion_service.update_specific_collections_via_catalog_id(
+            source_catalog_id, collections_to_update)
+        response = []
+        for i in result:
+            response.append({
+                "message": i[0],
+                "callback_id": i[1],
+            })
+        return response, 200
 
 
-@api.route("/update/by_catalog_url/<string:public_catalog_url>")
+@api.route("/update/by_catalog_url")
 class StacIngestionViaUrl(Resource):
 
     @api.doc('Update by specifying source catalog url and wanted collections')
-    # TODO: add dto validation
+    @api.expect(StacIngestionDto.update_stac_collections_via_catalog_url,
+                validate=True)
     def post(self):
         data = request.json
         source_catalog_url = data['source_catalog_url']
-        collections_to_update = data['collections']
-        # TODO: Implement this
+        collections_to_update = []
+        try:
+            collections_to_update = data['collections']  # optional parameter
+        except KeyError:
+            pass
+        try:
+            result = stac_ingestion_service.update_specific_collections_via_catalog_url(
+                source_catalog_url, collections_to_update)
+            response = []
+            for i in result:
+                response.append({
+                    "message": i[0],
+                    "callback_id": i[1],
+                })
+            return response, 200
+        except LookupError as e:
+            return {'message': "Catalog with specified url not found"}, 404
 
 
 @api.route('/start')
@@ -67,12 +96,12 @@ class StacIngestionStatusStart(Resource):
             return {"message": response_message, "callback_id": status_id}, 200
         except ValueError as e:
             return {
-                       'message': str(e),
-                   }, 412
+                'message': str(e),
+            }, 412
         except IndexError as e:
             return {
-                       'message': 'Some elements in json body are not present',
-                   }, 400
+                'message': 'Some elements in json body are not present',
+            }, 400
 
 
 @api.route('/status')
@@ -116,9 +145,8 @@ class StacIngestionStatusViaId(Resource):
                 updated_items_count, already_stored_items_count)
 
             return response, 201
-        except sqlalchemy.orm.exc.UnmappedInstanceError as e:
-            # TODO: Test this
-            return {'message': 'No status found to update'}, 404
+        except AttributeError as e:
+            return {'message': 'No status with specified id to update'}, 404
 
     @api.doc('Delete a stac ingestion status with specified status_id')
     def delete(self, status_id):

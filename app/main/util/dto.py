@@ -55,16 +55,24 @@ class PublicCatalogsDto:
         "add_public_catalog", {
             'name':
             fields.String(required=True,
-                          description='name of the public catalog'),
+                          description='name of the public catalog',
+                          example="Microsoft Planetary Computer"),
             'url':
-            fields.String(required=True,
-                          description='url of the public catalog'),
+            fields.String(
+                required=True,
+                description='url of the public catalog',
+                example="https://planetarycomputer.microsoft.com/api/stac/v1"),
             'description':
-            fields.String(required=True,
-                          description='description of the public catalog'),
+            fields.String(
+                required=True,
+                description='description of the public catalog',
+                example=
+                "The Planetary Computer is a cloud-based platform for planetary-scale geospatial data processing and analysis."
+            ),
             'stac_version':
             fields.String(required=True,
-                          description='STAC version of the public catalog'),
+                          description='STAC version of the public catalog',
+                          example="1.0.0"),
         })
 
 
@@ -102,13 +110,11 @@ class StacIngestionDto:
             fields.String(
                 required=True,
                 description='url of the source STAC catalog',
-                example="https://planetarycomputer.microsoft.com/api/stac/v1"
-            ),
+                example="https://planetarycomputer.microsoft.com/api/stac/v1"),
             'target_stac_catalog_url':
-            fields.String(
-                required=True,
-                description='url of the destination STAC catalog',
-                example="https://stac-api-server.azurewebsites.net"),
+            fields.String(required=True,
+                          description='url of the destination STAC catalog',
+                          example="https://stac-api-server.azurewebsites.net"),
             'update':
             fields.Boolean(required=True,
                            description='update the destination catalog'),
@@ -137,4 +143,33 @@ class StacIngestionDto:
                         required=False,
                         description='ids of the items to be ingested',
                         example=[]),
+        })
+    update_stac_collections_via_catalog_id = api.model(
+        'update_stac_collections_via_catalog_id', {
+            'source_catalog_id':
+            fields.Integer(
+                required=True,
+                description='id of the source catalog in the database',
+                example=1,
+                exclusiveMin=1),
+            'collections':
+            fields.List(
+                fields.String,
+                required=False,
+                default=[],
+                example=["landsat-8-l1-c1", "sentinel-2-l1c", "landsat-c2-l2"])
+        })
+    update_stac_collections_via_catalog_url = api.model(
+        'update_stac_collections_via_catalog_url', {
+            'source_catalog_url':
+            fields.String(
+                required=True,
+                description='Url of the source catalog in the database',
+                example="https://planetarycomputer.microsoft.com/api/stac/v1"),
+            'collections':
+            fields.List(
+                fields.String,
+                required=False,
+                default=[],
+                example=["landsat-8-l1-c1", "sentinel-2-l1c", "landsat-c2-l2"])
         })

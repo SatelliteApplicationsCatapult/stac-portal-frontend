@@ -21,15 +21,17 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
         basedir, 'flask_boilerplate_main.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    BASE_STAC_API_URL = os.getenv(
-        'BASE_STAC_API_URL',
-        'https://stac-api-server.azurewebsites.net')
+    BASE_STAC_API_URL = os.getenv('BASE_STAC_API_URL',
+                                  'https://stac-api-server.azurewebsites.net')
     VALIDATION_STAC_URL = os.getenv('VALIDATION_STAC_URL',
                                     'http://localhost:6789')
-    STAC_SELECTIVE_INGESTER_CIDR_RANGE = os.getenv('STAC_SELECTIVE_INGESTER_CIDR_RANGE',
-                                                   "172.17.0.0/24")  # you can set specific ip with /32 mask, i.e. 172.17.0.41/32
-    STAC_SELECTIVE_INGESTER_PORT = os.getenv('STAC_SELECTIVE_INGESTER_PORT', 8888)
-    STAC_SELECTIVE_INGESTER_PROTOCOL = os.getenv('STAC_SELECTIVE_INGESTER_PROTOCOL', "http")
+    STAC_SELECTIVE_INGESTER_CIDR_RANGE = os.getenv(
+        'STAC_SELECTIVE_INGESTER_CIDR_RANGE', "172.17.0.0/24"
+    )  # you can set specific ip with /32 mask, i.e. 172.17.0.41/32
+    STAC_SELECTIVE_INGESTER_PORT = os.getenv('STAC_SELECTIVE_INGESTER_PORT',
+                                             8888)
+    STAC_SELECTIVE_INGESTER_PROTOCOL = os.getenv(
+        'STAC_SELECTIVE_INGESTER_PROTOCOL', "http")
 
 
 # class TestingConfig(Config):
@@ -48,8 +50,9 @@ class ProductionConfig(Config):
     # SQLALCHEMY_DATABASE_URI = postgres_local_base
 
 
-config_by_name = dict(dev=DevelopmentConfig,
-                      # test=TestingConfig,
-                      prod=ProductionConfig)
+config_by_name = dict(
+    dev=DevelopmentConfig,
+    # test=TestingConfig,
+    prod=ProductionConfig)
 
 key = Config.SECRET_KEY
