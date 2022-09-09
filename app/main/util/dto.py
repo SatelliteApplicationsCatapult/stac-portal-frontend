@@ -102,13 +102,13 @@ class StacIngestionDto:
             fields.String(
                 required=True,
                 description='url of the source STAC catalog',
-                example="https://planetarycomputer.microsoft.com/api/stac/v1/"
+                example="https://planetarycomputer.microsoft.com/api/stac/v1"
             ),
             'target_stac_catalog_url':
             fields.String(
                 required=True,
                 description='url of the destination STAC catalog',
-                example="https://stac-api-server.azurewebsites.net/"),
+                example="https://stac-api-server.azurewebsites.net"),
             'update':
             fields.Boolean(required=True,
                            description='update the destination catalog'),

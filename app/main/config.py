@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    # here are global variables available for all environments
     SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')
     DEBUG = False
     # Swagger
@@ -14,8 +15,8 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    # uncomment the line below to use postgres
-    # SQLALCHEMY_DATABASE_URI = postgres_local_base
+    # here are variables available only for development environment
+    ENV = "DEV"
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(
         basedir, 'flask_boilerplate_main.db')
@@ -25,6 +26,10 @@ class DevelopmentConfig(Config):
         'https://stac-api-server.azurewebsites.net')
     VALIDATION_STAC_URL = os.getenv('VALIDATION_STAC_URL',
                                     'http://localhost:6789')
+    STAC_SELECTIVE_INGESTER_CIDR_RANGE = os.getenv('STAC_SELECTIVE_INGESTER_CIDR_RANGE',
+                                                   "172.17.0.0/24")  # you can set specific ip with /32 mask, i.e. 172.17.0.41/32
+    STAC_SELECTIVE_INGESTER_PORT = os.getenv('STAC_SELECTIVE_INGESTER_PORT', 8888)
+    STAC_SELECTIVE_INGESTER_PROTOCOL = os.getenv('STAC_SELECTIVE_INGESTER_PROTOCOL', "http")
 
 
 # class TestingConfig(Config):
@@ -38,6 +43,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    ENV = "Production"
     # uncomment the line below to use postgres
     # SQLALCHEMY_DATABASE_URI = postgres_local_base
 

@@ -4,10 +4,12 @@ from typing import Dict, Tuple, List
 
 import requests
 import sqlalchemy
+from flask import current_app
 
 from app.main.model.public_catalogs_model import PublicCatalog
 from .. import db
 from ..model.stac_ingestion_model import StacIngestionStatus, StoredSearchParameters
+from ..util.get_ip_from_cird_range import get_ip_from_cird_range
 
 
 def get_all_stac_ingestion_statuses() -> List[Dict[any, any]]:
@@ -63,17 +65,26 @@ def ingest_stac_data_using_selective_ingester(parameters) -> [str, int]:
         # roolback if there is an error
         db.session.rollback()
 
-    parameters["callback_id"] = status_id
     parameters[
         "callback_endpoint"] = "http://172.17.0.1:5000/stac_ingestion/status/" + str(
         status_id)  # TODO: make this environment variable
-    STAC_SELECTIVE_CLONER_ENDPOINT = "http://localhost:8888/ingest"  # TODO: this needs to accept CIDR range and try every ip
-    # print(parameters)
-    # make a post request to STAC_SELECTIVE_CLONER_ENDPOINT
-    stac_selective_cloner_endpoint = requests.post(
-        STAC_SELECTIVE_CLONER_ENDPOINT, json=parameters)
-    # get http code from stac_selective_cloner_endpoint
-    return stac_selective_cloner_endpoint.text, status_id
+
+    cidr_range_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_CIDR_RANGE']
+    port_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PORT']
+    protocol_for_stac_selective_ingester = current_app.config['STAC_SELECTIVE_INGESTER_PROTOCOL']
+
+    potential_ips = get_ip_from_cird_range(cidr_range_for_stac_selective_ingester)
+
+    for ip in potential_ips:
+        print("Trying to connect to: ", ip)
+        try:
+            response = requests.post(
+                protocol_for_stac_selective_ingester + "://" + ip + ":" + str(
+                    port_for_stac_selective_ingester) + "/ingest",
+                json=parameters)
+            return response.text, status_id
+        except requests.exceptions.ConnectionError:
+            continue
 
 
 def set_stac_ingestion_status_entry(
