@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import App from "App";
+import App from "./App";
 
 // STAC Portal Context Provider
 import { MaterialUIControllerProvider } from "context";
