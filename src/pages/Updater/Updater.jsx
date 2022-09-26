@@ -133,7 +133,7 @@ const Updater = () => {
               toolbarButtons={[
                 {
                   label: "New STAC Collection",
-                  modalOpen: () => setCreateModalOpen(true),
+                  onCustomClick: () => setCreateModalOpen(true),
                   icon: "add",
                   color: "primary",
                 },

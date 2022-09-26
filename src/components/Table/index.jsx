@@ -1,6 +1,6 @@
 import MaterialReactTable from "material-react-table";
 import { Button, Icon } from "@mui/material";
-import './Table.scss';
+import "./Table.scss";
 
 const Table = ({
   columns,
@@ -8,38 +8,44 @@ const Table = ({
   columnOrder,
   toolbarButtons,
   rowClickAction,
+  rowsPerPage,
 }) => {
   return (
     <MaterialReactTable
       columns={columns}
       data={data}
+
       initialState={{
         columnOrder: columnOrder,
         density: "compact",
+        pagination: {
+          pageSize: rowsPerPage,
+        }
       }}
       /**
        * Custom Table Actions
        */
       renderTopToolbarCustomActions={() => (
         <>
-          {toolbarButtons.map((button) => (
-            <Button
-              color={button.color}
-              className="MuiTableHead-custom-button"
-              onClick={() => button.modalOpen(true)}
-              variant="contained"
-            >
-              <Icon fontSize="small">{button.icon}</Icon>
-              {button.label}
-            </Button>
-          ))}
+          {toolbarButtons &&
+            toolbarButtons.map((button) => (
+              <Button
+                color={button.color}
+                className="MuiTableHead-custom-button"
+                onClick={button.onCustomClick}
+                variant="contained"
+              >
+                <Icon fontSize="small">{button.icon}</Icon>
+                {button.label}
+              </Button>
+            ))}
         </>
       )}
       muiTableBodyRowProps={({ row, table }) => ({
         onClick: () => rowClickAction(row, table),
         sx: {
           cursor: "pointer",
-          backgroundColor: "white",
+          backgroundColor: "transparent",
         },
       })}
       /**
@@ -49,6 +55,7 @@ const Table = ({
         sx: {
           padding: 0,
           margin: 0,
+          backgroundColor: "transparent",
         },
       }}
       muiTableHeadRowProps={{
@@ -77,6 +84,7 @@ const Table = ({
       muiBottomToolbarProps={{
         sx: {
           boxShadow: "none",
+          backgroundColor: "transparent",
         },
       }}
     />
