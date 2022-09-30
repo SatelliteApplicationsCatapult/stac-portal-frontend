@@ -1,18 +1,3 @@
-.upload-button {
-  background-color: #3690ed;
-  color: white;
-  cursor: pointer;
-  outline: none;
-  border: solid 1px #3690ed;
-  transition: all 0.3s ease-in-out;
-
-  &:hover {
-    background-color: #4d8ac7;
-    color: white;
-    border: solid 1px #4d8ac7;
-  }
-}
-
 .uploader {
   &-dash {
     padding: 1.5rem;
@@ -47,5 +32,13 @@
   &-right {
     width: 70%;
     height: auto;
+  }
+}
+
+
+.uploady {
+  &__dropzone {
+    height: 5em;
+    border: 1px dashed #ccc;
   }
 }

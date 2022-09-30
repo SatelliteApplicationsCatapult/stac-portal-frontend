@@ -14,32 +14,33 @@ const Table = ({
     <MaterialReactTable
       columns={columns}
       data={data}
-
       initialState={{
         columnOrder: columnOrder,
         density: "compact",
         pagination: {
           pageSize: rowsPerPage,
-        }
+        },
       }}
       /**
        * Custom Table Actions
        */
       renderTopToolbarCustomActions={() => (
-        <>
+        <div className="table-toolbar-buttons">
           {toolbarButtons &&
             toolbarButtons.map((button) => (
               <Button
                 color={button.color}
-                className="MuiTableHead-custom-button"
+                className="table-toolbar-button"
                 onClick={button.onCustomClick}
                 variant="contained"
               >
-                <Icon fontSize="small">{button.icon}</Icon>
+                <Icon fontSize="small" className="table-icon">
+                  {button.icon}
+                </Icon>{" "}
                 {button.label}
               </Button>
             ))}
-        </>
+        </div>
       )}
       muiTableBodyRowProps={({ row, table }) => ({
         onClick: () => rowClickAction(row, table),
@@ -58,9 +59,10 @@ const Table = ({
           backgroundColor: "transparent",
         },
       }}
+
       muiTableHeadRowProps={{
         sx: {
-          backgroundColor: "#1A73E8",
+          backgroundColor: "#252527",
         },
       }}
       muiTableHeadCellProps={{
@@ -79,7 +81,9 @@ const Table = ({
       muiTablePaperProps={{
         sx: {
           boxShadow: "none",
+          backgroundColor: "transparent",
         },
+        className: "table-toolbar"
       }}
       muiBottomToolbarProps={{
         sx: {

@@ -16,3 +16,22 @@
 .muiTableHeadCell div {
   align-items: flex-end !important;
 }
+
+.table {
+  &-toolbar {
+    background-color: transparent !important;
+    &-buttons {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1em;
+    }
+
+    &-button {
+      color: white !important;
+      margin-right: 1em !important;
+    }
+  }
+  &-icon {
+    margin-right: 0.5em;
+  }
+}

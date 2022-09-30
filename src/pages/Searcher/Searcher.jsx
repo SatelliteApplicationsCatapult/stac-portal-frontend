@@ -61,37 +61,10 @@ const Searcher = () => {
             </MDBox>
           </Grid>
           <Grid item xs={12}>
-            <Card
-              sx={{
-                boxShadow: 3,
-                borderRadius: 2,
-                backgroundColor: "background.paper",
-                padding: 2,
-              }}
-            >
-              <Tabs
-                tabs={[
-                  {
-                    label: "Downloaded Collections",
-                    component: (
-                      <DownloadedCollections
-                        collections={downloadedCollections}
-                        setCollections={setDownloadedCollections}
-                      />
-                    ),
-                  },
-                  {
-                    label: "Public Collections",
-                    component: (
-                      <PublicCollections
-                        collections={publicCollections}
-                        setCollections={setPublicCollections}
-                      />
-                    ),
-                  },
-                ]}
+              <DownloadedCollections
+                collections={downloadedCollections}
+                setCollections={setDownloadedCollections}
               />
-            </Card>
           </Grid>
         </Grid>
       </MDBox>
