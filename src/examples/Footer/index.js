@@ -62,7 +62,7 @@ function Footer({ company, links }) {
       >
         &copy; {new Date().getFullYear()}
         <Link href={href} target="_blank">
-          <MDTypography variant="button" fontWeight="medium">
+          <MDTypography variant="button" fontWeight="">
             &nbsp;{name}&nbsp;
           </MDTypography>
         </Link>
@@ -94,7 +94,7 @@ function Footer({ company, links }) {
 Footer.defaultProps = {
   company: { href: "https://www.creative-tim.com/", name: "Satellite Applications Catapult" },
   links: [
-    { href: "https://www.creative-tim.com/", name: "Developed by Spatial Days Ltd" },
+    { href: "https://www.spatialdays.com/", name: "Developed by Spatial Days Ltd" },
     { href: "https://www.creative-tim.com/presentation", name: "About Us" },
     { href: "https://www.creative-tim.com/license", name: "License" },
   ],

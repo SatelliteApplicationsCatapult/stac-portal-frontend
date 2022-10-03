@@ -156,7 +156,7 @@ const DrawMap = ({
             </LocalizationProvider>
             <MDButton
               variant="contained"
-              color="primary"
+              color="info"
               onClick={() => {
                 // Hide map
                 setShowMap(false);

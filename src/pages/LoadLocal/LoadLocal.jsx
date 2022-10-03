@@ -12,37 +12,74 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import "./style.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import UploaderForm from "./components/UploaderForm";
+// Components
+import Dropzone from "./components/Dropzone";
 
 const LoadLocal = () => {
-  const [files, setFiles] = useState([
-    { name: "MYD14A2.A2022201.h35v10.061.2022215004639" },
-    { name: "ESA_WorldCover_10m_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Polar_Bear_Mammals_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Antarctic_Sea_Ice_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Fish_Mammals_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Sea_Ice_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Pacific_Sea_Ice_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Southern_Ocean_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Southern_Ocean_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "January_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "February_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "March_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Post_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Pre_2020_v100_S57W02_EPSG4326.tif" },
-    { name: "Ergonomic_2020_v100_S57W02_EPSG4326.tif" },
-  ]);
-  const [selectedFile, setSelectedFile] = useState([]);
-  const [data, setData] = useState([]);
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    // Group files into an array of objects by itemId
+  }, [files]);
 
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
-        <Grid container>
+        <Grid container spacing={6}>
+          {/* Step 1 - Upload */}
+          <Grid item xs={12}>
+            <Card
+              sx={{
+                p: 3,
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <MDTypography variant="h5" color="textSecondary">
+                Step 1 - Select Folder(s)
+              </MDTypography>
+              <MDTypography variant="body2" mb={2}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                vel leo sed enim placerat condimentum eu ac urna. Nam facilisis
+                tempus semper.
+              </MDTypography>
+              {/* Drag and Drop */}
+              <Dropzone files={files} setFiles={setFiles} />
+            </Card>
+          </Grid>
 
+          {/* Step 4 - Manage Files */}
+          <Grid item xs={12}>
+            <MDBox>
+              <Card
+                sx={{
+                  p: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <MDTypography variant="h5" color="textSecondary">
+                  Step 4 - Loaded Items
+                </MDTypography>
+                <MDTypography variant="body2" mb={2}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  vel leo sed enim placerat condimentum eu ac urna. Nam
+                  facilisis tempus semper.
+                </MDTypography>
+                <MDBox
+                  display="flex"
+                  flexDirection="column"
+                  width="30%"
+                  minWidth="450px"
+                ></MDBox>
+              </Card>
+            </MDBox>
+          </Grid>
         </Grid>
       </MDBox>
       <Footer />
