@@ -20,7 +20,13 @@ const Applications = () => {
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-
+            <p>
+              This is a placeholder for future Apps e.g.
+              <a href="https://projects.csopenportal.co.uk/">
+                generate derived products
+              </a>{" "}
+              etc.
+            </p>
           </Grid>
         </Grid>
       </MDBox>

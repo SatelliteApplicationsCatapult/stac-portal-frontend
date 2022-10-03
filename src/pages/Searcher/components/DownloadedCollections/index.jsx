@@ -74,25 +74,31 @@ const DownloadedCollections = ({ collections, setCollections }) => {
   ];
 
   return (
-    <MDBox>
-      <Table
-        columns={collectionColumns}
-        columnOrder={columnOrder}
-        data={collections}
-        title="Collections"
-        // Button
-        // toolbarButtons={[
-        //   {
-        //     label: "Show All Collections",
-        //     onCustomClick: () => {
-        //       setCollections([]);
-        //     },
-        //     icon: "visibility",
-        //   },
-        // ]}
-        rowsPerPage={20}
-      />
-    </MDBox>
+    <Table
+      columns={collectionColumns}
+      gray
+      columnOrder={columnOrder}
+      data={collections}
+      title="Collections"
+      // Button
+      toolbarButtons={[
+        {
+          label: "Public Collections",
+          onCustomClick: () => {
+            setCollections([]);
+          },
+          icon: "public",
+        },
+        {
+          label: "Downloaded Collections",
+          onCustomClick: () => {
+            setCollections([]);
+          },
+          icon: "lock",
+        },
+      ]}
+      rowsPerPage={20}
+    />
   );
 };
 
