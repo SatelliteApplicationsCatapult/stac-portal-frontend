@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, TextField } from "@mui/material";
+import { Button, Icon, TextField } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -16,12 +16,28 @@ import { useState, useEffect } from "react";
 
 // Components
 import Dropzone from "./components/Dropzone";
+import CollectionSelect from "./components/CollectionSelect";
+import STACForm from "./components/STACForm";
 
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
+  const [groupedFiles, setGroupedFiles] = useState();
 
   useEffect(() => {
-    // Group files into an array of objects by itemId
+    let filesGroupedByItemId = files.reduce((acc, file) => {
+      // if itemId is not undefined
+      if (file.itemId) {
+        acc[file.itemId] = acc[file.itemId] || [];
+        acc[file.itemId].push(file);
+      }
+      return acc;
+    }, {});
+
+    console.log("Grouped Files", groupedFiles);
+
+    setGroupedFiles(filesGroupedByItemId);
+
+    // 
   }, [files]);
 
   return (
@@ -52,7 +68,7 @@ const LoadLocal = () => {
             </Card>
           </Grid>
 
-          {/* Step 4 - Manage Files */}
+          {/* Step 4 - Choose Collection */}
           <Grid item xs={12}>
             <MDBox>
               <Card
@@ -64,7 +80,7 @@ const LoadLocal = () => {
                 }}
               >
                 <MDTypography variant="h5" color="textSecondary">
-                  Step 4 - Loaded Items
+                  Step 4 - Choose Collection
                 </MDTypography>
                 <MDTypography variant="body2" mb={2}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
@@ -74,9 +90,36 @@ const LoadLocal = () => {
                 <MDBox
                   display="flex"
                   flexDirection="column"
-                  width="30%"
+                  width="100%"
                   minWidth="450px"
-                ></MDBox>
+                  alignItems="center"
+                >
+                  <CollectionSelect />
+                </MDBox>
+              </Card>
+            </MDBox>
+          </Grid>
+
+          {/* Step 5 - Create STAC Metadata */}
+          <Grid item xs={12}>
+            <MDBox>
+              <Card
+                sx={{
+                  p: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                <MDTypography variant="h5" color="textSecondary">
+                  Step 5 - Create STAC Metadata
+                </MDTypography>
+                <MDTypography variant="body2" mb={2}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
+                  vel leo sed enim placerat condimentum eu ac urna. Nam
+                  facilisis tempus semper.
+                </MDTypography>
+                <STACForm groupedFiles={groupedFiles} />
               </Card>
             </MDBox>
           </Grid>

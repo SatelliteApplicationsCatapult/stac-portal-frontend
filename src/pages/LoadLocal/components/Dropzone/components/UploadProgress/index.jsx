@@ -32,7 +32,6 @@ const UploadProgress = ({ files, setFiles }) => {
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
-      console.log(`Launching Upload`, toDownload);
       processPending(
         toDownload.map((file) => ({
           file: file.file,

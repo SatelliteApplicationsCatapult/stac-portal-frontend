@@ -10,7 +10,7 @@ export const findProvider = async (
     return;
   }
 
-  const providers = [new Planet()];
+  const providers = [new Planet(stagedItems, setStagedItems)];
 
   for (let i = 0; i < providers.length; i += 1) {
     providers[i]._files = stagedItems;
@@ -27,6 +27,7 @@ export const findProvider = async (
       });
 
       setToDownload([...toDownload, ...providers[i]._filesToDownload]);
+
       return;
     }
   }
