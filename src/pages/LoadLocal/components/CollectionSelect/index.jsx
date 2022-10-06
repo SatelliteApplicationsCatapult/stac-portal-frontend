@@ -3,13 +3,28 @@ import MDTypography from "components/MDTypography";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
+import { retrieveAllCollections } from "interface/collections";
+import { useState, useEffect } from "react";
 
 const CollectionSelect = () => {
-  const collections = [
-    { label: "Collection 1", id: "1" },
-    { label: "Collection 2", id: "2" },
-    { label: "Collection 3", id: "3" },
-  ];
+  const [collections, setCollections] = useState();
+
+  useEffect(() => {
+    const getCollections = async () => {
+      const allCollections = await retrieveAllCollections();
+      const collectionsFormatted = allCollections.collections.map(
+        (collection, index) => {
+          return {
+            label: collection.title,
+            id: index,
+          };
+        }
+      );
+      setCollections(collectionsFormatted);
+    };
+    getCollections();
+  }, []);
+
   return (
     <>
       {/* Either select an existing selection or create a new one */}

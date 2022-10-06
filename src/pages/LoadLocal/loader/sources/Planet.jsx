@@ -1,5 +1,3 @@
-// Planet extends Base
-
 import Base from "./Base";
 
 export default class Planet extends Base {
@@ -26,7 +24,7 @@ export default class Planet extends Base {
     this._filesToDownload = fileNames.map((fileName, index) => {
       const file = this._files.find((file) => file.file.name === fileName);
       file.file.item = files[index].annotations["planet/item_id"];
-      
+
       return {
         file: file.file,
         path: filePaths[index],

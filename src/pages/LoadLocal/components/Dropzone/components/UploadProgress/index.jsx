@@ -3,7 +3,11 @@ import { Circle } from "rc-progress";
 import { useItemProgressListener } from "@rpldy/uploady";
 import { useState, useEffect } from "react";
 import MDTypography from "components/MDTypography";
-import { useUploady, useBatchAddListener } from "@rpldy/uploady";
+import {
+  useUploady,
+  useBatchAddListener,
+  useRequestPreSend,
+} from "@rpldy/uploady";
 import "./style.scss";
 import { Icon } from "@mui/material";
 
@@ -19,13 +23,22 @@ const UploadProgress = ({ files, setFiles }) => {
 
   // Add staged items to state
   useBatchAddListener((batch) => {
-    console.log(`Batch added`);
     setStagedItems((items) => items.concat(batch.items));
+  });
+
+  useRequestPreSend(({ items, options }) => {
+    return Promise.resolve({
+      options: {
+        params: {
+          batchSize: items.length,
+          itemIds: items.map((item) => item.file.item),
+        },
+      },
+    });
   });
 
   // Validate files and check existance
   useEffect(() => {
-    console.log(`Launching Provider searching`);
     findProvider(stagedItems, setStagedItems, toDownload, setToDownload);
   }, [stagedItems]);
 
@@ -35,7 +48,6 @@ const UploadProgress = ({ files, setFiles }) => {
       processPending(
         toDownload.map((file) => ({
           file: file.file,
-          url: `/api/upload?path=${file.path}`,
         }))
       );
     }

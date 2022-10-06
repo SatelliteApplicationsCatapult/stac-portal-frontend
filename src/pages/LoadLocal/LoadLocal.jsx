@@ -33,11 +33,8 @@ const LoadLocal = () => {
       return acc;
     }, {});
 
-    console.log("Grouped Files", groupedFiles);
-
     setGroupedFiles(filesGroupedByItemId);
 
-    // 
   }, [files]);
 
   return (
@@ -112,7 +109,7 @@ const LoadLocal = () => {
                 }}
               >
                 <MDTypography variant="h5" color="textSecondary">
-                  Step 5 - Create STAC Metadata
+                  Step 5 - Validate STAC Metadata
                 </MDTypography>
                 <MDTypography variant="body2" mb={2}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam

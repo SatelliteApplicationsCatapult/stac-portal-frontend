@@ -46,7 +46,11 @@ const Dropzone = ({ files, setFiles }) => {
   return (
     <Uploady
       autoUpload={false}
-      destination={{ url: "http://localhost:5000/file/upload" }}
+      destination={{
+        url: "http://localhost:5000/file/stac_assets/upload",
+        grouped: true,
+      }}
+      multiple={true}
     >
       <DropZoneButton />
       <UploadProgress files={files} setFiles={setFiles} />
