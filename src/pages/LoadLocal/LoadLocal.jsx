@@ -116,7 +116,7 @@ const LoadLocal = () => {
                   vel leo sed enim placerat condimentum eu ac urna. Nam
                   facilisis tempus semper.
                 </MDTypography>
-                <STACForm groupedFiles={groupedFiles} />
+                <STACForm groupedFiles={groupedFiles} files={files} />
               </Card>
             </MDBox>
           </Grid>

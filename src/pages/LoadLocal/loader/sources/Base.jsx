@@ -2,12 +2,12 @@
 // This is the base class that will be extended by the other sources
 
 export default class Base {
-  constructor(stagedItems, setStagedItems) {
+  constructor(stagedItems = null, setStagedItems = null) {
     this._stagedItems = stagedItems;
     this._setStagedItems = setStagedItems;
+    this._files = null;
     this._manifestFile = null;
     this._manifestJSON = null;
-    this._files = null;
     this._filesToDownload = null;
   }
 
@@ -36,7 +36,6 @@ export default class Base {
 
     // Find file index of manifest file
     this.findManifestIndex();
-
   }
 
   // Parse the manifest file
@@ -57,5 +56,15 @@ export default class Base {
     if (manifestIndex !== -1) {
       this._files.splice(manifestIndex, 1);
     }
+  }
+
+  async additionalMeta(files) {
+    return false;
+  }
+
+  _generateDownloadLink(item) {
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const endpoint = "/file/stac_assets/";
+    return `${BASE_URL}${endpoint}${item.name}/url`;
   }
 }

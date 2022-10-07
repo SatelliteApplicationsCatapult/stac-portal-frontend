@@ -149,6 +149,8 @@ const DrawMap = ({
               <DatePicker
                 label="End Date"
                 value={endDate}
+                // allow time
+                
                 onChange={(e) => setEndDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"

@@ -1,11 +1,11 @@
 import Base from "./Base";
 
-export default class Planet extends Base {
+export default class PlanetGenerator extends Base {
   constructor() {
     super();
     this._manifestFile = "manifest.json";
     this._manifestJSON = null;
-    this._files = null;
+    this._additionalMeta = null;
   }
 
   async parseManifest() {
@@ -30,5 +30,27 @@ export default class Planet extends Base {
         path: filePaths[index],
       };
     });
+  }
+
+  // TODO: This is a hack to get the metadata.json file
+  async additionalMeta(files) {
+    const metadataFiles = files.filter((file) =>
+      file.name.endsWith("metadata.json")
+    );
+
+    if (metadataFiles.length === 0) {
+      return;
+    }
+
+    const downloadLink = this._generateDownloadLink(metadataFiles[0]);
+    const response = await fetch(downloadLink);
+    this._additionalMeta = await response.json();
+
+    return this._parseAdditionalMeta();
+  }
+
+  // TODO: Maybe only use ones we need? For now, just use all of them
+  _parseAdditionalMeta() {
+    return this._additionalMeta;
   }
 }

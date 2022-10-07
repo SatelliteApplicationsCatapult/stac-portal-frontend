@@ -4,37 +4,58 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 import { returnTiffMeta } from "interface/gdal";
+import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import Metadata from "./components/Metadata";
 import { Label } from "@mui/icons-material";
 
-const STACForm = ({ groupedFiles }) => {
+const STACForm = ({ groupedFiles, files }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
   const [itemsMeta, setItemsMeta] = useState({});
-  const [alreadyLoaded, setAlreadyLoaded] = useState([]);
+
+  const [alreadyLoadedFiles, setAlreadyLoadedFiles] = useState([]);
+  const [alreadyLoadedAdditionalMeta, setAlreadyLoadedAdditionalMeta] =
+    useState([]);
 
   useEffect(() => {
     if (groupedFiles) {
-      Object.keys(groupedFiles).forEach((key) => {
+      Object.keys(groupedFiles).forEach(async (key) => {
         groupedFiles[key].forEach(async (file) => {
-          if (!alreadyLoaded.includes(file.name)) {
-            setAlreadyLoaded((prev) => [...prev, file.name]);
+          if (!alreadyLoadedFiles.includes(file.name)) {
+            setAlreadyLoadedFiles((prev) => [...prev, file.name]);
 
-            await returnTiffMeta(file.name).then((tiffMeta) => {
-              setItemsMeta((prev) => ({
-                ...prev,
-                [file.itemId]: {
-                  ...prev[file.itemId],
-                  [file.name]: tiffMeta,
-                },
-              }));
-            });
+            const tiffMeta = await returnTiffMeta(file.name);
+            setItemsMeta((prev) => ({
+              ...prev,
+              [file.itemId]: {
+                ...prev[file.itemId],
+                [file.name]: tiffMeta,
+              },
+            }));
           }
         });
+
+        if (!alreadyLoadedAdditionalMeta.includes(key)) {
+          const additionalMeta = await returnAdditionalMeta(groupedFiles[key]);
+          if (additionalMeta) {
+            setAlreadyLoadedAdditionalMeta((prev) => [...prev, key]);
+            setItemsMeta((prev) => ({
+              ...prev,
+              [key]: {
+                ...prev[key],
+                additional: additionalMeta,
+              },
+            }));
+          }
+        }
       });
     }
   }, [groupedFiles]);
+
+  console.log("Items meta", itemsMeta);
+  console.log("Selected item", selectedItem);
+  console.log("Selected meta", selectedMeta);
 
   useEffect(() => {
     if (selectedItem) {

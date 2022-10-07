@@ -2,7 +2,7 @@ import { FormLabel, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import { useState, useEffect } from "react";
 
-import { generateSTAC } from "interface/metadata";
+import { GenerateSTAC } from "interface/metadata";
 
 import "./style.scss";
 
@@ -11,9 +11,6 @@ const Metadata = ({ selectedMeta }) => {
 
   useEffect(() => {
     if (selectedMeta) {
-      generateSTAC(selectedMeta).then((stac) => {
-        console.log("STAC", stac);
-      });
     }
   }, [selectedMeta]);
 
@@ -24,7 +21,8 @@ const Metadata = ({ selectedMeta }) => {
         type="button"
         value="Generate STAC"
         onClick={() => {
-          generateSTAC(selectedMeta);
+          const stac = new GenerateSTAC(selectedMeta);
+          stac.generate();
         }}
       />
       {/* Item ID */}
