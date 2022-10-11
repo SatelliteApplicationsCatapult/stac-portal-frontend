@@ -13,10 +13,12 @@ export class GenerateSTAC {
       time_acquired: "",
     };
     this.groupedVariables = {
-      geom: [],
+      proj_geom: [],
+      wgs84_geom: [],
     };
     this.assets = [];
     this.additional = {};
+    this.stacJSON = {};
   }
 
   async generate() {
@@ -29,6 +31,8 @@ export class GenerateSTAC {
     this.parseAdditional();
 
     await this.sendToSTAC();
+
+    return this.stacJSON;
   }
 
   parseGroupedVariables() {
@@ -37,13 +41,14 @@ export class GenerateSTAC {
       if (key === "additional") {
         return;
       }
-      const { cornerCoordinates } = this.metadata[key];
+      const { cornerCoordinates, wgs84Extent } = this.metadata[key];
 
       // Geometry
       const geom = cornerCoordinates;
 
       // Assign to grouped variables
-      this.groupedVariables["geom"].push(geom);
+      this.groupedVariables["proj_geom"].push(geom);
+      this.groupedVariables["wgs84_geom"].push(wgs84Extent);
     });
   }
 
@@ -72,11 +77,14 @@ export class GenerateSTAC {
       this.staticVariables["time_acquired"] = timeAcquired;
       this.staticVariables["wkt"] = wkt;
       this.staticVariables["url"] = description;
+      this.staticVariables["provider"] = "Planet"; // TODO: Make this dynamic
     });
   }
 
   parseAssets() {
     Object.keys(this.metadata).forEach((key) => {
+      console.log("Asset ::", key, this.metadata[key]);
+
       let asset = {};
 
       const {
@@ -96,6 +104,7 @@ export class GenerateSTAC {
       asset["transform"] = geoTransform;
       asset["shape"] = size;
       asset["type"] = driverLongName;
+      asset["filename"] = key;
 
       // Convert bands to new format
       let eoBands = [];
@@ -103,6 +112,9 @@ export class GenerateSTAC {
         eoBands.push({
           name: band.colorInterpretation,
           description: band.description,
+          type: band.type,
+          band: band.band,
+          block: band.block,
         });
       });
       asset["bands"] = eoBands;
@@ -137,7 +149,11 @@ export class GenerateSTAC {
       }),
     });
     const json = await response.json();
+    // ensure its not a promise
+
     console.log("Success:", JSON.stringify(json));
+
+    this.stacJSON = json;
   }
 
   cleanMetadata() {

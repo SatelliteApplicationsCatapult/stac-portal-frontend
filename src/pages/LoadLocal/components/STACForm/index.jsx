@@ -7,6 +7,7 @@ import { returnTiffMeta } from "interface/gdal";
 import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import Metadata from "./components/Metadata";
+import STACJSON from "./components/STACJSON";
 import { Label } from "@mui/icons-material";
 
 const STACForm = ({ groupedFiles, files }) => {
@@ -52,10 +53,6 @@ const STACForm = ({ groupedFiles, files }) => {
       });
     }
   }, [groupedFiles]);
-
-  console.log("Items meta", itemsMeta);
-  console.log("Selected item", selectedItem);
-  console.log("Selected meta", selectedMeta);
 
   useEffect(() => {
     if (selectedItem) {
@@ -121,8 +118,6 @@ const STACForm = ({ groupedFiles, files }) => {
                   sx={{
                     color: selectedItem === key ? "rgb(17,159,154)" : "black",
                   }}
-
-                  // Hover color
                 >
                   {key}
                 </MDTypography>
@@ -173,8 +168,17 @@ const STACForm = ({ groupedFiles, files }) => {
                   Metadata
                 </MDTypography>
 
-                <MDBox width="100%">
+                {/* <MDBox width="100%">
                   <Metadata selectedMeta={selectedMeta} />
+                </MDBox> */}
+
+                {/* Raw STAC JSON */}
+                <MDBox width="100%">
+                  <STACJSON
+                    itemsMeta={itemsMeta}
+                    setItemsMeta={setItemsMeta}
+                    selectedItem={selectedItem}
+                  />
                 </MDBox>
               </MDBox>
             </MDBox>
