@@ -27,6 +27,7 @@ const UploadProgress = ({ files, setFiles }) => {
   });
 
   useRequestPreSend(({ items, options }) => {
+    
     return Promise.resolve({
       options: {
         params: {

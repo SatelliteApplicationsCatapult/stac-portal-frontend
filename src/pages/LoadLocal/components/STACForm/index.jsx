@@ -56,11 +56,15 @@ const STACForm = ({ groupedFiles, files }) => {
   // Check if all the tiffs in the item have been loaded
   const checkIfAllTiffsLoaded = (item) => {
     if (groupedFiles[item]) {
+      console.log('Grouped items', groupedFiles[item]);
+      
       // Check that all the keys inside the groupedFiles[item] are in the itemsMeta[item]
-      const allTiffsLoaded = groupedFiles[item].every((file) => {
+      const allTiffsLoaded = groupedFiles[item].every((file) => { // TODO this is bugged 
         return itemsMeta[item][file.name];
       });
 
+
+      console.log('All tiffs loaded', allTiffsLoaded);
       return allTiffsLoaded;
     }
 

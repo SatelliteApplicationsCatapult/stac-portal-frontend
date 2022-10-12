@@ -1,4 +1,5 @@
 import Planet from "./sources/Planet";
+import Maxar from "./sources/Maxar";
 
 export const findProvider = async (
   stagedItems,
@@ -10,7 +11,10 @@ export const findProvider = async (
     return;
   }
 
-  const providers = [new Planet(stagedItems, setStagedItems)];
+  const providers = [
+    new Planet(stagedItems, setStagedItems),
+    new Maxar(stagedItems, setStagedItems),
+  ];
 
   for (let i = 0; i < providers.length; i += 1) {
     providers[i]._files = stagedItems;
@@ -25,7 +29,7 @@ export const findProvider = async (
           return files;
         });
       });
-
+      console.log("Files to download ::", providers[i]._filesToDownload);
       setToDownload([...toDownload, ...providers[i]._filesToDownload]);
 
       return;

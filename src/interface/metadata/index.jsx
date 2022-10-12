@@ -1,3 +1,5 @@
+import { Planet } from "./sources/Planet";
+import { Maxar } from "./sources/Maxar";
 export class GenerateSTAC {
   constructor(metadata) {
     // Set metadata to a copy
@@ -19,12 +21,12 @@ export class GenerateSTAC {
     this.assets = [];
     this.additional = {};
     this.stacJSON = {};
+    this.sources = [new Planet(), new Maxar()];
   }
 
   async generate() {
     this.cleanMetadata();
-    console.log("Generating STAC", this.metadata);
-    console.log("Additional ::", this.additional);
+
     this.parseGroupedVariables();
     this.parseStaticVariables();
     this.parseAssets();
@@ -67,15 +69,12 @@ export class GenerateSTAC {
         return;
       }
 
-      // TODO: Move to additional
-      const id = this.metadata.additional.id;
-      const timeAcquired = this.metadata.additional.properties.acquired;
+      console.log("Metadata[key]", this.metadata[key]);
 
-      const wkt = coordinateSystem.wkt;
-
-      this.staticVariables["id"] = id;
-      this.staticVariables["time_acquired"] = timeAcquired;
-      this.staticVariables["wkt"] = wkt;
+      this.staticVariables["id"] = this.fetchAdditional("id");
+      this.staticVariables["time_acquired"] =
+        this.fetchAdditional("time_acquired");
+      this.staticVariables["wkt"] = coordinateSystem.wkt;
       this.staticVariables["url"] = description;
       this.staticVariables["provider"] = "Planet"; // TODO: Make this dynamic
     });
@@ -124,8 +123,20 @@ export class GenerateSTAC {
     });
   }
 
-  parseAdditional() {
+  parseAdditional(key) {
     return;
+  }
+
+  fetchAdditional(key) {
+    // Loop through sources
+    for (let i = 0; i < this.sources.length; i++) {
+      const source = this.sources[i];
+      const value = source.find(key, this.metadata);
+
+      if (value) {
+        return value;
+      }
+    }
   }
 
   generatePayload() {
@@ -157,6 +168,7 @@ export class GenerateSTAC {
   }
 
   cleanMetadata() {
+    console.log("This metadata", this.metadata);
     for (const key in this.metadata) {
       if (this.metadata[key].error) {
         delete this.metadata[key];
@@ -166,6 +178,14 @@ export class GenerateSTAC {
     if (this.metadata.additional) {
       this.additional = this.metadata.additional;
       // delete this.metadata.additional;
+    }
+
+    // Remove non tiffs or tifs
+    for (const key in this.metadata) {
+      if (!key.includes(".tif") && !key.includes(".TIF")) {
+        console.log("Deleting", key);
+        delete this.metadata[key];
+      }
     }
   }
 }

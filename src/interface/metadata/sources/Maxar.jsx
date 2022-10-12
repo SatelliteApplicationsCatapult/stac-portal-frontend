@@ -1,8 +1,8 @@
-export class Planet {
+export class Maxar {
   find(key, metadata) {
     if (key === "id") {
       try {
-        return metadata.additional.id;
+        console.log("Looking for ID", metadata);
       } catch (e) {
         return null;
       }
@@ -10,7 +10,7 @@ export class Planet {
 
     if (key === "time_acquired") {
       try {
-        return metadata.additional.acquired;
+        return this.metadata.additional.acquired;
       } catch (e) {
         return null;
       }
