@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-ENV REACT_APP_PORTAL_BACKEND_URL=http://localhost:8080
+ENV REACT_APP_PORTAL_BACKEND_URL=https://ctplt-pda-rg-dev-stac-portal-backend.azurewebsites.net
 
 RUN npm run build
 
