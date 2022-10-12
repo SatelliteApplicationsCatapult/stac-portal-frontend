@@ -8,7 +8,6 @@ import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import Metadata from "./components/Metadata";
 import STACJSON from "./components/STACJSON";
-import { Label } from "@mui/icons-material";
 
 const STACForm = ({ groupedFiles, files }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -54,11 +53,34 @@ const STACForm = ({ groupedFiles, files }) => {
     }
   }, [groupedFiles]);
 
+  // Check if all the tiffs in the item have been loaded
+  const checkIfAllTiffsLoaded = (item) => {
+    if (groupedFiles[item]) {
+      // Check that all the keys inside the groupedFiles[item] are in the itemsMeta[item]
+      const allTiffsLoaded = groupedFiles[item].every((file) => {
+        return itemsMeta[item][file.name];
+      });
+
+      return allTiffsLoaded;
+    }
+
+    return false;
+  };
+
   useEffect(() => {
     if (selectedItem) {
       setSelectedMeta(itemsMeta[selectedItem]);
     }
   }, [selectedItem, itemsMeta]);
+
+  // If no selected item, select the first one
+  useEffect(() => {
+    if (!selectedItem) {
+      if (Object.keys(itemsMeta).length > 0) {
+        setSelectedItem(Object.keys(itemsMeta)[0]);
+      }
+    }
+  }, [itemsMeta]);
 
   return (
     <MDBox display="flex" border="1px solid #e0e0e0">
@@ -174,11 +196,27 @@ const STACForm = ({ groupedFiles, files }) => {
 
                 {/* Raw STAC JSON */}
                 <MDBox width="100%">
-                  <STACJSON
-                    itemsMeta={itemsMeta}
-                    setItemsMeta={setItemsMeta}
-                    selectedItem={selectedItem}
-                  />
+                  {selectedItem && checkIfAllTiffsLoaded(selectedItem) ? (
+                    <STACJSON
+                      itemsMeta={itemsMeta}
+                      setItemsMeta={setItemsMeta}
+                      selectedItem={selectedItem}
+                    />
+                  ) : (
+                    <MDBox
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      flexDirection="column"
+                      p={2}
+                      border="1px solid #e0e0e0"
+                      marginBottom="10px"
+                    >
+                      <MDTypography variant="h6" color="textSecondary">
+                        Loading...
+                      </MDTypography>
+                    </MDBox>
+                  )}
                 </MDBox>
               </MDBox>
             </MDBox>

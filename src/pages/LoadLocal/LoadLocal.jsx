@@ -23,6 +23,8 @@ const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [groupedFiles, setGroupedFiles] = useState();
 
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
   useEffect(() => {
     let filesGroupedByItemId = files.reduce((acc, file) => {
       // if itemId is not undefined
@@ -34,7 +36,6 @@ const LoadLocal = () => {
     }, {});
 
     setGroupedFiles(filesGroupedByItemId);
-
   }, [files]);
 
   return (
@@ -91,7 +92,10 @@ const LoadLocal = () => {
                   minWidth="450px"
                   alignItems="center"
                 >
-                  <CollectionSelect />
+                  <CollectionSelect
+                    selectedCollection={selectedCollection}
+                    setSelectedCollection={setSelectedCollection}
+                  />
                 </MDBox>
               </Card>
             </MDBox>

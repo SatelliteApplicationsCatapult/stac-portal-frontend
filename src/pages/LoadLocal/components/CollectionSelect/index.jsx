@@ -6,7 +6,7 @@ import MDButton from "components/MDButton";
 import { retrieveAllCollections } from "interface/collections";
 import { useState, useEffect } from "react";
 
-const CollectionSelect = () => {
+const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
   const [collections, setCollections] = useState();
 
   useEffect(() => {
@@ -52,6 +52,9 @@ const CollectionSelect = () => {
               renderInput={(params) => (
                 <TextField {...params} label="Choose Collection" />
               )}
+              onChange={(event, value) => {
+                setSelectedCollection(value);
+              }}
             />
           </MDBox>
         </MDBox>
