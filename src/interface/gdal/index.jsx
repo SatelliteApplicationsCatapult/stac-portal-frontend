@@ -1,6 +1,6 @@
 export const returnTiffMeta = async (fileName) => {
   let url = `${process.env.GDAL_INFO_API_ENDPOINT}/`;
-  url = "http://localhost:5000/gdal_info/";
+  url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/gdal_info/`;
 
   fileName =
     "https://ctpltstacstrgdev.blob.core.windows.net/stac-items/" + fileName;

@@ -47,7 +47,7 @@ const Dropzone = ({ files, setFiles }) => {
     <Uploady
       autoUpload={false}
       destination={{
-        url: "http://localhost:5000/file/stac_assets/upload",
+        url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
         grouped: true,
       }}
       multiple={true}
