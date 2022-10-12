@@ -32,7 +32,6 @@ const Validator = () => {
   });
 
   const generateErrorMessage = (error) => {
-    console.log(`Full Error: ${error}`);
     return `Error validating against schema version ${error.version}. ${error.error_type}: ${error.error_message}`;
   };
 
