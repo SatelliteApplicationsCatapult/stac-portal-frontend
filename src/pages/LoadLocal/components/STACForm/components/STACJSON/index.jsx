@@ -10,7 +10,6 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
       const stac = new GenerateSTAC(itemsMeta[selectedItem]);
       const json = await stac.generate();
 
-      console.log(':RECEIVED JSON:', json);
       // Update the itemsMeta
       itemsMeta[selectedItem].stac = json;
 
@@ -43,16 +42,34 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
 
   return (
     <>
-      <MDBox>
-        <MDTypography variant="h6">STAC JSON</MDTypography>
-      </MDBox>
+
       <input
         type="button"
         value="Generate STAC"
-        onClick={() => {
+        style={{
+          // Fancy button
+          backgroundColor: "#3f51b5",
+          color: "white",
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          marginBottom: "10px",
+        }}
+        onClick={async () => {
           const stac = new GenerateSTAC(itemsMeta[selectedItem]);
-          const json = stac.generate();
-          console.log(json);
+          const json = await stac.generate();
+          // Update the itemsMeta
+          itemsMeta[selectedItem].stac = json;
+
+          // Update the state
+          setItemsMeta((prev) => ({
+            ...prev,
+            [selectedItem]: {
+              ...prev[selectedItem],
+              stac: json,
+            },
+          }));
         }}
       />
       <MDBox>

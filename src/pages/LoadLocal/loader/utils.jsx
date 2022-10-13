@@ -38,7 +38,7 @@ export const findProvider = async (
 };
 
 export const returnAdditionalMeta = async (files) => {
-  const providers = [new Planet()];
+  const providers = [new Planet(), new Maxar()];
   for (let i = 0; i < providers.length; i += 1) {
     const meta = await providers[i].additionalMeta(files);
     if (meta && meta.message) {

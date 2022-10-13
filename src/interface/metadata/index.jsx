@@ -69,21 +69,16 @@ export class GenerateSTAC {
         return;
       }
 
-      console.log("Metadata[key]", this.metadata[key]);
-
       this.staticVariables["id"] = this.fetchAdditional("id");
       this.staticVariables["time_acquired"] =
         this.fetchAdditional("time_acquired");
       this.staticVariables["wkt"] = coordinateSystem.wkt;
       this.staticVariables["url"] = description;
-      this.staticVariables["provider"] = "Planet"; // TODO: Make this dynamic
     });
   }
 
   parseAssets() {
     Object.keys(this.metadata).forEach((key) => {
-      console.log("Asset ::", key, this.metadata[key]);
-
       let asset = {};
 
       const {
@@ -122,7 +117,6 @@ export class GenerateSTAC {
       this.assets.push(asset);
     });
   }
-
   parseAdditional(key) {
     return;
   }
@@ -131,9 +125,11 @@ export class GenerateSTAC {
     // Loop through sources
     for (let i = 0; i < this.sources.length; i++) {
       const source = this.sources[i];
-      const value = source.find(key, this.metadata);
+      const value = source.find(key, this.additional);
 
       if (value) {
+        // set static variable providerZ
+        this.staticVariables["provider"] = source.name;
         return value;
       }
     }
@@ -168,7 +164,6 @@ export class GenerateSTAC {
   }
 
   cleanMetadata() {
-    console.log("This metadata", this.metadata);
     for (const key in this.metadata) {
       if (this.metadata[key].error) {
         delete this.metadata[key];
@@ -183,7 +178,6 @@ export class GenerateSTAC {
     // Remove non tiffs or tifs
     for (const key in this.metadata) {
       if (!key.includes(".tif") && !key.includes(".TIF")) {
-        console.log("Deleting", key);
         delete this.metadata[key];
       }
     }

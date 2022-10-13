@@ -1,8 +1,11 @@
 export class Maxar {
+  constructor() {
+    this.name = "Maxar";
+  }
   find(key, metadata) {
     if (key === "id") {
       try {
-        console.log("Looking for ID", metadata);
+        return metadata.README.ORDERNO;
       } catch (e) {
         return null;
       }
@@ -10,10 +13,14 @@ export class Maxar {
 
     if (key === "time_acquired") {
       try {
-        return this.metadata.additional.acquired;
+        return metadata.README.MEDIACREATIONDATE;
       } catch (e) {
         return null;
       }
+    }
+
+    if (key === "provider") {
+      return "Planet";
     }
   }
 }

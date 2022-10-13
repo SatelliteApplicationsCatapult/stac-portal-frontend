@@ -1,8 +1,12 @@
 export class Planet {
+  // set name
+  constructor() {
+    this.name = "Planet";
+  }
   find(key, metadata) {
     if (key === "id") {
       try {
-        return metadata.additional.id;
+        return metadata.id;
       } catch (e) {
         return null;
       }
@@ -10,10 +14,14 @@ export class Planet {
 
     if (key === "time_acquired") {
       try {
-        return metadata.additional.acquired;
+        return metadata.properties.acquired;
       } catch (e) {
         return null;
       }
+    }
+
+    if (key === "provider") {
+      return "Planet";
     }
   }
 }

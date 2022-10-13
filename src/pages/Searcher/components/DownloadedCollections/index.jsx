@@ -83,18 +83,18 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       // Button
       toolbarButtons={[
         {
-          label: "Public Collections",
-          onCustomClick: () => {
-            setCollections([]);
-          },
-          icon: "public",
-        },
-        {
           label: "Downloaded Collections",
           onCustomClick: () => {
             setCollections([]);
           },
           icon: "lock",
+        },
+        {
+          label: "Public Collections",
+          onCustomClick: () => {
+            setCollections([]);
+          },
+          icon: "public",
         },
       ]}
       rowsPerPage={20}

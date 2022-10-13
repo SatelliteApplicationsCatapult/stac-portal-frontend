@@ -36,23 +36,32 @@ export default class MaxarGenerator extends Base {
 
   // TODO: This is a hack to get the metadata.json file
   async additionalMeta(files) {
+    console.log("Parsing additional meta");
     const metadataFiles = files.filter((file) =>
-      file.name.endsWith("metadata.json")
+      file.name.endsWith("README.XML")
     );
+
+    console.log("Found metadata files ::", metadataFiles);
 
     if (metadataFiles.length === 0) {
       return;
     }
 
     const downloadLink = this._generateDownloadLink(metadataFiles[0]);
+    console.log("Download link ::", downloadLink);
     const response = await fetch(downloadLink);
+
     this._additionalMeta = await response.json();
 
     return this._parseAdditionalMeta();
   }
 
   // TODO: Maybe only use ones we need? For now, just use all of them
-  _parseAdditionalMeta() {}
+  _parseAdditionalMeta() {
+    console.log(this._additionalMeta);
+
+    return this._additionalMeta;
+  }
 
   findItemID() {
     // Go through the files
