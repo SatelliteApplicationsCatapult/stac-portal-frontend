@@ -10,30 +10,15 @@ import { shortenDescription } from "../TableUtils";
 
 const PublicCollections = ({ collections, setCollections }) => {
   // Table Columns
+
+
   const collectionColumns = useMemo(() => [
     {
       accessorFn: (row) => {
-        // Check if the collection is already downloaded
-        const isDownloaded = collections.find(
-          (collection) => collection.id === row.id
-        );
-        if (isDownloaded) {
-          return <Icon>check</Icon>;
-        }
-        return (
-          <MDBox component="button" onClick={() => {}}>
-            Download
-          </MDBox>
-        );
-      },
-      header: "Downloaded",
-    },
-    {
-      accessorFn: (row) => {
-        return row.title;
+        return shortenDescription(row.title, 40);
       },
       header: "Title",
-      size: 200,
+      size: 5,
     },
     {
       accessorFn: (row) => {
@@ -45,23 +30,40 @@ const PublicCollections = ({ collections, setCollections }) => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{shortenDescription(row.description)}</div>
+            <div>{shortenDescription(row.description, 90)}</div>
           </CustomWidthTooltip>
         );
       },
       header: "Description",
       size: 180, //medium column
     },
+    {
+      accessorFn: (row) => {
+        return row.catalog.name;
+      },
+      header: "Catalog",
+      size: 200,
+    },
+    {
+      accessorFn: (row) => {
+        // catalog url
+        return row.catalog.url;
+      },
+      header: "Catalog URL",
+      size: 200,
+    },
   ]);
-  const columnOrder = ["Downloaded", "Title"];
+  const columnOrder = ["Title", "ID", "stac_version"];
 
   return (
     <MDBox>
       <Table
         columns={collectionColumns}
+        gray
         columnOrder={columnOrder}
         data={collections}
         title="Collections"
+        rowsPerPage={20}
       />
     </MDBox>
   );

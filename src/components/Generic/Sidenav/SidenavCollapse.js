@@ -31,7 +31,7 @@ import {
   collapseIconBox,
   collapseIcon,
   collapseText,
-} from "examples/Sidenav/styles/sidenavCollapse";
+} from "components/Generic/Sidenav/styles/sidenavCollapse";
 
 // STAC Portal context
 import { useMaterialUIController } from "context";

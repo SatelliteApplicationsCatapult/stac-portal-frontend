@@ -1,4 +1,16 @@
 export const returnTiffMeta = async (fileName) => {
+  // Ensure that file is an image TIF/png/jpeg etc. by converting to lowerase first
+  const fileExtension = fileName.split(".").pop().toLowerCase();
+
+  console.log("fileExtension", fileExtension);
+
+  const allowedExtensions = ["tif", "tiff", "png", "jpg", "jpeg"];
+
+  if (!allowedExtensions.includes(fileExtension)) {
+    return null;
+  }
+
+  console.log("fileName", fileName);
   let url = `${process.env.GDAL_INFO_API_ENDPOINT}/`;
   url = "http://localhost:5000/gdal_info/";
 

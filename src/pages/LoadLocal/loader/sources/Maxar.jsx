@@ -11,7 +11,6 @@ export default class MaxarGenerator extends Base {
 
   async parseManifest() {
     // Get the files array
-    console.log("Manifest ::", this._manifestJSON); // This is in XML
 
     // Get all tags of <productFile>
     const files = this._manifestJSON.getElementsByTagName("productFile");
@@ -36,19 +35,16 @@ export default class MaxarGenerator extends Base {
 
   // TODO: This is a hack to get the metadata.json file
   async additionalMeta(files) {
-    console.log("Parsing additional meta");
     const metadataFiles = files.filter((file) =>
       file.name.endsWith("README.XML")
     );
 
-    console.log("Found metadata files ::", metadataFiles);
 
     if (metadataFiles.length === 0) {
       return;
     }
 
     const downloadLink = this._generateDownloadLink(metadataFiles[0]);
-    console.log("Download link ::", downloadLink);
     const response = await fetch(downloadLink);
 
     this._additionalMeta = await response.json();
@@ -58,7 +54,6 @@ export default class MaxarGenerator extends Base {
 
   // TODO: Maybe only use ones we need? For now, just use all of them
   _parseAdditionalMeta() {
-    console.log(this._additionalMeta);
 
     return this._additionalMeta;
   }

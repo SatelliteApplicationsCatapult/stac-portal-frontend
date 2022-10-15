@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, FormLabel, TextField } from "@mui/material";
+import { Button, FormLabel, Icon, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
@@ -9,21 +9,31 @@ import Items from "./components/Items";
 import Metadata from "./components/Metadata";
 import STACJSON from "./components/STACJSON";
 
-const STACForm = ({ groupedFiles, files }) => {
+const STACForm = ({ uploads, groupedFiles, files }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
   const [itemsMeta, setItemsMeta] = useState({});
 
-  const [alreadyLoadedFiles, setAlreadyLoadedFiles] = useState([]);
+  const [loadingGDAL, setLoadingGDAL] = useState([]);
+  const [loadedGDAL, setLoadedGDAL] = useState([]);
+
   const [alreadyLoadedAdditionalMeta, setAlreadyLoadedAdditionalMeta] =
     useState([]);
+
+  console.log("Loading GDAL", loadingGDAL);
+  console.log("Loaded GDAL", loadedGDAL);
+  console.log("Selecteditem", selectedItem);
+  console.log("Grouped files", groupedFiles);
 
   useEffect(() => {
     if (groupedFiles) {
       Object.keys(groupedFiles).forEach(async (key) => {
         groupedFiles[key].forEach(async (file) => {
-          if (!alreadyLoadedFiles.includes(file.name)) {
-            setAlreadyLoadedFiles((prev) => [...prev, file.name]);
+          if (
+            !loadingGDAL.includes(file.name) &&
+            !loadedGDAL.includes(file.name)
+          ) {
+            setLoadingGDAL((prev) => [...prev, file.name]);
 
             const tiffMeta = await returnTiffMeta(file.name);
             setItemsMeta((prev) => ({
@@ -33,6 +43,10 @@ const STACForm = ({ groupedFiles, files }) => {
                 [file.name]: tiffMeta,
               },
             }));
+
+            setLoadedGDAL((prev) => [...prev, file.name]);
+
+            setLoadingGDAL((prev) => prev.filter((item) => item !== file.name));
           }
         });
 
@@ -53,22 +67,20 @@ const STACForm = ({ groupedFiles, files }) => {
     }
   }, [groupedFiles]);
 
-  // Check if all the tiffs in the item have been loaded
-  const checkIfAllTiffsLoaded = (item) => {
-    if (groupedFiles[item]) {
-      console.log('Grouped items', groupedFiles[item]);
-      
-      // Check that all the keys inside the groupedFiles[item] are in the itemsMeta[item]
-      const allTiffsLoaded = groupedFiles[item].every((file) => { // TODO this is bugged 
-        return itemsMeta[item][file.name];
-      });
-
-
-      console.log('All tiffs loaded', allTiffsLoaded);
-      return allTiffsLoaded;
+  const checkIfItemIsBeingLoaded = (item) => {
+    // Loop through the uploads dictionary and if item name contains the item name and the progress array does not contain 100, return true
+    for (const [key, value] of Object.entries(uploads)) {
+      if (value.name.includes(item) && !value.progress.includes(100)) {
+        return true;
+      }
     }
 
-    return false;
+    // Now perhaps it is loaded, so check if it is in the loadingGDAL array
+    const itemIsBeingLoaded = loadingGDAL.some((file) => {
+      return file.includes(item);
+    });
+
+    return itemIsBeingLoaded;
   };
 
   useEffect(() => {
@@ -149,7 +161,24 @@ const STACForm = ({ groupedFiles, files }) => {
                 </MDTypography>
                 <MDBox display="flex" alignItems="center">
                   <MDTypography variant="body2" mr={1}>
-                    {groupedFiles[key].length} files
+                    {/* Check the loadingGDAL array, if it contains any of the files in the item, show a spinner */}
+                    {groupedFiles[key].some((file) =>
+                      loadingGDAL.includes(file.name)
+                    ) ? (
+                      <Icon
+                        sx={{
+                          color: "rgb(17,159,154)",
+                          animation: "spin 1s linear infinite",
+                        }}
+                      >
+                        loop
+                      </Icon>
+                    ) : (
+                      // Show amount of files
+                      <MDTypography variant="body2" mr={1}>
+                        {groupedFiles[key].length} Items
+                      </MDTypography>
+                    )}
                   </MDTypography>
                 </MDBox>
               </MDBox>
@@ -171,60 +200,80 @@ const STACForm = ({ groupedFiles, files }) => {
         </MDBox>
         {/* Generated Item Form */}
         <MDBox display="flex" flexDirection="column" width="100%" p={4}>
-          <MDBox display="flex" flexDirection="column" width="100%">
-            <MDBox>
-              <Items
-                selectedMeta={selectedMeta}
-                items={groupedFiles && groupedFiles[selectedItem]}
-              />
-            </MDBox>
+          {selectedItem ? (
+            // If the selected item does not exist in the loadingGDAL array, show the form else show a spinner
+            !checkIfItemIsBeingLoaded(selectedItem) ? (
+              <MDBox display="flex" flexDirection="column" width="100%">
+                <MDBox>
+                  <Items
+                    selectedMeta={selectedMeta}
+                    items={groupedFiles && groupedFiles[selectedItem]}
+                  />
+                </MDBox>
 
-            <MDBox>
-              {/* Header  */}
+                <MDBox>
+                  {/* Header  */}
+                  <MDBox
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    flexDirection="column"
+                    p={2}
+                    border="1px solid #e0e0e0"
+                    marginBottom="10px"
+                  >
+                    {/* Raw STAC JSON */}
+                    <MDBox width="100%">
+                      {selectedItem &&
+                      !checkIfItemIsBeingLoaded(selectedItem) ? (
+                        <STACJSON
+                          itemsMeta={itemsMeta}
+                          setItemsMeta={setItemsMeta}
+                          selectedItem={selectedItem}
+                        />
+                      ) : (
+                        <MDBox
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          flexDirection="column"
+                          p={2}
+                          border="1px solid #e0e0e0"
+                          marginBottom="10px"
+                        >
+                          <MDTypography variant="h6" color="textSecondary">
+                            Loading...
+                          </MDTypography>
+                        </MDBox>
+                      )}
+                    </MDBox>
+                  </MDBox>
+                </MDBox>
+              </MDBox>
+            ) : (
               <MDBox
                 display="flex"
-                justifyContent="space-between"
+                justifyContent="center"
                 alignItems="center"
                 flexDirection="column"
                 p={2}
-                border="1px solid #e0e0e0"
                 marginBottom="10px"
               >
                 <MDTypography variant="h6" color="textSecondary">
-                  Metadata
+                  Generating STAC Metadata for {selectedItem}
                 </MDTypography>
-
-                {/* <MDBox width="100%">
-                  <Metadata selectedMeta={selectedMeta} />
-                </MDBox> */}
-
-                {/* Raw STAC JSON */}
-                <MDBox width="100%">
-                  {selectedItem && checkIfAllTiffsLoaded(selectedItem) ? (
-                    <STACJSON
-                      itemsMeta={itemsMeta}
-                      setItemsMeta={setItemsMeta}
-                      selectedItem={selectedItem}
-                    />
-                  ) : (
-                    <MDBox
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      flexDirection="column"
-                      p={2}
-                      border="1px solid #e0e0e0"
-                      marginBottom="10px"
-                    >
-                      <MDTypography variant="h6" color="textSecondary">
-                        Loading...
-                      </MDTypography>
-                    </MDBox>
-                  )}
-                </MDBox>
               </MDBox>
+            )
+          ) : (
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              p={2}
+              marginBottom="10px"
+            >
+              <MDTypography variant="h6" color="textSecondary"></MDTypography>
             </MDBox>
-          </MDBox>
+          )}
         </MDBox>
       </MDBox>
     </MDBox>

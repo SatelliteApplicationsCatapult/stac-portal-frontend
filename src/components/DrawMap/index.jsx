@@ -15,6 +15,27 @@ import "./map.scss";
 import { Stack, Box } from "@mui/system";
 import MDButton from "components/MDButton";
 
+const searchCollections = async (bbox, datetime) => {
+  const collections = await fetch(
+    "http://192.168.1.108:5000/public_catalogs/collections/search",
+    {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bbox,
+        datetime,
+      }),
+    }
+  );
+
+  const data = await collections.json();
+
+  return data;
+};
+
 const DrawMap = ({
   AOI,
   setAOI,
@@ -22,6 +43,10 @@ const DrawMap = ({
   setStartDate,
   endDate,
   setEndDate,
+  publicCollections,
+  setPublicCollections,
+  downloadedCollections,
+  setDownloadedCollections,
 }) => {
   const [rectangleBounds, setRectangleBounds] = useState(null);
   const [showMap, setShowMap] = useState(true);
@@ -34,30 +59,10 @@ const DrawMap = ({
     const maxX = bounds._northEast.lng;
     const maxY = bounds._northEast.lat;
 
-    const aoi =
-      "POLYGON((" +
-      minX +
-      " " +
-      minY +
-      "," +
-      maxX +
-      " " +
-      minY +
-      "," +
-      maxX +
-      " " +
-      maxY +
-      "," +
-      minX +
-      " " +
-      maxY +
-      "," +
-      minX +
-      " " +
-      minY +
-      "))";
+    // Bbox is form [-1, 50, 1, 51]
+    const bbox = [minX, minY, maxX, maxY];
 
-    setAOI(aoi);
+    setAOI(bbox);
   };
 
   const handleDraw = (e) => {
@@ -68,6 +73,7 @@ const DrawMap = ({
   };
 
   const wktToArray = (wkt) => {
+
     wkt = wkt.replace("POLYGON", "");
     wkt = wkt.replace("((", "");
     wkt = wkt.replace("))", "");
@@ -90,11 +96,10 @@ const DrawMap = ({
   };
 
   const handleMount = () => {
-
     // Check if there is already an AOI
     if (AOI) {
-      const aoi = wktToArray(AOI);
-      setRectangleBounds(aoi);
+      //const aoi = wktToArray(AOI);
+      //setRectangleBounds(aoi);
     }
     //
   };
@@ -110,7 +115,7 @@ const DrawMap = ({
             flexWrap="wrap"
           >
             <TextField
-              id="outlined-basic"
+              id="aoi"
               label="AOI"
               style={{ margin: 8, width: "50%" }}
               // If showMap is true then set placeholder to "Click to draw"
@@ -133,7 +138,7 @@ const DrawMap = ({
                   drawTool[0].click();
 
                   // Refoucs on AOI
-                  const aoi = document.getElementById("outlined-basic");
+                  const aoi = document.getElementById("aoi");
                   aoi.focus();
                 }
               }}
@@ -150,7 +155,7 @@ const DrawMap = ({
                 label="End Date"
                 value={endDate}
                 // allow time
-                
+
                 onChange={(e) => setEndDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"
@@ -159,9 +164,34 @@ const DrawMap = ({
             <MDButton
               variant="contained"
               color="info"
-              onClick={() => {
+              onClick={async () => {
                 // Hide map
                 setShowMap(false);
+                let bbox = AOI;
+                let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
+                let searchedCollections = await searchCollections(
+                  bbox,
+                  datetime
+                );
+
+                // flatten these into collections
+                if (searchedCollections && searchedCollections.length) {
+                  let allCollections = [];
+                  // Loop through these and
+                  searchedCollections.forEach((collection) => {
+                    if (
+                      collection.collections &&
+                      collection.collections.length
+                    ) {
+                      collection.collections.forEach((subCollection) => {
+                        subCollection.catalog = collection.catalog;
+                        allCollections.push(subCollection);
+                      });
+                    }
+                  });
+
+                  setPublicCollections(allCollections);
+                }
               }}
             >
               <Icon>search</Icon> Search

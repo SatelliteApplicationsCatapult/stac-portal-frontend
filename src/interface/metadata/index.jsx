@@ -145,6 +145,7 @@ export class GenerateSTAC {
   }
 
   async sendToSTAC() {
+    console.log("Sending to STAC");
     let url = process.env.REACT_APP_BACKEND_URL;
     const response = await fetch(url + "/stac_generator/", {
       method: "POST",
@@ -165,7 +166,7 @@ export class GenerateSTAC {
 
   cleanMetadata() {
     for (const key in this.metadata) {
-      if (this.metadata[key].error) {
+      if (!this.metadata[key] || this.metadata[key].error) {
         delete this.metadata[key];
       }
     }

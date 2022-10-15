@@ -80,23 +80,6 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       columnOrder={columnOrder}
       data={collections}
       title="Collections"
-      // Button
-      toolbarButtons={[
-        {
-          label: "Downloaded Collections",
-          onCustomClick: () => {
-            setCollections([]);
-          },
-          icon: "lock",
-        },
-        {
-          label: "Public Collections",
-          onCustomClick: () => {
-            setCollections([]);
-          },
-          icon: "public",
-        },
-      ]}
       rowsPerPage={20}
     />
   );

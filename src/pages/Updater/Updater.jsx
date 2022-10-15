@@ -139,7 +139,6 @@ const Updater = () => {
                 },
               ]}
               rowClickAction={(row, table) => {
-                console.log("Clicked on row: ", row);
               }}
             />
             <FindMoreCollections

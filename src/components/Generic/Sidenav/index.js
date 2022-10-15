@@ -33,11 +33,11 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
 // STAC Portal example components
-import SidenavCollapse from "examples/Sidenav/SidenavCollapse";
+import SidenavCollapse from "components/Generic/Sidenav/SidenavCollapse";
 
 // Custom styles for the Sidenav
-import SidenavRoot from "examples/Sidenav/SidenavRoot";
-import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
+import SidenavRoot from "components/Generic//Sidenav/SidenavRoot";
+import sidenavLogoLabel from "components/Generic//Sidenav/styles/sidenav";
 
 // STAC Portal context
 import {

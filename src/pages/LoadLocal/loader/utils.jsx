@@ -29,7 +29,6 @@ export const findProvider = async (
           return files;
         });
       });
-      console.log("Files to download ::", providers[i]._filesToDownload);
       setToDownload([...toDownload, ...providers[i]._filesToDownload]);
 
       return;
