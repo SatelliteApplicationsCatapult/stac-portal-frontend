@@ -15,14 +15,17 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Interface
-import { getAllStoredSearchParameters } from "interface/collections";
+import {
+  getAllStoredSearchParameters,
+  runStoredSearchParamUpdate,
+} from "interface/collections";
 
 // Table
 import Table from "components/Table";
-
+import MDButton from "components/MDButton";
 
 const Updater = () => {
-  const [params,setParams] = useState([]);
+  const [params, setParams] = useState([]);
   console.log(params);
   // Retrieve Collection Data
   useEffect(() => {
@@ -64,14 +67,30 @@ const Updater = () => {
       header: "Temporal Extent",
       size: 180, //medium column
     },
+    {
+      accessorFn: (row) => {
+        return (
+          <MDButton
+            onClick={() => {
+              runStoredSearchParamUpdate(row.id);
+              alert(`Updating ${row.collection} from ${row.parentCatalogName}`);
+            }}
+          >
+            Update
+          </MDButton>
+        );
+      },
+      header: "Update",
+      size: 100, //medium column
+    },
   ]);
   const columnOrder = [
     "Catalog",
     "Collection",
     "Spatial Extent",
     "Temporal Extent",
+    "Update",
   ];
-
 
   return (
     <DashboardLayout>
@@ -93,7 +112,7 @@ const Updater = () => {
               data={params}
               rowClickAction={(row, table) => {}}
               rowsPerPage={20}
-              title = "Search Parameters"
+              title="Search Parameters"
             />
           </Grid>
         </Grid>

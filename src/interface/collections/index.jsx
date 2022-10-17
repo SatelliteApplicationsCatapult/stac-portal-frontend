@@ -1,7 +1,6 @@
 // import auth from src/auth
-import format from 'date-fns/format';
+import format from "date-fns/format";
 import axios from "axios";
-
 
 export const retrieveAllCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac`;
@@ -55,14 +54,25 @@ export const getAllStoredSearchParameters = async () => {
   const data = await response.data;
   let storedSearchParameters = [];
   data.forEach((catalog) => {
-    catalog.stored_search_parameters.forEach(parameter => {
+    catalog.stored_search_parameters.forEach((parameter) => {
       parameter.parentCatalogName = catalog.name;
       let bbox = parameter.bbox;
-      let newBbox = [bbox[0].toFixed(3), bbox[1].toFixed(3), bbox[2].toFixed(3), bbox[3].toFixed(3)];
+      let newBbox = [
+        bbox[0].toFixed(3),
+        bbox[1].toFixed(3),
+        bbox[2].toFixed(3),
+        bbox[3].toFixed(3),
+      ];
       parameter.bbox = newBbox;
       storedSearchParameters.push(parameter);
-
-    })  
+    });
   });
   return storedSearchParameters;
+};
+
+export const runStoredSearchParamUpdate = async (storedSearchParamId) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/run_search_parameters/${storedSearchParamId}`;
+  const response = await axios({ method: "GET", url: url });
+  const data = await response.data;
+  return data;
 };
