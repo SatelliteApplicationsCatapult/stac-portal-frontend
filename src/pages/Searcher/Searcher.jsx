@@ -86,6 +86,9 @@ const Searcher = () => {
                     <PublicCollections
                       collections={publicCollections}
                       setCollections={setPublicCollections}
+                      AOI={AOI}
+                      startDate={startDate}
+                      endDate={endDate}
                     />
                   ),
                 },

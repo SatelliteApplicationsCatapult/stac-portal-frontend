@@ -1,16 +1,20 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Table from "components/Table";
-
 // Interface
 import MDBox from "components/MDBox";
-import { Icon } from "@mui/material";
+import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-
+import {callSelectiveIngester} from "interface/collections"
 import { shortenDescription } from "../TableUtils";
 
-const PublicCollections = ({ collections, setCollections }) => {
+const PublicCollections = ({
+  collections,
+  setCollections,
+  AOI,
+  startDate,
+  endDate,
+}) => {
   // Table Columns
-
 
   const collectionColumns = useMemo(() => [
     {
@@ -44,13 +48,34 @@ const PublicCollections = ({ collections, setCollections }) => {
       header: "Catalog",
       size: 200,
     },
+    // {
+    //   accessorFn: (row) => {
+    //     // catalog url
+    //     return row.catalog.url;
+    //   },
+    //   header: "Catalog URL",
+    //   size: 200,
+    // },
+
+    // add column for the button
     {
       accessorFn: (row) => {
-        // catalog url
-        return row.catalog.url;
+        return (
+          <MDButton
+            onClick={() => {
+              const parentCatalogId = row.catalog.id;
+              const collectionId = row.id;
+              const ingestStatus =  callSelectiveIngester(parentCatalogId,collectionId, AOI, startDate, endDate);
+              alert(`Ingesting ${row.title} from ${row.catalog.name}...`);
+
+            }}
+          >
+            Load
+          </MDButton>
+        );
       },
-      header: "Catalog URL",
-      size: 200,
+      header: "Load",
+      size: 100,
     },
   ]);
   const columnOrder = ["Title", "ID", "stac_version"];
