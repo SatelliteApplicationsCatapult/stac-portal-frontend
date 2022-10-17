@@ -1,6 +1,10 @@
+// import auth from src/auth
+
+import axios from "axios";
+
 export const retrieveAllCollections = async () => {
-  const url = `${process.env.REACT_APP_STAC_URL}/collections`;
-  const response = await fetch(url);
-  const data = await response.json();
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
+  const response = await axios({method: "GET", url: url});
+  const data = await response.data;
   return data;
 };
