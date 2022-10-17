@@ -15,103 +15,63 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Interface
-import { retrieveAllCollections } from "interface/collections";
+import { getAllStoredSearchParameters } from "interface/collections";
 
 // Table
 import Table from "components/Table";
 
-import { shortenDescription } from "./TableUtils";
-import { FindMoreCollections } from "./Modals/FindMoreCollections";
 
 const Updater = () => {
-  const [collections, setCollections] = useState([]);
-  const [createModalOpen, setCreateModalOpen] = useState(false);
-
+  const [params,setParams] = useState([]);
+  console.log(params);
   // Retrieve Collection Data
   useEffect(() => {
-    async function getCollections() {
-      let resp = await retrieveAllCollections();
-      if (resp && resp.collections) {
-        setCollections(resp.collections);
-      }
+    async function getParams() {
+      let data = await getAllStoredSearchParameters();
+      console.log("resp", data);
+      setParams(data);
     }
-    getCollections();
+    getParams();
   }, []);
 
   // Table Columns
-  const collectionColumns = useMemo(() => [
+  const paramsColumns = useMemo(() => [
     {
       accessorFn: (row) => {
-        return row.title;
+        return row.parentCatalogName;
       },
-      header: "Title",
+      header: "Catalog",
       size: 200,
     },
     {
       accessorFn: (row) => {
-        const shortenedDesd = shortenDescription(row.description);
-        // Add a tooltip that shows the full description
-        return (
-          <CustomWidthTooltip
-            title={row.description}
-            disableTouchListener={false}
-            disableFocusListener={false}
-            enterDelay={1000}
-          >
-            <div>{shortenedDesd}</div>
-          </CustomWidthTooltip>
-        );
+        return row.collection;
       },
-      header: "Description",
+      header: "Collection",
       size: 180, //medium column
     },
     {
       accessorFn: (row) => {
-        if (row.license) {
-          return row.license.charAt(0).toUpperCase() + row.license.slice(1);
-        }
-        return row.license;
+        return row.bbox.join(", ");
       },
-      header: "License",
+      header: "Spatial Extent",
       size: 100, //medium column
     },
     {
       accessorFn: (row) => {
-        // Access the providers and get the name. if there are more than 3, add a tooltip that shows the full list
-        const providers = row.providers.map((provider) => provider.name);
-        const shortenedProviders = providers.slice(0, 3);
-        const tooltipText = providers.join(", ");
-        return (
-          <CustomWidthTooltip title={tooltipText}>
-            <div>{shortenedProviders.join(", ")}</div>
-          </CustomWidthTooltip>
-        );
+        return row.datetime;
       },
-      header: "Providers",
+      header: "Temporal Extent",
       size: 180, //medium column
-    },
-    {
-      accessorKey: "stac_version",
-      header: "STAC Version",
-      size: 20,
     },
   ]);
   const columnOrder = [
-    "Title",
-    "Description",
-    "License",
-    "Providers",
-    "stac_version",
+    "Catalog",
+    "Collection",
+    "Spatial Extent",
+    "Temporal Extent",
   ];
 
-  // Custom Tooltip Styling
-  const CustomWidthTooltip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))({
-    [`& .${tooltipClasses.tooltip}`]: {
-      maxWidth: 1000,
-    },
-  });
 
   return (
     <DashboardLayout>
@@ -127,24 +87,13 @@ const Updater = () => {
           </Grid>
           <Grid item xs={12}>
             <Table
-              columns={collectionColumns}
+              columns={paramsColumns}
+              gray
               columnOrder={columnOrder}
-              data={collections}
-              toolbarButtons={[
-                {
-                  label: "New STAC Collection",
-                  onCustomClick: () => setCreateModalOpen(true),
-                  icon: "add",
-                  color: "primary",
-                },
-              ]}
-              rowClickAction={(row, table) => {
-              }}
-            />
-            <FindMoreCollections
-              columns={collectionColumns}
-              open={createModalOpen}
-              onClose={() => setCreateModalOpen(false)}
+              data={params}
+              rowClickAction={(row, table) => {}}
+              rowsPerPage={20}
+              title = "Search Parameters"
             />
           </Grid>
         </Grid>

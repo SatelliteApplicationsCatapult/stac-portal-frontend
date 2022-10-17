@@ -48,3 +48,21 @@ export const callSelectiveIngester = async (
     return res.data;
   });
 };
+
+export const getAllStoredSearchParameters = async () => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs`;
+  const response = await axios({ method: "GET", url: url });
+  const data = await response.data;
+  let storedSearchParameters = [];
+  data.forEach((catalog) => {
+    catalog.stored_search_parameters.forEach(parameter => {
+      parameter.parentCatalogName = catalog.name;
+      let bbox = parameter.bbox;
+      let newBbox = [bbox[0].toFixed(3), bbox[1].toFixed(3), bbox[2].toFixed(3), bbox[3].toFixed(3)];
+      parameter.bbox = newBbox;
+      storedSearchParameters.push(parameter);
+
+    })  
+  });
+  return storedSearchParameters;
+};
