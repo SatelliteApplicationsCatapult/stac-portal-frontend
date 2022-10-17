@@ -62,7 +62,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Update Catalog",
+    name: "Update Collections",
     key: "updater",
     icon: <Icon fontSize="small">update</Icon>,
     route: "/updater",

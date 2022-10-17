@@ -64,6 +64,7 @@ const Searcher = () => {
                 setPublicCollections={setPublicCollections}
                 downloadedCollections={downloadedCollections}
                 setDownloadedCollections={setDownloadedCollections}
+                rowClickAction={(row, table) => {}}
               />
             </MDBox>
           </Grid>
@@ -89,6 +90,7 @@ const Searcher = () => {
                       AOI={AOI}
                       startDate={startDate}
                       endDate={endDate}
+                      rowClickAction={(row, table) => {}}
                     />
                   ),
                 },

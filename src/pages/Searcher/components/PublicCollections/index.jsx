@@ -4,7 +4,7 @@ import Table from "components/Table";
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-import {callSelectiveIngester} from "interface/collections"
+import { callSelectiveIngester } from "interface/collections";
 import { shortenDescription } from "../TableUtils";
 
 const PublicCollections = ({
@@ -65,9 +65,14 @@ const PublicCollections = ({
             onClick={() => {
               const parentCatalogId = row.catalog.id;
               const collectionId = row.id;
-              const ingestStatus =  callSelectiveIngester(parentCatalogId,collectionId, AOI, startDate, endDate);
+              callSelectiveIngester(
+                parentCatalogId,
+                collectionId,
+                AOI,
+                startDate,
+                endDate
+              );
               alert(`Ingesting ${row.title} from ${row.catalog.name}...`);
-
             }}
           >
             Load
