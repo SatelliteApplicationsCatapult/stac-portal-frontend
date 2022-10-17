@@ -26,12 +26,10 @@ import MDButton from "components/MDButton";
 
 const Updater = () => {
   const [params, setParams] = useState([]);
-  console.log(params);
   // Retrieve Collection Data
   useEffect(() => {
     async function getParams() {
       let data = await getAllStoredSearchParameters();
-      console.log("resp", data);
       setParams(data);
     }
     getParams();

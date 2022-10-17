@@ -32,9 +32,6 @@ export const callSelectiveIngester = async (
     // TODO: upgrade date picker to datetime picker and use it here
   }
 
-  console.log("endDate", endDate);
-  console.log("parentCatalogId", parentCatalogId);
-  console.log("collectionId", collectionId);
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/${parentCatalogId}/items/get`;
   const req_body = {
     update: true,
