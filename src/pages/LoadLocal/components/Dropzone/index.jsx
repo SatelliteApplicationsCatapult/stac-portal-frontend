@@ -47,7 +47,7 @@ const Dropzone = ({ files, setFiles, uploads, setUploads, groupedDownloads, setG
     <Uploady
       autoUpload={false}
       destination={{
-        url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
+        url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload`,
         grouped: true,
       }}
       multiple={true}
