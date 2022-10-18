@@ -72,24 +72,6 @@ const DrawMap = ({
     }, 100);
   };
 
-  const wktToArray = (wkt) => {
-
-    wkt = wkt.replace("POLYGON", "");
-    wkt = wkt.replace("((", "");
-    wkt = wkt.replace("))", "");
-    wkt = wkt.split(",");
-    let output = [];
-    wkt.forEach(function (e) {
-      let ring = [];
-      e = e.split(" ").reverse();
-      e.forEach(function (i) {
-        ring.push(parseFloat(i));
-      });
-      output.push(ring);
-    });
-
-    return output;
-  };
 
   const handleDelete = () => {
     setAOI("");
@@ -168,7 +150,21 @@ const DrawMap = ({
                 // Hide map
                 setShowMap(false);
                 let bbox = AOI;
-                let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
+                let datetime = "";
+                if (startDate) {
+                  datetime += startDate.toISOString();
+                }
+                else {
+                  datetime += "..";
+                }
+                datetime += "/";
+                if (endDate) {
+                  datetime += endDate.toISOString();
+                }
+                else {
+                  datetime += "..";
+                }
+                //let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
                 let searchedCollections = await searchCollections(
                   bbox,
                   datetime

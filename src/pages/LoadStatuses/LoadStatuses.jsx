@@ -2,8 +2,6 @@ import React, { useMemo, useState, useEffect } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { styled } from "@mui/material/styles";
-import { Tooltip, tooltipClasses } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -14,82 +12,84 @@ import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
-// Interface
-import {
-  getAllStoredSearchParameters,
-  runStoredSearchParamUpdate,
-} from "interface/collections";
-
-// Table
 import Table from "components/Table";
-import MDButton from "components/MDButton";
+// import MDButton from "components/MDButton";
+import { retrieveAllLoadStatuses } from "interface/loadstatuses";
 
-const Updater = () => {
-  const [params, setParams] = useState([]);
-  // Retrieve Collection Data
+const LoadStatuses = () => {
+  const [statuses, setStatuses] = useState([]);
   useEffect(() => {
-    async function getParams() {
-      let data = await getAllStoredSearchParameters();
-      setParams(data);
+    async function getStatuses() {
+      let data = await retrieveAllLoadStatuses();
+      console.log(data);
+      setStatuses(data);
     }
-    getParams();
+    getStatuses();
   }, []);
 
-  // Table Columns
   const paramsColumns = useMemo(() => [
     {
       accessorFn: (row) => {
-        return row.parentCatalogName;
+        return row.id;
       },
-      header: "Catalog",
+      header: "#",
+      size: 10,
+    },
+    {
+      accessorFn: (row) => {
+        return row.source_stac_api_url;
+      },
+      header: "Source",
       size: 200,
     },
-    {
-      accessorFn: (row) => {
-        return row.collection;
-      },
-      header: "Collection",
-      size: 180, //medium column
-    },
-    {
-      accessorFn: (row) => {
-        return row.bbox.join(", ");
-      },
-      header: "Spatial Extent",
-      size: 100, //medium column
-    },
-    {
-      accessorFn: (row) => {
-        return row.datetime;
-      },
-      header: "Temporal Extent",
-      size: 180, //medium column
-    },
-    {
-      accessorFn: (row) => {
-        return (
-          <MDButton
-            onClick={() => {
-              runStoredSearchParamUpdate(row.id);
-              alert(`Updating ${row.collection} from ${row.parentCatalogName}`);
-            }}
-          >
-            Update
-          </MDButton>
-        );
-      },
-      header: "Update",
-      size: 100, //medium column
-    },
-  ]);
-  const columnOrder = [
-    "Catalog",
-    "Collection",
-    "Spatial Extent",
-    "Temporal Extent",
-    "Update",
-  ];
 
+    {
+      accessorFn: (row) => {
+        return row.time_started.split(".")[0];
+      },
+      header: "Time Started",
+      size: 100,
+    },
+    {
+      accessorFn: (row) => {
+        if (row.time_finished === "None") {
+          return "In Progress";
+        }
+        return row.time_finished.split(".")[0];
+      },
+      header: "Time Finished",
+      size: 100, //medium column
+    },
+    {
+      accessorFn: (row) => {
+        return row.newly_stored_items_count;
+      },
+      header: "# New \nItems",
+      size: 10
+    },
+    {
+      accessorFn: (row) => {
+        return row.updated_items_count;
+      },
+      header: "# Updated Items",
+      size: 10
+    },
+    {
+      accessorFn: (row) => {
+        return row.newly_stored_collections.join(", ");
+      },
+      header: "New Collections",
+      size: 100
+    },
+    {
+      accessorFn: (row) => {
+        return row.updated_collections.join(", ");
+      },
+      header: "Updated Collections",
+      size: 100
+    }
+  ]);
+  const columnOrder = ["Catalog"];
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -98,7 +98,7 @@ const Updater = () => {
           <Grid item xs={12}>
             <Card>
               <MDBox p={3}>
-                <MDTypography variant="h4">Updater</MDTypography>
+                <MDTypography variant="h4">Load Operations</MDTypography>
               </MDBox>
             </Card>
           </Grid>
@@ -107,10 +107,10 @@ const Updater = () => {
               columns={paramsColumns}
               gray
               columnOrder={columnOrder}
-              data={params}
+              data={statuses}
               rowClickAction={(row, table) => {}}
               rowsPerPage={20}
-              title="Search Parameters"
+              title="Load Operations"
             />
           </Grid>
         </Grid>
@@ -120,4 +120,4 @@ const Updater = () => {
   );
 };
 
-export default Updater;
+export default LoadStatuses;
