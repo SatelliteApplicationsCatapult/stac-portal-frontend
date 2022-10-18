@@ -10,29 +10,19 @@ import { Icon, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
+import axios from "axios";
 import "./map.scss";
 import { Stack, Box } from "@mui/system";
 import MDButton from "components/MDButton";
 
 const searchCollections = async (bbox, datetime) => {
-  const collections = await fetch(
-    "http://192.168.1.108:5000/public_catalogs/collections/search",
-    {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        bbox,
-        datetime,
-      }),
-    }
-  );
-
-  const data = await collections.json();
-
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search`;
+  const collections = await axios({
+    method: "POST",
+    url: url,
+    data: { bbox: bbox, datetime: datetime },
+  });
+  const data = await collections.data;
   return data;
 };
 
@@ -71,7 +61,6 @@ const DrawMap = ({
       setRectangleBounds(null);
     }, 100);
   };
-
 
   const handleDelete = () => {
     setAOI("");
@@ -153,15 +142,13 @@ const DrawMap = ({
                 let datetime = "";
                 if (startDate) {
                   datetime += startDate.toISOString();
-                }
-                else {
+                } else {
                   datetime += "..";
                 }
                 datetime += "/";
                 if (endDate) {
                   datetime += endDate.toISOString();
-                }
-                else {
+                } else {
                   datetime += "..";
                 }
                 //let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
