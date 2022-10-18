@@ -6,7 +6,7 @@ import { asUploadButton } from "@rpldy/upload-button";
 
 import "./style.scss";
 
-const Dropzone = ({ files, setFiles, uploads, setUploads }) => {
+const Dropzone = ({ files, setFiles, uploads, setUploads, groupedDownloads, setGroupedDownloads}) => {
   const clickableDropZone = forwardRef((props, ref) => {
     const { onClick, ...buttonProps } = props;
 
@@ -51,8 +51,8 @@ const Dropzone = ({ files, setFiles, uploads, setUploads }) => {
         grouped: true,
       }}
       multiple={true}
-      // Debug
-      debug={true}
+      maxRetries={2}
+
     >
       <DropZoneButton />
       <UploadProgress
@@ -60,6 +60,8 @@ const Dropzone = ({ files, setFiles, uploads, setUploads }) => {
         setFiles={setFiles}
         uploads={uploads}
         setUploads={setUploads}
+        groupedDownloads={groupedDownloads}
+        setGroupedDownloads={setGroupedDownloads}
       />
     </Uploady>
   );

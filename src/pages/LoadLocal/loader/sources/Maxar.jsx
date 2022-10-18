@@ -39,7 +39,6 @@ export default class MaxarGenerator extends Base {
       file.name.endsWith("README.XML")
     );
 
-
     if (metadataFiles.length === 0) {
       return;
     }
@@ -54,7 +53,6 @@ export default class MaxarGenerator extends Base {
 
   // TODO: Maybe only use ones we need? For now, just use all of them
   _parseAdditionalMeta() {
-
     return this._additionalMeta;
   }
 

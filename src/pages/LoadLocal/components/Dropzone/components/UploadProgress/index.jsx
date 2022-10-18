@@ -13,14 +13,19 @@ import { Icon } from "@mui/material";
 
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
-const UploadProgress = ({ files, setFiles, uploads, setUploads }) => {
+const UploadProgress = ({
+  files,
+  setFiles,
+  uploads,
+  setUploads,
+  groupedDownloads,
+  setGroupedDownloads,
+}) => {
   const [stagedItems, setStagedItems] = useState([]);
   const [toDownload, setToDownload] = useState([]);
 
   const progressData = useItemProgressListener();
   const { processPending } = useUploady();
-
-  console.log("Uploads", uploads);
 
   // Add staged items to state
   useBatchAddListener((batch) => {
@@ -54,6 +59,22 @@ const UploadProgress = ({ files, setFiles, uploads, setUploads }) => {
     }
   }, [toDownload]);
 
+  useEffect(() => {
+    // Listen to toDownload and ensure that groupedDownloads is updated, but ensure no duplicates
+    if (toDownload.length > 0) {
+      let filesGroupedByItemId = toDownload.reduce((acc, file) => {
+        // if itemId is not undefined
+        if (file.file.item) {
+          acc[file.file.item] = acc[file.file.item] || [];
+          acc[file.file.item].push(file);
+        }
+        return acc;
+      }, {});
+
+      setGroupedDownloads(filesGroupedByItemId);
+    }
+  }, [toDownload]);
+
   if (progressData && progressData.completed) {
     const upload = uploads[progressData.id] || {
       name: progressData.url || progressData.file.name,
@@ -82,7 +103,29 @@ const UploadProgress = ({ files, setFiles, uploads, setUploads }) => {
     }
   }
 
-  const entries = Object.entries(uploads);
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const objectEntries = Object.entries(uploads);
+    let allEntries = [];
+
+    // Loop through object ntries and make sure they're in toDownload array
+    objectEntries.forEach((entry) => {
+      const [key, value] = entry;
+      const file = value.name;
+
+      if (toDownload.length > 0) {
+        // found an element that path ends with file
+        const found = toDownload.find((element) => element.path.endsWith(file));
+        if (found) {
+          allEntries.push(entry);
+        }
+      }
+    });
+
+    setEntries(allEntries);
+    // Create entries from uploads
+  }, [uploads]);
 
   return (
     <>
