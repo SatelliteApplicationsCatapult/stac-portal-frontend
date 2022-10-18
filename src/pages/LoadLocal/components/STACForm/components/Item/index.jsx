@@ -10,11 +10,17 @@ const Item = ({ item, selectedMeta }) => {
     <>
       <div className="item">
         <div className="item__header" onClick={() => setShowInfo(!showInfo)}>
-          {selectedMeta && selectedMeta[item.name] && (
+          {selectedMeta && selectedMeta[item.name] ? (
             <div className="item__header__tick">
               <Icon>done</Icon>
             </div>
+          ) : (
+            <div className="item__header__tick">
+              {/* Loading */}
+              <Icon>hourglass_empty</Icon>
+            </div>
           )}
+
           <MDTypography
             variant="h6"
             sx={{
@@ -59,7 +65,7 @@ const Item = ({ item, selectedMeta }) => {
                 selectedMeta[item.name].bands &&
                 selectedMeta[item.name].bands.map((band) => {
                   return (
-                    <div className="item__body__col__band">
+                    <div className="item__body__col__band" key={band.name}>
                       <MDTypography variant="body2" color="textSecondary">
                         {band.band}
                       </MDTypography>

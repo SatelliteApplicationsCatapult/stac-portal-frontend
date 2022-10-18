@@ -1,12 +1,11 @@
-export class Planet {
-  // set name
+export class Maxar {
   constructor() {
-    this.name = "Planet";
+    this.name = "Maxar";
   }
   find(key, metadata) {
     if (key === "id") {
       try {
-        return metadata.id;
+        return metadata.README.ORDERNO;
       } catch (e) {
         return null;
       }
@@ -14,7 +13,7 @@ export class Planet {
 
     if (key === "time_acquired") {
       try {
-        return metadata.properties.acquired;
+        return metadata.README.MEDIACREATIONDATE;
       } catch (e) {
         return null;
       }

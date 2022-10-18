@@ -1,4 +1,5 @@
 import Planet from "./sources/Planet";
+import Maxar from "./sources/Maxar";
 
 export const findProvider = async (
   stagedItems,
@@ -10,7 +11,10 @@ export const findProvider = async (
     return;
   }
 
-  const providers = [new Planet(stagedItems, setStagedItems)];
+  const providers = [
+    new Planet(stagedItems, setStagedItems),
+    new Maxar(stagedItems, setStagedItems),
+  ];
 
   for (let i = 0; i < providers.length; i += 1) {
     providers[i]._files = stagedItems;
@@ -25,7 +29,6 @@ export const findProvider = async (
           return files;
         });
       });
-
       setToDownload([...toDownload, ...providers[i]._filesToDownload]);
 
       return;
@@ -34,7 +37,7 @@ export const findProvider = async (
 };
 
 export const returnAdditionalMeta = async (files) => {
-  const providers = [new Planet()];
+  const providers = [new Planet(), new Maxar()];
   for (let i = 0; i < providers.length; i += 1) {
     const meta = await providers[i].additionalMeta(files);
     if (meta && meta.message) {

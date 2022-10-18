@@ -30,7 +30,16 @@ export default class Base {
       reader.onerror = reject;
     });
 
-    this._manifestJSON = JSON.parse(manifestData);
+    // If its a JSON file, parse it
+    if (manifest.file.name.endsWith(".json")) {
+      this._manifestJSON = JSON.parse(manifestData);
+    }
+
+    // If its an XML file, parse it
+    if (manifest.file.name.endsWith(".xml")) {
+      const parser = new DOMParser();
+      this._manifestJSON = parser.parseFromString(manifestData, "text/xml");
+    }
 
     await this.parseManifest();
 

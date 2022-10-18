@@ -22,6 +22,7 @@ import STACForm from "./components/STACForm";
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [groupedFiles, setGroupedFiles] = useState();
+  const [uploads, setUploads] = useState({});
 
   const [selectedCollection, setSelectedCollection] = useState(null);
 
@@ -57,12 +58,16 @@ const LoadLocal = () => {
                 Step 1 - Select Folder(s)
               </MDTypography>
               <MDTypography variant="body2" mb={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                vel leo sed enim placerat condimentum eu ac urna. Nam facilisis
-                tempus semper.
+                Drag and drop the folder containing the imagery files from your
+                source provider e.g. Planet, Maxar etc.
               </MDTypography>
               {/* Drag and Drop */}
-              <Dropzone files={files} setFiles={setFiles} />
+              <Dropzone
+                files={files}
+                setFiles={setFiles}
+                uploads={uploads}
+                setUploads={setUploads}
+              />
             </Card>
           </Grid>
 
@@ -81,9 +86,7 @@ const LoadLocal = () => {
                   Step 4 - Choose Collection
                 </MDTypography>
                 <MDTypography variant="body2" mb={2}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                  vel leo sed enim placerat condimentum eu ac urna. Nam
-                  facilisis tempus semper.
+                  Choose a collection to add your new STAC items to.
                 </MDTypography>
                 <MDBox
                   display="flex"
@@ -113,14 +116,16 @@ const LoadLocal = () => {
                 }}
               >
                 <MDTypography variant="h5" color="textSecondary">
-                  Step 5 - Validate STAC Metadata
+                  Step 5 - View STAC Records
                 </MDTypography>
                 <MDTypography variant="body2" mb={2}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                  vel leo sed enim placerat condimentum eu ac urna. Nam
-                  facilisis tempus semper.
+                  View the newly created STAC records for each item.
                 </MDTypography>
-                <STACForm groupedFiles={groupedFiles} files={files} />
+                <STACForm
+                  uploads={uploads}
+                  groupedFiles={groupedFiles}
+                  files={files}
+                />
               </Card>
             </MDBox>
           </Grid>

@@ -36,9 +36,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             Choose an existing collection
           </MDTypography>
           <MDTypography variant="body2" mb={2}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel
-            leo sed enim placerat condimentum eu ac urna. Nam facilisis tempus
-            semper.
+            Choose a collection from your organisation's existing Catalog.
           </MDTypography>
           <MDBox
             display="flex"
@@ -83,9 +81,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             Create a new collection
           </MDTypography>
           <MDTypography variant="body2" mb={2}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam vel
-            leo sed enim placerat condimentum eu ac urna. Nam facilisis tempus
-            semper.
+            Create a new collection to add to your organisation's existing Catalog.
           </MDTypography>
           <MDBox
             display="flex"

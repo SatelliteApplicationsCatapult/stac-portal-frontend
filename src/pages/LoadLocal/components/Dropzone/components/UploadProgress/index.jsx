@@ -13,13 +13,14 @@ import { Icon } from "@mui/material";
 
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
-const UploadProgress = ({ files, setFiles }) => {
-  const [uploads, setUploads] = useState({});
+const UploadProgress = ({ files, setFiles, uploads, setUploads }) => {
   const [stagedItems, setStagedItems] = useState([]);
   const [toDownload, setToDownload] = useState([]);
 
   const progressData = useItemProgressListener();
   const { processPending } = useUploady();
+
+  console.log("Uploads", uploads);
 
   // Add staged items to state
   useBatchAddListener((batch) => {

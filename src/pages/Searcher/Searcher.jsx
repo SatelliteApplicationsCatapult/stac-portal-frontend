@@ -48,6 +48,9 @@ const Searcher = () => {
               to download STAC data from.
             </MDTypography>
           </Grid>
+
+
+
           <Grid item xs={12}>
             <MDBox>
               <DrawMap
@@ -57,14 +60,43 @@ const Searcher = () => {
                 setStartDate={setStartDate}
                 endDate={endDate}
                 setEndDate={setEndDate}
+                publicCollections={publicCollections}
+                setPublicCollections={setPublicCollections}
+                downloadedCollections={downloadedCollections}
+                setDownloadedCollections={setDownloadedCollections}
+                rowClickAction={(row, table) => {}}
               />
             </MDBox>
           </Grid>
           <Grid item xs={12}>
-              <DownloadedCollections
-                collections={downloadedCollections}
-                setCollections={setDownloadedCollections}
-              />
+          <Grid item xs={12}>
+            <Tabs
+              tabs={[
+                {
+                  label: "Downloaded Collections",
+                  component: (
+                    <DownloadedCollections
+                      collections={downloadedCollections}
+                      setCollections={setDownloadedCollections}
+                    />
+                  ),
+                },
+                {
+                  label: "Public Collections",
+                  component: (
+                    <PublicCollections
+                      collections={publicCollections}
+                      setCollections={setPublicCollections}
+                      AOI={AOI}
+                      startDate={startDate}
+                      endDate={endDate}
+                      rowClickAction={(row, table) => {}}
+                    />
+                  ),
+                },
+              ]}
+            />
+          </Grid>
           </Grid>
         </Grid>
       </MDBox>

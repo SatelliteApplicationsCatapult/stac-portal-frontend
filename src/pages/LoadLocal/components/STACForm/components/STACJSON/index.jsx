@@ -5,11 +5,13 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
-  useEffect( () => {
+  useEffect(() => {
     const returnSTAC = async () => {
+      console.log("Generating STAC");
       const stac = new GenerateSTAC(itemsMeta[selectedItem]);
       const json = await stac.generate();
 
+      console.log("STAChere", json);
       // Update the itemsMeta
       itemsMeta[selectedItem].stac = json;
 
@@ -24,11 +26,12 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
     };
 
     if (itemsMeta[selectedItem]) {
+      console.log("Selected item", itemsMeta[selectedItem]);
       if (itemsMeta[selectedItem].stac) {
         return;
       }
 
-      // Create an empty placeholder
+
       setItemsMeta((prev) => ({
         ...prev,
         [selectedItem]: {
@@ -41,13 +44,36 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
     }
   });
 
-  console.log(itemsMeta[selectedItem]);
-
   return (
     <>
-      <MDBox>
-        <MDTypography variant="h6">STAC JSON</MDTypography>
-      </MDBox>
+      <input
+        type="button"
+        value="Generate STAC"
+        style={{
+          backgroundColor: "#3f51b5",
+          color: "white",
+          padding: "10px 20px",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          marginBottom: "10px",
+        }}
+        onClick={async () => {
+          const stac = new GenerateSTAC(itemsMeta[selectedItem]);
+          const json = await stac.generate();
+          // Update the itemsMeta
+          itemsMeta[selectedItem].stac = json;
+
+          // Update the state
+          setItemsMeta((prev) => ({
+            ...prev,
+            [selectedItem]: {
+              ...prev[selectedItem],
+              stac: json,
+            },
+          }));
+        }}
+      />
       <MDBox>
         <TextField
           fullWidth

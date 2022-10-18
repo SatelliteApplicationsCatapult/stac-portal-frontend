@@ -27,7 +27,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 
 // STAC Portal example components
-import Sidenav from "examples/Sidenav";
+import Sidenav from "components/Generic/Sidenav";
 import Configurator from "examples/Configurator";
 
 // STAC Portal themes

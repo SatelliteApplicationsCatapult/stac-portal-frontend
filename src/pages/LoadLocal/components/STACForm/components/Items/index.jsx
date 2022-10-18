@@ -15,6 +15,10 @@ const Items = ({ selectedMeta, items }) => {
         <div
           className="items__header"
           onClick={() => setShowAssets(!showAssets)}
+          // If showAssets is true, change style
+          style={{
+            backgroundColor: showAssets ? "#f5f5f5" : "transparent",
+          }}
         >
           <MDBox />
           <MDTypography
@@ -22,7 +26,7 @@ const Items = ({ selectedMeta, items }) => {
             className="items__title"
             color="textSecondary"
           >
-            Assets ({items ? items.length : '0'})
+            Assets ({items ? items.length : "0"})
           </MDTypography>
           <Icon
             // Relatively positioned to the parent

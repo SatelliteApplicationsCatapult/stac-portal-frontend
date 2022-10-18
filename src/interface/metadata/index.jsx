@@ -1,3 +1,5 @@
+import { Planet } from "./sources/Planet";
+import { Maxar } from "./sources/Maxar";
 export class GenerateSTAC {
   constructor(metadata) {
     // Set metadata to a copy
@@ -19,12 +21,12 @@ export class GenerateSTAC {
     this.assets = [];
     this.additional = {};
     this.stacJSON = {};
+    this.sources = [new Planet(), new Maxar()];
   }
 
   async generate() {
     this.cleanMetadata();
-    console.log("Generating STAC", this.metadata);
-    console.log("Additional ::", this.additional);
+
     this.parseGroupedVariables();
     this.parseStaticVariables();
     this.parseAssets();
@@ -67,24 +69,16 @@ export class GenerateSTAC {
         return;
       }
 
-      // TODO: Move to additional
-      const id = this.metadata.additional.id;
-      const timeAcquired = this.metadata.additional.properties.acquired;
-
-      const wkt = coordinateSystem.wkt;
-
-      this.staticVariables["id"] = id;
-      this.staticVariables["time_acquired"] = timeAcquired;
-      this.staticVariables["wkt"] = wkt;
+      this.staticVariables["id"] = this.fetchAdditional("id");
+      this.staticVariables["time_acquired"] =
+        this.fetchAdditional("time_acquired");
+      this.staticVariables["wkt"] = coordinateSystem.wkt;
       this.staticVariables["url"] = description;
-      this.staticVariables["provider"] = "Planet"; // TODO: Make this dynamic
     });
   }
 
   parseAssets() {
     Object.keys(this.metadata).forEach((key) => {
-      console.log("Asset ::", key, this.metadata[key]);
-
       let asset = {};
 
       const {
@@ -123,9 +117,22 @@ export class GenerateSTAC {
       this.assets.push(asset);
     });
   }
-
-  parseAdditional() {
+  parseAdditional(key) {
     return;
+  }
+
+  fetchAdditional(key) {
+    // Loop through sources
+    for (let i = 0; i < this.sources.length; i++) {
+      const source = this.sources[i];
+      const value = source.find(key, this.additional);
+
+      if (value) {
+        // set static variable providerZ
+        this.staticVariables["provider"] = source.name;
+        return value;
+      }
+    }
   }
 
   generatePayload() {
@@ -138,6 +145,7 @@ export class GenerateSTAC {
   }
 
   async sendToSTAC() {
+    console.log("Sending to STAC");
     let url = process.env.REACT_APP_BACKEND_URL;
     const response = await fetch(url + "/stac_generator/", {
       method: "POST",
@@ -158,7 +166,7 @@ export class GenerateSTAC {
 
   cleanMetadata() {
     for (const key in this.metadata) {
-      if (this.metadata[key].error) {
+      if (!this.metadata[key] || this.metadata[key].error) {
         delete this.metadata[key];
       }
     }
@@ -166,6 +174,13 @@ export class GenerateSTAC {
     if (this.metadata.additional) {
       this.additional = this.metadata.additional;
       // delete this.metadata.additional;
+    }
+
+    // Remove non tiffs or tifs
+    for (const key in this.metadata) {
+      if (!key.includes(".tif") && !key.includes(".TIF")) {
+        delete this.metadata[key];
+      }
     }
   }
 }
