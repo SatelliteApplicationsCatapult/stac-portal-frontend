@@ -6,24 +6,19 @@ import MDTypography from "components/MDTypography";
 import { returnTiffMeta } from "interface/gdal";
 import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
-import Metadata from "./components/Metadata";
 import STACJSON from "./components/STACJSON";
 
-const STACForm = ({ uploads, groupedFiles, files }) => {
+const STACForm = ({ uploads, groupedFiles, files, groupedDownloads }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
   const [itemsMeta, setItemsMeta] = useState({});
 
   const [loadingGDAL, setLoadingGDAL] = useState([]);
   const [loadedGDAL, setLoadedGDAL] = useState([]);
+  const [groupedLoadedGDAL, setGroupedLoadedGDAL] = useState({});
 
   const [alreadyLoadedAdditionalMeta, setAlreadyLoadedAdditionalMeta] =
     useState([]);
-
-  console.log("Loading GDAL", loadingGDAL);
-  console.log("Loaded GDAL", loadedGDAL);
-  console.log("Selecteditem", selectedItem);
-  console.log("Grouped files", groupedFiles);
 
   useEffect(() => {
     if (groupedFiles) {
@@ -45,6 +40,10 @@ const STACForm = ({ uploads, groupedFiles, files }) => {
             }));
 
             setLoadedGDAL((prev) => [...prev, file.name]);
+            setGroupedLoadedGDAL((prev) => ({
+              ...prev,
+              [file.itemId]: [...(prev[file.itemId] || []), file.name],
+            }));
 
             setLoadingGDAL((prev) => prev.filter((item) => item !== file.name));
           }
@@ -68,19 +67,32 @@ const STACForm = ({ uploads, groupedFiles, files }) => {
   }, [groupedFiles]);
 
   const checkIfItemIsBeingLoaded = (item) => {
-    // Loop through the uploads dictionary and if item name contains the item name and the progress array does not contain 100, return true
-    for (const [key, value] of Object.entries(uploads)) {
-      if (value.name.includes(item) && !value.progress.includes(100)) {
-        return true;
+    if (groupedDownloads[item] && groupedLoadedGDAL[item]) {
+      // Check that these two have the same amount of tiffs
+      // Grouped downloads tiff count
+      const groupedLoadedGDALTiffCount = groupedLoadedGDAL[item].filter(
+        (file) =>
+          file.endsWith(".tif") ||
+          file.endsWith(".tiff") ||
+          file.endsWith(".TIF") ||
+          file.endsWith(".TIFF")
+      ).length;
+
+      // Grouped loaded GDAL tiff count
+      const groupedDownloadsTiffCount = groupedDownloads[item].filter(
+        (file) =>
+          file.path.endsWith(".tif") ||
+          file.path.endsWith(".tiff") ||
+          file.path.endsWith(".TIF") ||
+          file.path.endsWith(".TIFF")
+      ).length;
+
+      if (groupedDownloadsTiffCount === groupedLoadedGDALTiffCount) {
+        return false;
       }
     }
 
-    // Now perhaps it is loaded, so check if it is in the loadingGDAL array
-    const itemIsBeingLoaded = loadingGDAL.some((file) => {
-      return file.includes(item);
-    });
-
-    return itemIsBeingLoaded;
+    return true;
   };
 
   useEffect(() => {

@@ -23,7 +23,7 @@ const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [groupedFiles, setGroupedFiles] = useState();
   const [uploads, setUploads] = useState({});
-
+  const [groupedDownloads, setGroupedDownloads] = useState({});
   const [selectedCollection, setSelectedCollection] = useState(null);
 
   useEffect(() => {
@@ -67,6 +67,8 @@ const LoadLocal = () => {
                 setFiles={setFiles}
                 uploads={uploads}
                 setUploads={setUploads}
+                groupedDownloads={groupedDownloads}
+                setGroupedDownloads={setGroupedDownloads}
               />
             </Card>
           </Grid>
@@ -125,6 +127,7 @@ const LoadLocal = () => {
                   uploads={uploads}
                   groupedFiles={groupedFiles}
                   files={files}
+                  groupedDownloads={groupedDownloads}
                 />
               </Card>
             </MDBox>
