@@ -36,6 +36,7 @@ import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import Searcher from "pages/Searcher/Searcher";
 import Updater from "pages/Updater/Updater";
+import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -67,6 +68,14 @@ const routes = [
     icon: <Icon fontSize="small">update</Icon>,
     route: "/updater",
     component: <Updater />,
+  },
+  {
+    type: "collapse",
+    name: "Load Operations",
+    key: "load-operations",
+    icon: <Icon fontSize="small">cloud_download</Icon>,
+    route: "/load-operations",
+    component: <LoadStatuses />,
   },
   {
     type: "title",
