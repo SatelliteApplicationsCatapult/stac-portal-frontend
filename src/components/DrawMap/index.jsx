@@ -16,7 +16,7 @@ import { Stack, Box } from "@mui/system";
 import MDButton from "components/MDButton";
 
 const searchCollections = async (bbox, datetime) => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search/`;
   const collections = await axios({
     method: "POST",
     url: url,

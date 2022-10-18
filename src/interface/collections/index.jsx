@@ -3,7 +3,7 @@ import format from "date-fns/format";
 import axios from "axios";
 
 export const retrieveAllCollections = async () => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   return data;
@@ -32,7 +32,7 @@ export const callSelectiveIngester = async (
     // TODO: upgrade date picker to datetime picker and use it here
   }
 
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/${parentCatalogId}/items/get`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/${parentCatalogId}/items/get/`;
   const req_body = {
     update: true,
     bbox: aoi,
@@ -46,7 +46,7 @@ export const callSelectiveIngester = async (
 };
 
 export const getAllStoredSearchParameters = async () => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   let storedSearchParameters = [];
@@ -68,7 +68,7 @@ export const getAllStoredSearchParameters = async () => {
 };
 
 export const runStoredSearchParamUpdate = async (storedSearchParamId) => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/run_search_parameters/${storedSearchParamId}`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/run_search_parameters/${storedSearchParamId}/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   return data;
