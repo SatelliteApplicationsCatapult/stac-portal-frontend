@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const retrieveAllLoadStatuses = async () => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/status_reporting/loading_public_stac_records`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/status_reporting/loading_public_stac_records/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   let dataToReturn = [];
