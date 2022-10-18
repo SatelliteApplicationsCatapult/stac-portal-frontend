@@ -157,7 +157,6 @@ export class GenerateSTAC {
       }),
     });
     const json = await response.json();
-    // ensure its not a promise
 
     console.log("Success:", JSON.stringify(json));
 

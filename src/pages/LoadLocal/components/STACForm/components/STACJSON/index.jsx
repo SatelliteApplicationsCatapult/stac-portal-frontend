@@ -11,20 +11,20 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
       const json = await stac.generate();
 
       // Update the itemsMeta
-      itemsMeta[selectedItem].stac = json;
+      itemsMeta[selectedItem].json = json;
 
       // Update the state
       setItemsMeta((prev) => ({
         ...prev,
         [selectedItem]: {
           ...prev[selectedItem],
-          stac: json,
+          json: json,
         },
       }));
     };
 
     if (itemsMeta[selectedItem]) {
-      if (itemsMeta[selectedItem].stac) {
+      if (itemsMeta[selectedItem].json) {
         return;
       }
 
@@ -33,7 +33,7 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
         ...prev,
         [selectedItem]: {
           ...prev[selectedItem],
-          stac: {},
+          json: {},
         },
       }));
 
@@ -43,7 +43,7 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
 
   return (
     <>
-      <input
+      {/* <input
         type="button"
         value="Generate STAC"
         style={{
@@ -70,13 +70,13 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
             },
           }));
         }}
-      />
+      /> */}
       <MDBox>
         <TextField
           fullWidth
           multiline
           rows={30}
-          value={JSON.stringify(itemsMeta[selectedItem]?.stac, null, 2)}
+          value={JSON.stringify(itemsMeta[selectedItem]?.json, null, 2)}
         />
       </MDBox>
     </>

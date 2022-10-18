@@ -25,6 +25,7 @@ const LoadLocal = () => {
   const [uploads, setUploads] = useState({});
   const [groupedDownloads, setGroupedDownloads] = useState({});
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [itemsMeta, setItemsMeta] = useState({});
 
   useEffect(() => {
     let filesGroupedByItemId = files.reduce((acc, file) => {
@@ -38,6 +39,11 @@ const LoadLocal = () => {
 
     setGroupedFiles(filesGroupedByItemId);
   }, [files]);
+
+  const publish = () => {
+    console.log("Publishing", itemsMeta);
+
+  };
 
   return (
     <DashboardLayout>
@@ -117,9 +123,28 @@ const LoadLocal = () => {
                   height: "100%",
                 }}
               >
-                <MDTypography variant="h5" color="textSecondary">
-                  Step 5 - View STAC Records
-                </MDTypography>
+                <MDBox
+                  display="flex"
+                  flexDirection="row"
+                  width="100%"
+                  minWidth="450px"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <MDTypography variant="h5" color="textSecondary">
+                    Step 5 - View STAC Records
+                  </MDTypography>
+                  <Button
+                    // Publish all files
+                    onClick={publish}
+                    variant="contained"
+                    color="primary"
+                    sx={{  color: "white!important" }}
+                  >
+                    Publish All
+                  </Button>
+                </MDBox>
+
                 <MDTypography variant="body2" mb={2}>
                   View the newly created STAC records for each item.
                 </MDTypography>
@@ -128,6 +153,8 @@ const LoadLocal = () => {
                   groupedFiles={groupedFiles}
                   files={files}
                   groupedDownloads={groupedDownloads}
+                  itemsMeta={itemsMeta}
+                  setItemsMeta={setItemsMeta}
                 />
               </Card>
             </MDBox>
