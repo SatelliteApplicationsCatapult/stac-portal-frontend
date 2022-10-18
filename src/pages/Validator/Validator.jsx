@@ -39,14 +39,14 @@ const Validator = () => {
     setAlertBox({ display: false, message: "", severity: "error" });
     setIsLoading(true);
     let textField = document.getElementById("text-field");
-    fetch(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`, {
+    fetch(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        json: textField.value,
-      }),
+      body: JSON.stringify(
+        textField.value,
+      ),
     })
       .then((res) => {
         setIsLoading(false);
