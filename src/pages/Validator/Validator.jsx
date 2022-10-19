@@ -20,6 +20,7 @@ import { CircularProgress } from "@mui/material";
 
 import "./Validator.scss";
 
+import axios from "axios";
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
   const [validatorResponse, setValidatorResponse] = useState(null);
@@ -32,60 +33,47 @@ const Validator = () => {
   });
 
   const generateErrorMessage = (error) => {
-    return `Error validating against schema version ${error.version}. ${error.error_type}: ${error.error_message}`;
+    //return `Error validating against schema version ${error.version}. ${error.error_type}: ${error.error_message}`;
+    let errorMessage = error.message;
+    let errorType = error.error_type;
+    return `${errorMessage}. Pystac Reported Error: ${errorType}`;
   };
 
   const handleSubmit = () => {
     setAlertBox({ display: false, message: "", severity: "error" });
     setIsLoading(true);
     let textField = document.getElementById("text-field");
-    fetch(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`, {
+    const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`;
+
+    axios(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        textField.value,
-      ),
-    })
-      .then((res) => {
-        setIsLoading(false);
-        return res.json();
-      })
-      .then((data) => {
-        let resp = JSON.parse(data[0])[0];
-        setValidJSON(resp.valid_stac);
-        setValidatorResponse(resp);
-
-        if (!resp.valid_stac) {
-          openErrorSB();
-          setAlertBox({
-            display: true,
-            message: generateErrorMessage(resp),
-            severity: "error",
-            icon: "error",
-          });
-        } else {
-          openSuccessSB();
-          setAlertBox({
-            display: true,
-            message: "Valid STAC",
-            severity: "success",
-            icon: "check_circle",
-          });
-        }
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        setValidJSON(false);
-        setValidatorResponse(err);
+      data: textField.value,
+    }).then((res) => {
+      setIsLoading(false);
+      let data = res.data;
+      if (data.message === "Valid STAC") {
+        setValidJSON(true);
+        setValidatorResponse(null);
         setAlertBox({
           display: true,
-          message: "Error: " + err,
+          message: "Valid STAC",
+          severity: "success",
+          icon: "check_circle",
+        });
+      } else {
+        setValidJSON(false);
+        setValidatorResponse(data);
+        setAlertBox({
+          display: true,
+          message: generateErrorMessage(data),
           severity: "error",
           icon: "error",
         });
-      });
+      }
+    });
   };
 
   // Success Toast Message
