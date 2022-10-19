@@ -52,6 +52,7 @@ const Dropzone = ({ files, setFiles, uploads, setUploads, groupedDownloads, setG
       }}
       multiple={true}
       maxRetries={2}
+      maxFiles={99999}
 
     >
       <DropZoneButton />

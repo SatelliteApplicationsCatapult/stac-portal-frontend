@@ -73,3 +73,17 @@ export const runStoredSearchParamUpdate = async (storedSearchParamId) => {
   const data = await response.data;
   return data;
 };
+
+export const createNewCollection = async (collectionName) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs`;
+  const req_body = {
+    name: collectionName,
+  };
+  const response = await axios({
+    method: "POST",
+    url: url,
+    data: req_body,
+  });
+  const data = await response.data;
+  return data;
+};

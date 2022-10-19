@@ -3,11 +3,16 @@ import MDTypography from "components/MDTypography";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
-import { retrieveAllCollections } from "interface/collections";
+import { retrieveAllCollections, createNewCollection } from "interface/collections";
 import { useState, useEffect } from "react";
+
+import "./style.scss";
+import MDInput from "components/MDInput";
 
 const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
   const [collections, setCollections] = useState();
+  const [openModal, setOpenModal] = useState(false);
+  const [collectionName, setCollectionName] = useState("");
 
   useEffect(() => {
     const getCollections = async () => {
@@ -24,6 +29,11 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
     };
     getCollections();
   }, []);
+
+  const createCollection = () => {
+    console.log("create collection");
+
+  };
 
   return (
     <>
@@ -81,7 +91,8 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             Create a new collection
           </MDTypography>
           <MDTypography variant="body2" mb={2}>
-            Create a new collection to add to your organisation's existing Catalog.
+            Create a new collection to add to your organisation's existing
+            Catalog.
           </MDTypography>
           <MDBox
             display="flex"
@@ -96,6 +107,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
               color="secondary"
               onClick={() => {
                 console.log("Create new collection");
+                setOpenModal(true);
               }}
               sx={{ width: "30%" }}
             >
@@ -104,6 +116,52 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
           </MDBox>
         </MDBox>
       </MDBox>
+
+      {/* Modal to create a new collection */}
+      {
+        // IF open
+        openModal && (
+          <MDBox className="modal">
+            <MDBox className="modal-content">
+              <MDTypography variant="h6" color="textSecondary">
+                Create a new collection
+              </MDTypography>
+              <MDTypography variant="body2" mb={2}>
+                Create a new collection to add to your organisation's existing
+                Catalog.
+              </MDTypography>
+              <MDBox
+                display="flex"
+                flexDirection="column"
+                width="30%"
+                minWidth="450px"
+              >
+                {/* Form with collection name */}
+                {/* Input */}
+                <MDInput
+                  label="Collection Name"
+                  placeholder="Enter collection name"
+                  onChange={(event) => {
+                    setCollectionName(event.target.value);
+                  }}
+                />
+                {/* Button */}
+                <MDButton
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
+                    setOpenModal(false);
+                    createCollection();
+                  }}
+                  sx={{ width: "30%", mt: 2 }}
+                >
+                  Create
+                </MDButton>
+              </MDBox>
+            </MDBox>
+          </MDBox>
+        )
+      }
     </>
   );
 };
