@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, Icon, TextField } from "@mui/material";
+import { Button, CircularProgress, Icon, TextField } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -19,16 +19,21 @@ import Dropzone from "./components/Dropzone";
 import CollectionSelect from "./components/CollectionSelect";
 import STACForm from "./components/STACForm";
 
+// Utils
+import { addItemsToCollection } from "interface/collections";
+
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [groupedFiles, setGroupedFiles] = useState();
   const [uploads, setUploads] = useState({});
   const [groupedDownloads, setGroupedDownloads] = useState({});
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [itemsMeta, setItemsMeta] = useState({});
+
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     let filesGroupedByItemId = files.reduce((acc, file) => {
-      // if itemId is not undefined
       if (file.itemId) {
         acc[file.itemId] = acc[file.itemId] || [];
         acc[file.itemId].push(file);
@@ -38,6 +43,22 @@ const LoadLocal = () => {
 
     setGroupedFiles(filesGroupedByItemId);
   }, [files]);
+
+  const publish = async () => {
+    setShowLoading(true);
+    await addItemsToCollection(selectedCollection, itemsMeta);
+    setShowLoading(false);
+
+    // Wait for 2 seconds and then redirect to collection
+    setTimeout(() => {
+      window.open(
+        `https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/${selectedCollection.id}`,
+        "_blank"
+      );
+    }, 1500);
+
+    // Navigate to https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/{collectionId} in new tab
+  };
 
   return (
     <DashboardLayout>
@@ -117,9 +138,31 @@ const LoadLocal = () => {
                   height: "100%",
                 }}
               >
-                <MDTypography variant="h5" color="textSecondary">
-                  Step 5 - View STAC Records
-                </MDTypography>
+                <MDBox
+                  display="flex"
+                  flexDirection="row"
+                  width="100%"
+                  minWidth="450px"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <MDTypography variant="h5" color="textSecondary">
+                    Step 5 - View STAC Records
+                  </MDTypography>
+                  <Button
+                    // Publish all files
+                    onClick={publish}
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      backgroundColor: "#54A19A",
+                      color: "white!important",
+                    }}
+                  >
+                    Publish All
+                  </Button>
+                </MDBox>
+
                 <MDTypography variant="body2" mb={2}>
                   View the newly created STAC records for each item.
                 </MDTypography>
@@ -128,12 +171,59 @@ const LoadLocal = () => {
                   groupedFiles={groupedFiles}
                   files={files}
                   groupedDownloads={groupedDownloads}
+                  itemsMeta={itemsMeta}
+                  setItemsMeta={setItemsMeta}
                 />
               </Card>
             </MDBox>
           </Grid>
         </Grid>
       </MDBox>
+
+      {/* Modal for loading */}
+      {showLoading && (
+        <MDBox
+          className="modal"
+          onClick={() => {
+            //setShowLoading(false);
+          }}
+        >
+          <MDBox
+            className="modal-content"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {/* Loading */}
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+            >
+              <MDBox
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                height="100%"
+              >
+                <CircularProgress
+                  // BLue
+                  sx={{
+                    color: "#54A19A",
+                  }}
+                />
+                <MDTypography variant="h5" color="textSecondary" mt={2}>
+                  Publishing...
+                </MDTypography>
+              </MDBox>
+            </MDBox>
+          </MDBox>
+        </MDBox>
+      )}
+
       <Footer />
     </DashboardLayout>
   );

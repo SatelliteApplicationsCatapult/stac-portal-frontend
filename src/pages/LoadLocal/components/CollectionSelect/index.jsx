@@ -3,36 +3,56 @@ import MDTypography from "components/MDTypography";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
-import { retrieveAllCollections, createNewCollection } from "interface/collections";
+import {
+  retrieveAllCollections,
+  createNewCollection,
+} from "interface/collections";
 import { useState, useEffect } from "react";
 
 import "./style.scss";
 import MDInput from "components/MDInput";
+import { CircularProgress } from "@mui/material";
 
 const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
   const [collections, setCollections] = useState();
   const [openModal, setOpenModal] = useState(false);
-  const [collectionName, setCollectionName] = useState("");
+  const [newCollection, setNewCollection] = useState({
+    id: "",
+    description: "",
+  });
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
     const getCollections = async () => {
       const allCollections = await retrieveAllCollections();
-      const collectionsFormatted = allCollections.collections.map(
-        (collection, index) => {
-          return {
-            label: collection.title,
-            id: index,
-          };
-        }
-      );
+      const collectionsFormatted = allCollections.map((collection, index) => {
+        return {
+          label: collection.id,
+          id: collection.id,
+        };
+      });
       setCollections(collectionsFormatted);
     };
     getCollections();
   }, []);
 
-  const createCollection = () => {
-    console.log("create collection");
+  const createCollection = async () => {
+    await createNewCollection(newCollection);
 
+    // Get new collections
+    const allCollections = await retrieveAllCollections();
+    const collectionsFormatted = allCollections.map((collection, index) => {
+      return {
+        label: collection.id,
+        id: collection.id,
+      };
+    });
+    setCollections(collectionsFormatted);
+    setOpenModal(false);
+    setShowLoading(false);
+
+    // Set selected collection
+    setSelectedCollection(newCollection);
   };
 
   return (
@@ -100,8 +120,6 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             width="30%"
             minWidth="450px"
           >
-            {/* Open a modal with a form */}
-            {/* Button */}
             <MDButton
               variant="contained"
               color="secondary"
@@ -109,7 +127,11 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
                 console.log("Create new collection");
                 setOpenModal(true);
               }}
-              sx={{ width: "30%" }}
+              sx={{
+                width: "30%",
+                minWidth: "200px",
+                // backgroundColor: "#119F9A",
+              }}
             >
               Create
             </MDButton>
@@ -118,50 +140,126 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
       </MDBox>
 
       {/* Modal to create a new collection */}
-      {
-        // IF open
-        openModal && (
-          <MDBox className="modal">
-            <MDBox className="modal-content">
-              <MDTypography variant="h6" color="textSecondary">
-                Create a new collection
-              </MDTypography>
-              <MDTypography variant="body2" mb={2}>
-                Create a new collection to add to your organisation's existing
-                Catalog.
-              </MDTypography>
+      {openModal && (
+        <MDBox
+          className="modal"
+          onClick={() => {
+            setOpenModal(false);
+          }}
+        >
+          <MDBox
+            className="modal-content"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {!showLoading ? (
+              <>
+                <MDTypography variant="h6" color="textSecondary">
+                  Create a new collection
+                </MDTypography>
+                <MDTypography variant="body2" mb={2}>
+                  Create a new collection to add to your organisation's existing
+                  Catalog.
+                </MDTypography>
+                <MDBox
+                  display="flex"
+                  flexDirection="column"
+                  width="30%"
+                  minWidth="450px"
+                >
+                  {/* Form with collection name */}
+                  {/* Input */}
+                  <MDInput
+                    label="Collection Name"
+                    placeholder="Enter collection name"
+                    onChange={(event) => {
+                      setNewCollection({
+                        ...newCollection,
+                        id: event.target.value,
+                      });
+                    }}
+                    autoComplete="off"
+                    autoFocus={true}
+                    sx={{ mb: 2 }}
+                  />
+
+                  {/* Description */}
+                  <MDInput
+                    label="Description"
+                    placeholder="Enter description"
+                    onChange={(event) => {
+                      setNewCollection({
+                        ...newCollection,
+                        description: event.target.value,
+                      });
+                    }}
+                    autoComplete="off"
+                    sx={{ mb: 2 }}
+                  />
+
+                  {/* Button */}
+                  <MDButton
+                    variant="contained"
+                    onClick={() => {
+                      // Set show loading
+                      // If input is empty
+                      if (
+                        newCollection.id === "" ||
+                        newCollection.description === ""
+                      ) {
+                        alert("Please fill in all fields");
+                        return;
+                      }
+                      setShowLoading(true);
+                      createCollection();
+                    }}
+                    sx={{
+                      width: "30%",
+                      mt: 2,
+                      backgroundColor: "#54A19A",
+                      color: "white!important",
+                      width: "100%",
+                      // On hover
+                      "&:hover": {
+                        backgroundColor: "#66B08A",
+                      },
+                    }}
+                  >
+                    Create
+                  </MDButton>
+                </MDBox>
+              </>
+            ) : (
               <MDBox
                 display="flex"
                 flexDirection="column"
-                width="30%"
-                minWidth="450px"
+                alignItems="center"
+                justifyContent="center"
+                height="100%"
               >
-                {/* Form with collection name */}
-                {/* Input */}
-                <MDInput
-                  label="Collection Name"
-                  placeholder="Enter collection name"
-                  onChange={(event) => {
-                    setCollectionName(event.target.value);
-                  }}
-                />
-                {/* Button */}
-                <MDButton
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => {
-                    setOpenModal(false);
-                    createCollection();
-                  }}
-                  sx={{ width: "30%", mt: 2 }}
+                <MDBox
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  height="100%"
                 >
-                  Create
-                </MDButton>
+                  <CircularProgress
+                    // BLue
+                    sx={{
+                      color: "#54A19A",
+                    }}
+                  />
+                  <MDTypography variant="h5" color="textSecondary" mt={2}>
+                    Creating Collection...
+                  </MDTypography>
+                </MDBox>
               </MDBox>
-            </MDBox>
+            )}
           </MDBox>
-        )
-      }
+        </MDBox>
+      )}
     </>
   );
 };

@@ -8,10 +8,9 @@ import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import STACJSON from "./components/STACJSON";
 
-const STACForm = ({ uploads, groupedFiles, files, groupedDownloads }) => {
+const STACForm = ({ uploads, groupedFiles, files, groupedDownloads, itemsMeta, setItemsMeta }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
-  const [itemsMeta, setItemsMeta] = useState({});
 
   const [loadingGDAL, setLoadingGDAL] = useState([]);
   const [loadedGDAL, setLoadedGDAL] = useState([]);
@@ -69,7 +68,7 @@ const STACForm = ({ uploads, groupedFiles, files, groupedDownloads }) => {
   const checkIfItemIsBeingLoaded = (item) => {
     if (groupedDownloads[item] && groupedLoadedGDAL[item]) {
       // Check that these two have the same amount of tiffs
-      // Grouped downloads tiff count
+
       const groupedLoadedGDALTiffCount = groupedLoadedGDAL[item].filter(
         (file) =>
           file.endsWith(".tif") ||
