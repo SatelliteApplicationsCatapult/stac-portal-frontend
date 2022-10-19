@@ -3,6 +3,14 @@ import format from "date-fns/format";
 import axios from "axios";
 
 export const retrieveAllCollections = async () => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
+  const response = await axios({ method: "GET", url: url });
+  const data = await response.data;
+  return data;
+};
+
+
+export const retrieveAllPublicCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
