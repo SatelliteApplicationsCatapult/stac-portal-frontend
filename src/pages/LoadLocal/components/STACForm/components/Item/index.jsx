@@ -17,7 +17,7 @@ const Item = ({ item, selectedMeta }) => {
           ) : (
             <div className="item__header__tick">
               {/* Loading */}
-              <Icon>hourglass_empty</Icon>
+              <Icon>done</Icon>
             </div>
           )}
 
@@ -47,7 +47,19 @@ const Item = ({ item, selectedMeta }) => {
                 selectedMeta[item.name] &&
                 selectedMeta[item.name].description && (
                   <MDTypography variant="body2" color="textSecondary">
-                    {selectedMeta[item.name].description}
+                    {/* If this starts with https, then make it a link */}
+                    {selectedMeta[item.name].description.startsWith("http") ? (
+                      <a
+                        href={selectedMeta[item.name].description}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ color: "inherit" }}
+                      >
+                        {selectedMeta[item.name].description}
+                      </a>
+                    ) : (
+                      selectedMeta[item.name].description
+                    )}
                   </MDTypography>
                 )}
             </div>

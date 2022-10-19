@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, Icon, TextField } from "@mui/material";
+import { Button, CircularProgress, Icon, TextField } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -19,6 +19,9 @@ import Dropzone from "./components/Dropzone";
 import CollectionSelect from "./components/CollectionSelect";
 import STACForm from "./components/STACForm";
 
+// Utils
+import { addItemsToCollection } from "interface/collections";
+
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [groupedFiles, setGroupedFiles] = useState();
@@ -27,9 +30,10 @@ const LoadLocal = () => {
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [itemsMeta, setItemsMeta] = useState({});
 
+  const [showLoading, setShowLoading] = useState(false);
+
   useEffect(() => {
     let filesGroupedByItemId = files.reduce((acc, file) => {
-      // if itemId is not undefined
       if (file.itemId) {
         acc[file.itemId] = acc[file.itemId] || [];
         acc[file.itemId].push(file);
@@ -40,9 +44,20 @@ const LoadLocal = () => {
     setGroupedFiles(filesGroupedByItemId);
   }, [files]);
 
-  const publish = () => {
-    console.log("Publishing", itemsMeta);
+  const publish = async () => {
+    setShowLoading(true);
+    await addItemsToCollection(selectedCollection, itemsMeta);
+    setShowLoading(false);
 
+    // Wait for 2 seconds and then redirect to collection
+    setTimeout(() => {
+      window.open(
+        `https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/${selectedCollection.id}`,
+        "_blank"
+      );
+    }, 1500);
+
+    // Navigate to https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/{collectionId} in new tab
   };
 
   return (
@@ -139,7 +154,10 @@ const LoadLocal = () => {
                     onClick={publish}
                     variant="contained"
                     color="primary"
-                    sx={{  color: "white!important" }}
+                    sx={{
+                      backgroundColor: "#54A19A",
+                      color: "white!important",
+                    }}
                   >
                     Publish All
                   </Button>
@@ -161,6 +179,51 @@ const LoadLocal = () => {
           </Grid>
         </Grid>
       </MDBox>
+
+      {/* Modal for loading */}
+      {showLoading && (
+        <MDBox
+          className="modal"
+          onClick={() => {
+            //setShowLoading(false);
+          }}
+        >
+          <MDBox
+            className="modal-content"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            {/* Loading */}
+            <MDBox
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              height="100%"
+            >
+              <MDBox
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                height="100%"
+              >
+                <CircularProgress
+                  // BLue
+                  sx={{
+                    color: "#54A19A",
+                  }}
+                />
+                <MDTypography variant="h5" color="textSecondary" mt={2}>
+                  Publishing...
+                </MDTypography>
+              </MDBox>
+            </MDBox>
+          </MDBox>
+        </MDBox>
+      )}
+
       <Footer />
     </DashboardLayout>
   );

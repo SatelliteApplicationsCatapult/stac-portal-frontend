@@ -3,7 +3,7 @@ import format from "date-fns/format";
 import axios from "axios";
 
 export const retrieveAllCollections = async () => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   return data;
@@ -74,16 +74,50 @@ export const runStoredSearchParamUpdate = async (storedSearchParamId) => {
   return data;
 };
 
-export const createNewCollection = async (collectionName) => {
-  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs`;
-  const req_body = {
-    name: collectionName,
+export const createNewCollection = async (collection) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
+
+  const collection_json = {
+    type: "Collection",
+    stac_version: "1.0.0",
+    id: collection.id,
+    description: collection.description,
+    title: collection.id,
+    license: "proprietary",
+    extent: {
+      spatial: {
+        bbox: [[-180, -90, 180, 90]],
+      },
+      temporal: {
+        interval: [["2020-01-01T00:00:00Z", "2022-12-31T23:59:59Z"]],
+      },
+    },
   };
   const response = await axios({
     method: "POST",
     url: url,
-    data: req_body,
+    data: collection_json,
   });
   const data = await response.data;
   return data;
+};
+
+export const addItemsToCollection = async (collection, items) => {
+  // POST /private_catalog/collections/{collection_id}/items/
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/${collection.id}/items/`;
+
+  // Loop through items object
+  Object.keys(items).forEach(async (key) => {
+    // Get the item
+    const item = items[key];
+
+    const response = await axios({
+      method: "POST",
+      url: url,
+      data: item.json,
+    });
+
+  });
+
+  return true;
 };
