@@ -20,7 +20,7 @@ import App from "./App";
 
 // STAC Portal Context Provider
 import { MaterialUIControllerProvider } from "context";
-import auth from "auth/auth";
+import {auth} from "auth/auth";
 auth();
 
 ReactDOM.render(
