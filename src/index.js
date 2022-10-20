@@ -4,7 +4,7 @@
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Copyright 2022  (https://www.creative-tim.com)
 
 Coded by www.creative-tim.com
 
@@ -20,6 +20,8 @@ import App from "./App";
 
 // STAC Portal Context Provider
 import { MaterialUIControllerProvider } from "context";
+import {auth} from "auth/auth";
+auth();
 
 ReactDOM.render(
   <BrowserRouter>

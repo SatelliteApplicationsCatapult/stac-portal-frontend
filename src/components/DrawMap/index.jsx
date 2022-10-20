@@ -10,10 +10,21 @@ import { Icon, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
+import axios from "axios";
 import "./map.scss";
 import { Stack, Box } from "@mui/system";
 import MDButton from "components/MDButton";
+
+const searchCollections = async (bbox, datetime) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search/`;
+  const collections = await axios({
+    method: "POST",
+    url: url,
+    data: { bbox: bbox, datetime: datetime },
+  });
+  const data = await collections.data;
+  return data;
+};
 
 const DrawMap = ({
   AOI,
@@ -22,6 +33,10 @@ const DrawMap = ({
   setStartDate,
   endDate,
   setEndDate,
+  publicCollections,
+  setPublicCollections,
+  downloadedCollections,
+  setDownloadedCollections,
 }) => {
   const [rectangleBounds, setRectangleBounds] = useState(null);
   const [showMap, setShowMap] = useState(true);
@@ -34,30 +49,10 @@ const DrawMap = ({
     const maxX = bounds._northEast.lng;
     const maxY = bounds._northEast.lat;
 
-    const aoi =
-      "POLYGON((" +
-      minX +
-      " " +
-      minY +
-      "," +
-      maxX +
-      " " +
-      minY +
-      "," +
-      maxX +
-      " " +
-      maxY +
-      "," +
-      minX +
-      " " +
-      maxY +
-      "," +
-      minX +
-      " " +
-      minY +
-      "))";
+    // Bbox is form [-1, 50, 1, 51]
+    const bbox = [minX, minY, maxX, maxY];
 
-    setAOI(aoi);
+    setAOI(bbox);
   };
 
   const handleDraw = (e) => {
@@ -67,34 +62,15 @@ const DrawMap = ({
     }, 100);
   };
 
-  const wktToArray = (wkt) => {
-    wkt = wkt.replace("POLYGON", "");
-    wkt = wkt.replace("((", "");
-    wkt = wkt.replace("))", "");
-    wkt = wkt.split(",");
-    let output = [];
-    wkt.forEach(function (e) {
-      let ring = [];
-      e = e.split(" ").reverse();
-      e.forEach(function (i) {
-        ring.push(parseFloat(i));
-      });
-      output.push(ring);
-    });
-
-    return output;
-  };
-
   const handleDelete = () => {
     setAOI("");
   };
 
   const handleMount = () => {
-
     // Check if there is already an AOI
     if (AOI) {
-      const aoi = wktToArray(AOI);
-      setRectangleBounds(aoi);
+      //const aoi = wktToArray(AOI);
+      //setRectangleBounds(aoi);
     }
     //
   };
@@ -110,7 +86,7 @@ const DrawMap = ({
             flexWrap="wrap"
           >
             <TextField
-              id="outlined-basic"
+              id="aoi"
               label="AOI"
               style={{ margin: 8, width: "50%" }}
               // If showMap is true then set placeholder to "Click to draw"
@@ -133,7 +109,7 @@ const DrawMap = ({
                   drawTool[0].click();
 
                   // Refoucs on AOI
-                  const aoi = document.getElementById("outlined-basic");
+                  const aoi = document.getElementById("aoi");
                   aoi.focus();
                 }
               }}
@@ -149,6 +125,8 @@ const DrawMap = ({
               <DatePicker
                 label="End Date"
                 value={endDate}
+                // allow time
+
                 onChange={(e) => setEndDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"
@@ -157,9 +135,46 @@ const DrawMap = ({
             <MDButton
               variant="contained"
               color="info"
-              onClick={() => {
+              onClick={async () => {
                 // Hide map
                 setShowMap(false);
+                let bbox = AOI;
+                let datetime = "";
+                if (startDate) {
+                  datetime += startDate.toISOString();
+                } else {
+                  datetime += "..";
+                }
+                datetime += "/";
+                if (endDate) {
+                  datetime += endDate.toISOString();
+                } else {
+                  datetime += "..";
+                }
+                //let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
+                let searchedCollections = await searchCollections(
+                  bbox,
+                  datetime
+                );
+
+                // flatten these into collections
+                if (searchedCollections && searchedCollections.length) {
+                  let allCollections = [];
+                  // Loop through these and
+                  searchedCollections.forEach((collection) => {
+                    if (
+                      collection.collections &&
+                      collection.collections.length
+                    ) {
+                      collection.collections.forEach((subCollection) => {
+                        subCollection.catalog = collection.catalog;
+                        allCollections.push(subCollection);
+                      });
+                    }
+                  });
+
+                  setPublicCollections(allCollections);
+                }
               }}
             >
               <Icon>search</Icon> Search

@@ -3,14 +3,24 @@ import { Circle } from "rc-progress";
 import { useItemProgressListener } from "@rpldy/uploady";
 import { useState, useEffect } from "react";
 import MDTypography from "components/MDTypography";
-import { useUploady, useBatchAddListener } from "@rpldy/uploady";
+import {
+  useUploady,
+  useBatchAddListener,
+  useRequestPreSend,
+} from "@rpldy/uploady";
 import "./style.scss";
 import { Icon } from "@mui/material";
 
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
-const UploadProgress = ({ files, setFiles }) => {
-  const [uploads, setUploads] = useState({});
+const UploadProgress = ({
+  files,
+  setFiles,
+  uploads,
+  setUploads,
+  groupedDownloads,
+  setGroupedDownloads,
+}) => {
   const [stagedItems, setStagedItems] = useState([]);
   const [toDownload, setToDownload] = useState([]);
 
@@ -19,26 +29,49 @@ const UploadProgress = ({ files, setFiles }) => {
 
   // Add staged items to state
   useBatchAddListener((batch) => {
-    console.log(`Batch added`);
     setStagedItems((items) => items.concat(batch.items));
+  });
+
+  useRequestPreSend(({ items, options }) => {
+    return Promise.resolve({
+      options: {
+        params: {
+          batchSize: items.length,
+          itemIds: items.map((item) => item.file.item),
+        },
+      },
+    });
   });
 
   // Validate files and check existance
   useEffect(() => {
-    console.log(`Launching Provider searching`);
     findProvider(stagedItems, setStagedItems, toDownload, setToDownload);
   }, [stagedItems]);
 
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
-      console.log(`Launching Upload`, toDownload);
       processPending(
         toDownload.map((file) => ({
           file: file.file,
-          url: `/api/upload?path=${file.path}`,
         }))
       );
+    }
+  }, [toDownload]);
+
+  useEffect(() => {
+    // Listen to toDownload and ensure that groupedDownloads is updated, but ensure no duplicates
+    if (toDownload.length > 0) {
+      let filesGroupedByItemId = toDownload.reduce((acc, file) => {
+        // if itemId is not undefined
+        if (file.file.item) {
+          acc[file.file.item] = acc[file.file.item] || [];
+          acc[file.file.item].push(file);
+        }
+        return acc;
+      }, {});
+
+      setGroupedDownloads(filesGroupedByItemId);
     }
   }, [toDownload]);
 
@@ -70,7 +103,29 @@ const UploadProgress = ({ files, setFiles }) => {
     }
   }
 
-  const entries = Object.entries(uploads);
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const objectEntries = Object.entries(uploads);
+    let allEntries = [];
+
+    // Loop through object ntries and make sure they're in toDownload array
+    objectEntries.forEach((entry) => {
+      const [key, value] = entry;
+      const file = value.name;
+
+      if (toDownload.length > 0) {
+        // found an element that path ends with file
+        const found = toDownload.find((element) => element.path.endsWith(file));
+        if (found) {
+          allEntries.push(entry);
+        }
+      }
+    });
+
+    setEntries(allEntries);
+    // Create entries from uploads
+  }, [uploads]);
 
   return (
     <>

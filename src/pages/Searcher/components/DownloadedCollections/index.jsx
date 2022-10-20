@@ -44,21 +44,24 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       header: "License",
       size: 100, //medium column
     },
-    {
-      accessorFn: (row) => {
-        // Access the providers and get the name. if there are more than 3, add a tooltip that shows the full list
-        const providers = row.providers.map((provider) => provider.name);
-        const shortenedProviders = providers.slice(0, 3);
-        const tooltipText = providers.join(", ");
-        return (
-          <CustomWidthTooltip title={tooltipText}>
-            <div>{shortenedProviders.join(", ")}</div>
-          </CustomWidthTooltip>
-        );
-      },
-      header: "Providers",
-      size: 180, //medium column
-    },
+    // {
+    //   accessorFn: (row) => {
+    //     // Access the providers and get the name. if there are more than 3, add a tooltip that shows the full list
+    //     let providers = "";
+    //     try {
+    //       providers = row.providers.map((provider) => provider.name);
+    //     } catch {}
+    //     const shortenedProviders = providers.slice(0, 3);
+    //     const tooltipText = providers.join(", ");
+    //     return (
+    //       <CustomWidthTooltip title={tooltipText}>
+    //         <div>{shortenedProviders.join(", ")}</div>
+    //       </CustomWidthTooltip>
+    //     );
+    //   },
+    //   header: "Providers",
+    //   size: 180, //medium column
+    // },
     {
       accessorKey: "stac_version",
       header: "STAC Version",
@@ -69,7 +72,6 @@ const DownloadedCollections = ({ collections, setCollections }) => {
     "Title",
     "Description",
     "License",
-    "Providers",
     "stac_version",
   ];
 
@@ -80,23 +82,6 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       columnOrder={columnOrder}
       data={collections}
       title="Collections"
-      // Button
-      toolbarButtons={[
-        {
-          label: "Public Collections",
-          onCustomClick: () => {
-            setCollections([]);
-          },
-          icon: "public",
-        },
-        {
-          label: "Downloaded Collections",
-          onCustomClick: () => {
-            setCollections([]);
-          },
-          icon: "lock",
-        },
-      ]}
       rowsPerPage={20}
     />
   );

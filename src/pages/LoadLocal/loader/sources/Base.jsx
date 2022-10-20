@@ -2,10 +2,12 @@
 // This is the base class that will be extended by the other sources
 
 export default class Base {
-  constructor() {
+  constructor(stagedItems = null, setStagedItems = null) {
+    this._stagedItems = stagedItems;
+    this._setStagedItems = setStagedItems;
+    this._files = null;
     this._manifestFile = null;
     this._manifestJSON = null;
-    this._files = null;
     this._filesToDownload = null;
   }
 
@@ -28,10 +30,21 @@ export default class Base {
       reader.onerror = reject;
     });
 
-    this._manifestJSON = JSON.parse(manifestData);
+    // If its a JSON file, parse it
+    if (manifest.file.name.endsWith(".json")) {
+      this._manifestJSON = JSON.parse(manifestData);
+    }
+
+    // If its an XML file, parse it
+    if (manifest.file.name.endsWith(".xml")) {
+      const parser = new DOMParser();
+      this._manifestJSON = parser.parseFromString(manifestData, "text/xml");
+    }
+
     await this.parseManifest();
 
-    console.log('this._filesToDownload', this._filesToDownload);
+    // Find file index of manifest file
+    this.findManifestIndex();
   }
 
   // Parse the manifest file
@@ -42,5 +55,25 @@ export default class Base {
   // Automatically run checks when the class is instantiated
   async runChecks() {
     await this.checkForManifest();
+  }
+
+  async findManifestIndex() {
+    const manifestIndex = this._files.findIndex(
+      (file) => file.file.name === this._manifestFile
+    );
+
+    if (manifestIndex !== -1) {
+      this._files.splice(manifestIndex, 1);
+    }
+  }
+
+  async additionalMeta(files) {
+    return false;
+  }
+
+  _generateDownloadLink(item) {
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const endpoint = "/file/stac_assets/";
+    return `${BASE_URL}${endpoint}${item.name}/url`;
   }
 }

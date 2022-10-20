@@ -6,7 +6,7 @@ import { asUploadButton } from "@rpldy/upload-button";
 
 import "./style.scss";
 
-const Dropzone = ({ files, setFiles }) => {
+const Dropzone = ({ files, setFiles, uploads, setUploads, groupedDownloads, setGroupedDownloads}) => {
   const clickableDropZone = forwardRef((props, ref) => {
     const { onClick, ...buttonProps } = props;
 
@@ -46,10 +46,24 @@ const Dropzone = ({ files, setFiles }) => {
   return (
     <Uploady
       autoUpload={false}
-      destination={{ url: "http://localhost:5000/file/upload" }}
+      destination={{
+        url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
+        grouped: true,
+      }}
+      multiple={true}
+      maxRetries={2}
+      maxFiles={99999}
+
     >
       <DropZoneButton />
-      <UploadProgress files={files} setFiles={setFiles} />
+      <UploadProgress
+        files={files}
+        setFiles={setFiles}
+        uploads={uploads}
+        setUploads={setUploads}
+        groupedDownloads={groupedDownloads}
+        setGroupedDownloads={setGroupedDownloads}
+      />
     </Uploady>
   );
 };
