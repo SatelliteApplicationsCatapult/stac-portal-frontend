@@ -21,7 +21,6 @@ import STACForm from "./components/STACForm";
 
 // Utils
 import { addItemsToCollection } from "interface/collections";
-import { getAADToken } from "auth/auth";
 
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
@@ -32,14 +31,6 @@ const LoadLocal = () => {
   const [itemsMeta, setItemsMeta] = useState({});
 
   const [showLoading, setShowLoading] = useState(false);
-
-  useEffect(() => {
-    const getToken = async () => {
-      const AADToken = await getAADToken();
-      console.log("AADToken", AADToken);
-    };
-    getToken();
-  });
 
   useEffect(() => {
     let filesGroupedByItemId = files.reduce((acc, file) => {
