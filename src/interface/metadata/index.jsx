@@ -1,5 +1,7 @@
 import { Planet } from "./sources/Planet";
 import { Maxar } from "./sources/Maxar";
+// Axios
+import axios from "axios";
 export class GenerateSTAC {
   constructor(metadata) {
     // Set metadata to a copy
@@ -147,16 +149,21 @@ export class GenerateSTAC {
   async sendToSTAC() {
     console.log("Sending to STAC");
     let url = process.env.REACT_APP_BACKEND_URL;
-    const response = await fetch(url + "/stac_generator/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+
+    // Rewrite to use axios
+    const response = await axios.post(
+      url + "/stac_generator/",
+      {
         metadata: this.generatePayload(),
-      }),
-    });
-    const json = await response.json();
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const json = await response.data;
 
     console.log("Success:", JSON.stringify(json));
 
