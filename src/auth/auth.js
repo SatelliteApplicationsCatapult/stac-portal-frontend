@@ -30,7 +30,11 @@ const getAADToken = async () => {
   } catch (e) {
     console.log("Error fetching AAD token:", e);
   }
-  window.location.href = "/.auth/login/aad";
+
+  // Test to see if we even need to navigate user
+  await axios.get("/.auth/login/aad");
+
+  // window.location.href = "/.auth/login/aad";
   return null;
 };
 
