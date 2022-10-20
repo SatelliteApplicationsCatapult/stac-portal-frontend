@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag stacpdadev.azurecr.io/stac-portal-frontend:latest
+        run: docker build . --file Dockerfile_prod --tag stacpdadev.azurecr.io/stac-portal-frontend:latest
       - name: Log in to the Docker Hub registry
         run: echo "${{ secrets.DOCKERPASSWORD }}" | docker login stacpdadev.azurecr.io -u "${{ secrets.DOCKERUSERNAME }}" --password-stdin
       - name: Push the Docker image to Docker Hub
