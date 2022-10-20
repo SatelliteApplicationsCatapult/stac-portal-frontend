@@ -147,8 +147,7 @@ export class GenerateSTAC {
   }
 
   async sendToSTAC() {
-    console.log("Sending to STAC");
-    let url = process.env.REACT_APP_BACKEND_URL;
+    let url = process.env.REACT_APP_PORTAL_BACKEND_URL;
 
     // Rewrite to use axios
     const response = await axios.post(

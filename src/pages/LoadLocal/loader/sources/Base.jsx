@@ -72,7 +72,7 @@ export default class Base {
   }
 
   _generateDownloadLink(item) {
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const BASE_URL = process.env.REACT_APP_PORTAL_BACKEND_URL;
     const endpoint = "/file/stac_assets/";
     return `${BASE_URL}${endpoint}${item.name}/url/`;
   }
