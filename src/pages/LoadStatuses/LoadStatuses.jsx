@@ -65,29 +65,46 @@ const LoadStatuses = () => {
         return row.newly_stored_items_count;
       },
       header: "# New \nItems",
-      size: 10
+      size: 10,
     },
     {
       accessorFn: (row) => {
         return row.updated_items_count;
       },
       header: "# Updated Items",
-      size: 10
+      size: 10,
     },
     {
       accessorFn: (row) => {
         return row.newly_stored_collections.join(", ");
       },
       header: "New Collections",
-      size: 100
+      size: 100,
     },
     {
       accessorFn: (row) => {
         return row.updated_collections.join(", ");
       },
       header: "Updated Collections",
-      size: 100
-    }
+      size: 100,
+    },
+    {
+      accessorFn: (row) => {
+        if (row.error_message) {
+          const errorUrl = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/status_reporting/loading_public_stac_records/${row.id}/`;
+          return (
+            <>
+              <a href={errorUrl} target="_blank" rel="noreferrer">
+                See Error
+              </a>
+            </>
+          );
+        }
+        return "No Error";
+      },
+      header: "Error Message",
+      size: 100,
+    },
   ]);
   const columnOrder = ["Catalog"];
   return (
