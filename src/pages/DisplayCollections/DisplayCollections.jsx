@@ -17,6 +17,8 @@ import Table from "components/Table";
 import {
   retrieveAllPublicCollections,
   retrieveAllPrivateCollections,
+  deletePublicCollection,
+  deletePrivateCollection,
 } from "interface/collections";
 import MDButton from "components/MDButton";
 
@@ -56,6 +58,10 @@ const DisplayCollections = () => {
     },
     {
       accessorFn: (row) => {
+        // if row.description is longer than 80 chars then truncate it and add ...
+        if (row.description.length > 80) {
+          return row.description.substring(0, 80) + "...";
+        }
         return row.description;
       },
       header: "Description",
@@ -80,9 +86,21 @@ const DisplayCollections = () => {
   const privateTableMemo = [
     {
       accessorFn: (row) => {
-        // return a button
         return (
-          <MDButton color="error" onClick={() => console.log("clicked")}>
+          <MDButton
+            color="error"
+            onClick={async () => {
+              // ask the user are they sure they want to delete
+              let confirmation = window.confirm(
+                `Are you sure you want to delete ${row.id} collection?`
+              );
+              if (confirmation) {
+                await deletePrivateCollection(row.id);
+                let privateCollections = await retrieveAllPrivateCollections();
+                setprivateCollections(privateCollections);
+              }
+            }}
+          >
             Delete
           </MDButton>
         );
@@ -96,7 +114,20 @@ const DisplayCollections = () => {
     {
       accessorFn: (row) => {
         return (
-          <MDButton color="error" onClick={() => console.log("clicked")}>
+          <MDButton
+            color="error"
+            onClick={async () => {
+              // ask the user are they sure they want to delete
+              let confirmation = window.confirm(
+                `Are you sure you want to delete ${row.id} collection?`
+              );
+              if (confirmation) {
+                await deletePublicCollection(row.parent_catalog, row.id);
+                let publicCollections = await retrieveAllPublicCollections();
+                setpublicCollections(publicCollections);
+              }
+            }}
+          >
             Delete
           </MDButton>
         );
