@@ -158,6 +158,7 @@ const LoadLocal = () => {
                       backgroundColor: "#54A19A",
                       color: "white!important",
                     }}
+                    disabled={!selectedCollection}
                   >
                     Publish All
                   </Button>

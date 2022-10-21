@@ -90,8 +90,8 @@ const Dropzone = ({
           Authorization: AADToken,
         },
       }}
-      multiple={true}
-      maxRetries={2}
+      grouped={false}
+      batchSize={1}
       maxFiles={99999}
     >
       <DropZoneButton />
