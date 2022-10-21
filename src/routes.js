@@ -37,6 +37,7 @@ import LoadLocal from "pages/LoadLocal/LoadLocal";
 import Searcher from "pages/Searcher/Searcher";
 import Updater from "pages/Updater/Updater";
 import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
+import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -52,6 +53,14 @@ const routes = [
   {
     type: "title",
     title: "Manager",
+  },
+  {
+    type: "collapse",
+    name: "Collections",
+    key: "collections",
+    icon: <Icon fontSize="small">collections</Icon>,
+    route: "/collections",
+    component: <DisplayCollections />,
   },
   {
     type: "collapse",
