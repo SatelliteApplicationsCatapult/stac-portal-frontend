@@ -4,7 +4,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
 import {
-  retrieveAllPublicCollections,
+  retrieveAllPrivateCollections,
   createNewCollection,
 } from "interface/collections";
 import { useState, useEffect } from "react";
@@ -24,7 +24,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
 
   useEffect(() => {
     const getCollections = async () => {
-      const allCollections = await retrieveAllPublicCollections();
+      const allCollections = await retrieveAllPrivateCollections();
       const collectionsFormatted = allCollections.map((collection, index) => {
         return {
           label: collection.id,
@@ -40,7 +40,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
     await createNewCollection(newCollection);
 
     // Get new collections
-    const allCollections = await retrieveAllPublicCollections();
+    const allCollections = await retrieveAllPrivateCollections();
     const collectionsFormatted = allCollections.map((collection, index) => {
       return {
         label: collection.id,
