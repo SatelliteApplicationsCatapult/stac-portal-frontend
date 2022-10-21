@@ -38,7 +38,7 @@ import Searcher from "pages/Searcher/Searcher";
 import Updater from "pages/Updater/Updater";
 import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
-
+import PublicCatalogs from "pages/PublicCatalogs/PublicCatalogs";
 // @mui icons
 import Icon from "@mui/material/Icon";
 const routes = [
@@ -85,6 +85,14 @@ const routes = [
     icon: <Icon fontSize="small">cloud_download</Icon>,
     route: "/load-operations",
     component: <LoadStatuses />,
+  },
+  {
+    type: "collapse",
+    name: "Public Catalogs",
+    key: "public-catalogs",
+    icon: <Icon fontSize="small">cloud_download</Icon>,
+    route: "/public-catalogs",
+    component: <PublicCatalogs />,
   },
   {
     type: "title",
