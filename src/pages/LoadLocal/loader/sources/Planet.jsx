@@ -1,4 +1,5 @@
 import Base from "./Base";
+import axios from "axios";
 
 export default class PlanetGenerator extends Base {
   constructor() {
@@ -43,8 +44,8 @@ export default class PlanetGenerator extends Base {
     }
 
     const downloadLink = this._generateDownloadLink(metadataFiles[0]);
-    const response = await fetch(downloadLink);
-    this._additionalMeta = await response.json();
+    const response = await axios.get(downloadLink);
+    this._additionalMeta = await response.data;
 
     return this._parseAdditionalMeta();
   }

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const returnTiffMeta = async (fileName) => {
   // Ensure that file is an image TIF/png/jpeg etc. by converting to lowerase first
   const fileExtension = fileName.split(".").pop().toLowerCase();
@@ -14,17 +16,19 @@ export const returnTiffMeta = async (fileName) => {
   fileName =
     "https://ctpltstacstrgdev.blob.core.windows.net/stac-items/" + fileName;
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+  const response = await axios.post(
+    url,
+    {
       file_url: fileName,
-    }),
-  });
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-  const data = await response.json();
+  const data = await response.data;
 
   return data;
 };

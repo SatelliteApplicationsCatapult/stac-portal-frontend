@@ -9,13 +9,36 @@ export const retrieveAllCollections = async () => {
   return data;
 };
 
-
 export const retrieveAllPublicCollections = async () => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/`;
+  const response = await axios({ method: "GET", url: url });
+  const data = await response.data;
+  return data;
+};
+
+export const retrieveAllPrivateCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
   return data;
 };
+
+export const deletePublicCollection = async (
+  publicCatalogId,
+  publicCollectionId
+) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/${publicCatalogId}/collections/${publicCollectionId}/`;
+  const response = await axios({ method: "DELETE", url: url });
+  const data = await response.data;
+  return data;
+};
+
+export const deletePrivateCollection = async (privateCollectionId) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/${privateCollectionId}/`;
+  const response = await axios({ method: "DELETE", url: url });
+  const data = await response.data;
+  return data;
+}
 
 export const callSelectiveIngester = async (
   parentCatalogId,
@@ -124,7 +147,6 @@ export const addItemsToCollection = async (collection, items) => {
       url: url,
       data: item.json,
     });
-
   });
 
   return true;
