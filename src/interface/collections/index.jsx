@@ -1,6 +1,7 @@
 // import auth from src/auth
 import format from "date-fns/format";
 import axios from "axios";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 export const retrieveAllCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
@@ -38,7 +39,7 @@ export const deletePrivateCollection = async (privateCollectionId) => {
   const response = await axios({ method: "DELETE", url: url });
   const data = await response.data;
   return data;
-}
+};
 
 export const callSelectiveIngester = async (
   parentCatalogId,
@@ -150,4 +151,14 @@ export const addItemsToCollection = async (collection, items) => {
   });
 
   return true;
+};
+
+export const isCollectionPrivate = (collectionId, collections) => {
+  for (let i = 0; i < collections.length; i++) {
+    let collection = collections[i];
+    if (collection.id === collectionId) {
+      return true;
+    }
+  }
+  return false;
 };

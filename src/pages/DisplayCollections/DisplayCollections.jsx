@@ -18,6 +18,7 @@ import {
   retrieveAllPrivateCollections,
   deletePrivateCollection,
   retrieveAllCollections,
+  isCollectionPrivate,
 } from "interface/collections";
 import MDButton from "components/MDButton";
 
@@ -29,7 +30,17 @@ const DisplayCollections = () => {
     async function getCollections() {
       let privateCollections = await retrieveAllPrivateCollections();
       let collectionsOnStac = await retrieveAllCollections();
-      console.log("Collections on STAC", collectionsOnStac);
+      for (let i = 0; i < collectionsOnStac.collections.length; i++) {
+        const isPrivate = isCollectionPrivate(
+          collectionsOnStac.collections[i].id,
+          privateCollections
+        );
+        if (isPrivate === true) {
+          collectionsOnStac.collections[i].isPrivate = true;
+        } else {
+          collectionsOnStac.collections[i].isPrivate = false;
+        }
+      }
       setPrivateCollections(privateCollections);
       setDownloadedCollections(collectionsOnStac.collections);
     }
@@ -105,7 +116,6 @@ const DisplayCollections = () => {
     },
   ];
 
-
   Array.prototype.push.apply(privateTableMemo, genericTableMemo);
   const paramsColumnsPrivate = useMemo(() => privateTableMemo);
   //get the list of header names from genericTableMemo
@@ -124,21 +134,7 @@ const DisplayCollections = () => {
             </Card>
           </Grid>
           <Grid item xs={12}>
-          <DownloadedCollections
-                      collections={downloadedCollections}
-                    />
-          </Grid>
-          <Grid item xs={12}>
-            <h5>Private Collections</h5>
-            <Table
-              columns={paramsColumnsPrivate}
-              gray
-              columnOrder={privateCollectionsTableColumnOrder}
-              data={privateCollections}
-              rowClickAction={(row, table) => {}}
-              rowsPerPage={20}
-              title="Private Collections"
-            />
+            <DownloadedCollections collections={downloadedCollections} />
           </Grid>
         </Grid>
       </MDBox>

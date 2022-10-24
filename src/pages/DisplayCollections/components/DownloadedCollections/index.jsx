@@ -20,6 +20,17 @@ const DownloadedCollections = ({ collections, setCollections }) => {
     },
     {
       accessorFn: (row) => {
+        const isPrivate = row.isPrivate;
+        if (isPrivate === true) {
+          return "Private collection";
+        }
+        return "Public collection";
+      },
+      header: "Type",
+      size: 100,
+    },
+    {
+      accessorFn: (row) => {
         // Add a tooltip that shows the full description
         return (
           <CustomWidthTooltip
@@ -45,24 +56,6 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       header: "License",
       size: 100, //medium column
     },
-    // {
-    //   accessorFn: (row) => {
-    //     // Access the providers and get the name. if there are more than 3, add a tooltip that shows the full list
-    //     let providers = "";
-    //     try {
-    //       providers = row.providers.map((provider) => provider.name);
-    //     } catch {}
-    //     const shortenedProviders = providers.slice(0, 3);
-    //     const tooltipText = providers.join(", ");
-    //     return (
-    //       <CustomWidthTooltip title={tooltipText}>
-    //         <div>{shortenedProviders.join(", ")}</div>
-    //       </CustomWidthTooltip>
-    //     );
-    //   },
-    //   header: "Providers",
-    //   size: 180, //medium column
-    // },
     {
       accessorKey: "stac_version",
       header: "STAC Version",
@@ -71,6 +64,7 @@ const DownloadedCollections = ({ collections, setCollections }) => {
   ]);
   const columnOrder = [
     "Title",
+    "Type",
     "Description",
     "License",
     "stac_version",
