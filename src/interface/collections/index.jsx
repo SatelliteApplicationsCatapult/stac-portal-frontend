@@ -1,7 +1,6 @@
 // import auth from src/auth
 import format from "date-fns/format";
 import axios from "axios";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 export const retrieveAllCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;

@@ -1,21 +1,13 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
-// STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-// Map
 import DrawMap from "../../components/DrawMap";
-// Table
-import Tabs from "components/Tabs";
-
 import PublicCollections from "./components/PublicCollections";
-
 import { retrieveAllCollections } from "interface/collections";
-import { Card } from "@mui/material";
 
 const Searcher = () => {
   const [AOI, setAOI] = useState("");
