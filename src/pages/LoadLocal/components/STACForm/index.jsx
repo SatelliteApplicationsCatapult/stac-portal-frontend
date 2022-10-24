@@ -26,13 +26,30 @@ const STACForm = ({
   const [alreadyLoadedAdditionalMeta, setAlreadyLoadedAdditionalMeta] =
     useState([]);
 
+  // const isItemStillBeingDownloaded = (filename) => {
+  //   // Uploads is a dictionary of batches, loop through and find name that matches filename
+  //   let relatedItemBatchProgress;
+  //   for (const batch in uploads) {
+  //     const batchItem = uploads[batch];
+  //     if (batchItem.name === filename) {
+  //       relatedItemBatchProgress = batchItem.progress;
+  //     }
+  //   }
+
+  //   if (!relatedItemBatchProgress.includes(100)) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
+
   useEffect(() => {
     if (groupedFiles) {
       Object.keys(groupedFiles).forEach(async (key) => {
         await groupedFiles[key].forEach(async (file) => {
           if (
             !loadingGDAL.includes(file.name) &&
-            !loadedGDAL.includes(file.name)
+            !loadedGDAL.includes(file.name) 
+            // !isItemStillBeingDownloaded(file.name)
           ) {
             setLoadingGDAL((prev) => [...prev, file.name]);
 
@@ -80,7 +97,6 @@ const STACForm = ({
               });
             }
 
-
             setLoadedGDAL((prev) => [...prev, file.name]);
             setGroupedLoadedGDAL((prev) => ({
               ...prev,
@@ -104,7 +120,6 @@ const STACForm = ({
             }));
           }
         }
-
       });
     }
   }, [groupedFiles]);
