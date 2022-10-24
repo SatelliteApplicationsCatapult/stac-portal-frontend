@@ -1,5 +1,5 @@
 import { Circle } from "rc-progress";
-
+import axios from "axios";
 import { useItemProgressListener } from "@rpldy/uploady";
 import { useState, useEffect } from "react";
 import MDTypography from "components/MDTypography";
@@ -32,13 +32,19 @@ const UploadProgress = ({
     setStagedItems((items) => items.concat(batch.items));
   });
 
-  useRequestPreSend(({ items, options }) => {
+  useRequestPreSend(async ({ items, options }) => {
+    const filename = items[0].file.name;
+
+    const sasToken = await axios.get(
+      `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/sas_token/${filename}/`
+    );
+
     return Promise.resolve({
       options: {
-        params: {
-          batchSize: items.length,
-          itemIds: items.map((item) => item.file.item),
+        destination: {
+          url: sasToken.data.endpoint,
         },
+        method: "PUT",
       },
     });
   });
@@ -51,11 +57,7 @@ const UploadProgress = ({
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
-      processPending(
-        toDownload.map((file) => ({
-          file: file.file,
-        }))
-      );
+      processPending();
     }
   }, [toDownload]);
 

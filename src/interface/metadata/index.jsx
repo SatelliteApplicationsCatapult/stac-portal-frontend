@@ -21,12 +21,14 @@ export class GenerateSTAC {
       wgs84_geom: [],
     };
     this.assets = [];
+    this.otherAssets = [];
     this.additional = {};
     this.stacJSON = {};
     this.sources = [new Planet(), new Maxar()];
   }
 
   async generate() {
+    console.log("Metadata", this.metadata);
     this.cleanMetadata();
 
     this.parseGroupedVariables();
@@ -143,6 +145,7 @@ export class GenerateSTAC {
       additional: this.additional,
       groupedVariables: this.groupedVariables,
       staticVariables: this.staticVariables,
+      otherAssets: this.otherAssets,
     };
   }
 
@@ -179,6 +182,11 @@ export class GenerateSTAC {
     if (this.metadata.additional) {
       this.additional = this.metadata.additional;
       // delete this.metadata.additional;
+    }
+
+    if (this.metadata.otherAssets) {
+      this.otherAssets = this.metadata.otherAssets;
+      // delete this.metadata.otherAssets;
     }
 
     // Remove non tiffs or tifs
