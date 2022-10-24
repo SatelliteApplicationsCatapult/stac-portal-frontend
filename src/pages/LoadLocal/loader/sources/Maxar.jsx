@@ -1,5 +1,5 @@
 import Base from "./Base";
-import axios from 'axios';
+import axios from "axios";
 
 export default class MaxarGenerator extends Base {
   constructor() {
@@ -12,8 +12,6 @@ export default class MaxarGenerator extends Base {
 
   async parseManifest() {
     // Get the files array
-
-    // Get all tags of <productFile>
     const files = this._manifestJSON.getElementsByTagName("productFile");
 
     this.findItemID();
@@ -32,9 +30,9 @@ export default class MaxarGenerator extends Base {
         path: filePath,
       };
     });
+
   }
 
-  // TODO: This is a hack to get the metadata.json file
   async additionalMeta(files) {
     const metadataFiles = files.filter((file) =>
       file.name.endsWith("README.XML")
@@ -47,7 +45,15 @@ export default class MaxarGenerator extends Base {
     const downloadLink = this._generateDownloadLink(metadataFiles[0]);
     const response = await axios.get(downloadLink);
 
+    const secondDownloadLink = this._generateDownloadLink({
+      name: this._manifestFile,
+    });
+    const secondResponse = await axios.get(secondDownloadLink);
+
     this._additionalMeta = await response.data;
+
+    // Also add second response to additional meta
+    this._additionalMeta.message.delivery = await secondResponse.data;
 
     return this._parseAdditionalMeta();
   }

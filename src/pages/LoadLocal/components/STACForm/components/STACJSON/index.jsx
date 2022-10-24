@@ -46,7 +46,7 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
 
   return (
     <>
-      <input
+      {/* <input
         type="button"
         value="Generate STAC"
         style={{
@@ -73,7 +73,7 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
             },
           }));
         }}
-      />
+      /> */}
       <MDBox>
         <TextField
           fullWidth
