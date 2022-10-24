@@ -32,7 +32,7 @@ const Item = ({ item, selectedMeta }) => {
             {item.name}
           </MDTypography>
         </div>
-        {showInfo && (
+        {showInfo && selectedMeta[item.name] && selectedMeta[item.name].bands && (
           <div className="item__body">
             <div className="item__body__col">
               <MDTypography

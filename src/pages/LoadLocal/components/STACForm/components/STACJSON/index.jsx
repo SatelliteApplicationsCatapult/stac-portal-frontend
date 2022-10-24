@@ -10,17 +10,19 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
       const stac = new GenerateSTAC(itemsMeta[selectedItem]);
       const json = await stac.generate();
 
-      // Update the itemsMeta
-      itemsMeta[selectedItem].json = json;
+      if (json) {
+        // Update the itemsMeta
+        itemsMeta[selectedItem].json = json;
 
-      // Update the state
-      setItemsMeta((prev) => ({
-        ...prev,
-        [selectedItem]: {
-          ...prev[selectedItem],
-          json: json,
-        },
-      }));
+        // Update the state
+        setItemsMeta((prev) => ({
+          ...prev,
+          [selectedItem]: {
+            ...prev[selectedItem],
+            json: json,
+          },
+        }));
+      }
     };
 
     if (itemsMeta[selectedItem]) {
@@ -28,12 +30,13 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
         return;
       }
 
-
       setItemsMeta((prev) => ({
         ...prev,
         [selectedItem]: {
           ...prev[selectedItem],
-          json: {},
+          json: {
+            status: 'Generating STAC JSON...',
+          },
         },
       }));
 
@@ -43,7 +46,7 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
 
   return (
     <>
-      {/* <input
+      <input
         type="button"
         value="Generate STAC"
         style={{
@@ -66,11 +69,11 @@ const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
             ...prev,
             [selectedItem]: {
               ...prev[selectedItem],
-              stac: json,
+              json: json,
             },
           }));
         }}
-      /> */}
+      />
       <MDBox>
         <TextField
           fullWidth
