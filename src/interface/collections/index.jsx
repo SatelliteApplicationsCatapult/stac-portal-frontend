@@ -38,7 +38,7 @@ export const deletePrivateCollection = async (privateCollectionId) => {
   const response = await axios({ method: "DELETE", url: url });
   const data = await response.data;
   return data;
-}
+};
 
 export const callSelectiveIngester = async (
   parentCatalogId,
@@ -150,4 +150,14 @@ export const addItemsToCollection = async (collection, items) => {
   });
 
   return true;
+};
+
+export const isCollectionPrivate = (collectionId, collections) => {
+  for (let i = 0; i < collections.length; i++) {
+    let collection = collections[i];
+    if (collection.id === collectionId) {
+      return true;
+    }
+  }
+  return false;
 };

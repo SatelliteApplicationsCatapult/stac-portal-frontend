@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 ENV REACT_APP_PORTAL_BACKEND_URL=https://ctplt-pda-rg-dev-stac-portal-backend.azurewebsites.net
-
+ENV REACT_APP_PORTAL_STAC_API_BROWSER_URL=https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net
 RUN npm run build
 
 # Build step #2: build an nginx container

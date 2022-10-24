@@ -56,10 +56,10 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Collections",
-    key: "collections",
+    name: "My Catalog",
+    key: "mycatalog",
     icon: <Icon fontSize="small">collections</Icon>,
-    route: "/collections",
+    route: "/my-catalog",
     component: <DisplayCollections />,
   },
   {
@@ -80,10 +80,10 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Load Operations",
-    key: "load-operations",
-    icon: <Icon fontSize="small">cloud_download</Icon>,
-    route: "/load-operations",
+    name: "Load Status",
+    key: "load-status",
+    icon: <Icon fontSize="small">cloud_sync</Icon>,
+    route: "/load-status",
     component: <LoadStatuses />,
   },
   {
