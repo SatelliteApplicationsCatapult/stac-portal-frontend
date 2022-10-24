@@ -1,22 +1,13 @@
 import React, { useMemo, useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-// STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
-// STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-// Map
 import DrawMap from "../../components/DrawMap";
-// Table
-import Tabs from "components/Tabs";
-
-import DownloadedCollections from "./components/DownloadedCollections";
 import PublicCollections from "./components/PublicCollections";
-
 import { retrieveAllCollections } from "interface/collections";
-import { Card } from "@mui/material";
 
 const Searcher = () => {
   const [AOI, setAOI] = useState("");
@@ -49,8 +40,6 @@ const Searcher = () => {
             </MDTypography>
           </Grid>
 
-
-
           <Grid item xs={12}>
             <MDBox>
               <DrawMap
@@ -69,34 +58,16 @@ const Searcher = () => {
             </MDBox>
           </Grid>
           <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Tabs
-              tabs={[
-                {
-                  label: "Downloaded Collections",
-                  component: (
-                    <DownloadedCollections
-                      collections={downloadedCollections}
-                      setCollections={setDownloadedCollections}
-                    />
-                  ),
-                },
-                {
-                  label: "Public Collections",
-                  component: (
-                    <PublicCollections
-                      collections={publicCollections}
-                      setCollections={setPublicCollections}
-                      AOI={AOI}
-                      startDate={startDate}
-                      endDate={endDate}
-                      rowClickAction={(row, table) => {}}
-                    />
-                  ),
-                },
-              ]}
-            />
-          </Grid>
+            <Grid item xs={12}>
+              <PublicCollections
+                collections={publicCollections}
+                setCollections={setPublicCollections}
+                AOI={AOI}
+                startDate={startDate}
+                endDate={endDate}
+                rowClickAction={(row, table) => {}}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </MDBox>

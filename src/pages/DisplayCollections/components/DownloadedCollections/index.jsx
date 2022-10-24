@@ -3,9 +3,13 @@ import React, { useMemo, useState, useEffect } from "react";
 import Table from "components/Table";
 // Interface
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-import MDBox from "components/MDBox";
-
+import MDButton from "components/MDButton";
 import { shortenDescription } from "../TableUtils";
+import {
+  deletePrivateCollection,
+  deletePublicCollection,
+} from "interface/collections";
+import { retrieveAllCollections } from "interface/collections";
 
 const DownloadedCollections = ({ collections, setCollections }) => {
   // Table Columns
@@ -16,6 +20,14 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       },
       header: "Title",
       size: 200,
+    },
+    {
+      accessorFn: (row) => {
+        let isPublic = row.management_metadata.is_public;
+        return isPublic ? "Public collection" : "Private collection";
+      },
+      header: "Type",
+      size: 100,
     },
     {
       accessorFn: (row) => {
@@ -44,32 +56,46 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       header: "License",
       size: 100, //medium column
     },
-    // {
-    //   accessorFn: (row) => {
-    //     // Access the providers and get the name. if there are more than 3, add a tooltip that shows the full list
-    //     let providers = "";
-    //     try {
-    //       providers = row.providers.map((provider) => provider.name);
-    //     } catch {}
-    //     const shortenedProviders = providers.slice(0, 3);
-    //     const tooltipText = providers.join(", ");
-    //     return (
-    //       <CustomWidthTooltip title={tooltipText}>
-    //         <div>{shortenedProviders.join(", ")}</div>
-    //       </CustomWidthTooltip>
-    //     );
-    //   },
-    //   header: "Providers",
-    //   size: 180, //medium column
-    // },
     {
       accessorKey: "stac_version",
       header: "STAC Version",
       size: 20,
     },
+    {
+      accessorFn: (row) => {
+        return (
+          <MDButton
+            color="error"
+            onClick={async () => {
+              // ask the user are they sure they want to delete
+              let confirmation = window.confirm(
+                `Are you sure you want to delete ${row.id} collection?`
+              );
+              if (confirmation) {
+                if (row.management_metadata.is_public === false) {
+                  await deletePrivateCollection(row.id);
+                } else {
+                  await deletePublicCollection(
+                    row.management_metadata.parent_catalog_id,
+                    row.id
+                  );
+                }
+                let collectionsOnStac = await retrieveAllCollections();
+                setCollections(collectionsOnStac.collections);
+              }
+            }}
+          >
+            Delete
+          </MDButton>
+        );
+      },
+      header: "Delete",
+      size: 10,
+    },
   ]);
   const columnOrder = [
     "Title",
+    "Type",
     "Description",
     "License",
     "stac_version",
