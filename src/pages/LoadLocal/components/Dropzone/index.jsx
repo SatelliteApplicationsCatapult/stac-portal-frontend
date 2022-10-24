@@ -3,7 +3,6 @@ import Uploady from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import UploadProgress from "./components/UploadProgress";
 import { asUploadButton } from "@rpldy/upload-button";
-import { getAADToken } from "auth/auth";
 
 import "./style.scss";
 
@@ -51,47 +50,23 @@ const Dropzone = ({
 
   const DropZoneButton = asUploadButton(clickableDropZone);
 
-  const [AADToken, setAADToken] = useState("");
-
-  // Every 10 minutes, get new AAD Token
-  setInterval(async () => {
-    const AADToken12 = await getAADToken();
-    if (AADToken12) {
-      console.log("Got new AAD Token", AADToken12);
-      setAADToken(`Bearer ${AADToken12}`);
-    } else {
-      console.log("Could not get AAD Token");
-      setAADToken("Bearer localhost");
-    }
-  }, 600000);
-
-  // Get AAD Token on first load
-  useEffect(() => {
-    const getAADToken12 = async () => {
-      const AADToken12 = await getAADToken();
-      if (AADToken12) {
-        console.log("Got new AAD Token", AADToken12);
-        setAADToken(`Bearer ${AADToken12}`);
-      } else {
-        console.log("Could not get AAD Token");
-        setAADToken("Bearer localhost");
-      }
-    };
-    getAADToken12();
-  }, []);
-
   return (
     <Uploady
       autoUpload={false}
       destination={{
         url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
-        grouped: true,
+        grouped: false,
         headers: {
-          Authorization: AADToken,
+          "x-ms-blob-type": "BlockBlob",
+          "x-ms-blob-content-disposition": "attachment",
+          "content-type": "any",
         },
       }}
+      sendWithFormData={false}
       grouped={false}
       batchSize={1}
+      maxConcurrentUploads={1}
+      maxGroupSize={1}
       maxFiles={99999}
     >
       <DropZoneButton />

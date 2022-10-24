@@ -8,7 +8,14 @@ import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import STACJSON from "./components/STACJSON";
 
-const STACForm = ({ uploads, groupedFiles, files, groupedDownloads, itemsMeta, setItemsMeta }) => {
+const STACForm = ({
+  groupedFiles,
+  groupedDownloads,
+  itemsMeta,
+  setItemsMeta,
+  files,
+  uploads,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
 
@@ -22,21 +29,57 @@ const STACForm = ({ uploads, groupedFiles, files, groupedDownloads, itemsMeta, s
   useEffect(() => {
     if (groupedFiles) {
       Object.keys(groupedFiles).forEach(async (key) => {
-        groupedFiles[key].forEach(async (file) => {
+        await groupedFiles[key].forEach(async (file) => {
           if (
             !loadingGDAL.includes(file.name) &&
             !loadedGDAL.includes(file.name)
           ) {
             setLoadingGDAL((prev) => [...prev, file.name]);
 
-            const tiffMeta = await returnTiffMeta(file.name);
-            setItemsMeta((prev) => ({
-              ...prev,
-              [file.itemId]: {
-                ...prev[file.itemId],
-                [file.name]: tiffMeta,
-              },
-            }));
+            const fileExtension = file.name.split(".").pop().toLowerCase();
+            const allowedExtensions = ["tif", "tiff", "png", "jpg", "jpeg"];
+
+            if (allowedExtensions.includes(fileExtension)) {
+              const tiffMeta = await returnTiffMeta(file.name);
+              setItemsMeta((prev) => ({
+                ...prev,
+                [file.itemId]: {
+                  ...prev[file.itemId],
+                  [file.name]: tiffMeta,
+                },
+              }));
+            } else {
+              // Add the other files to the itemsMeta
+              groupedFiles[key].forEach((file) => {
+                // Push to a key called "otherAssets" array to the itemsMeta if it doesn't exist
+                if (!itemsMeta[file.itemId].otherAssets) {
+                  itemsMeta[file.itemId].otherAssets = [];
+                }
+                const fileMeta = {
+                  name: file.name,
+                  size: file.size,
+                  type: file.type,
+                };
+                // Push the file to the otherAssets array if it doesn't exist
+                if (
+                  !itemsMeta[file.itemId].otherAssets.find(
+                    (asset) => asset.name === file.name
+                  )
+                ) {
+                  itemsMeta[file.itemId].otherAssets.push(fileMeta);
+                }
+
+                // Set the itemsMeta
+                setItemsMeta((prev) => ({
+                  ...prev,
+                  [file.itemId]: {
+                    ...prev[file.itemId],
+                    otherAssets: itemsMeta[file.itemId].otherAssets,
+                  },
+                }));
+              });
+            }
+
 
             setLoadedGDAL((prev) => [...prev, file.name]);
             setGroupedLoadedGDAL((prev) => ({
@@ -61,14 +104,19 @@ const STACForm = ({ uploads, groupedFiles, files, groupedDownloads, itemsMeta, s
             }));
           }
         }
+
       });
     }
   }, [groupedFiles]);
 
   const checkIfItemIsBeingLoaded = (item) => {
     if (groupedDownloads[item] && groupedLoadedGDAL[item]) {
-      // Check that these two have the same amount of tiffs
+      // If groupedfiles and groupedDownloads are the same length, then we are done loading
+      if (groupedFiles[item].length !== groupedDownloads[item].length) {
+        return true;
+      }
 
+      // Check that these two have the same amount of tiffs
       const groupedLoadedGDALTiffCount = groupedLoadedGDAL[item].filter(
         (file) =>
           file.endsWith(".tif") ||
@@ -172,10 +220,8 @@ const STACForm = ({ uploads, groupedFiles, files, groupedDownloads, itemsMeta, s
                 </MDTypography>
                 <MDBox display="flex" alignItems="center">
                   <MDTypography variant="body2" mr={1}>
-                    {/* Check the loadingGDAL array, if it contains any of the files in the item, show a spinner */}
-                    {groupedFiles[key].some((file) =>
-                      loadingGDAL.includes(file.name)
-                    ) ? (
+                    {/* Check if item is being loaded */}
+                    {checkIfItemIsBeingLoaded(key) ? (
                       <Icon
                         sx={{
                           color: "rgb(17,159,154)",
