@@ -15,28 +15,18 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Table from "components/Table";
 
 import {
-  retrieveAllPublicCollections,
   retrieveAllPrivateCollections,
-  deletePublicCollection,
   deletePrivateCollection,
 } from "interface/collections";
 import MDButton from "components/MDButton";
 
 const DisplayCollections = () => {
   const [privateCollections, setprivateCollections] = useState([]);
-  const [publicCollections, setpublicCollections] = useState([]);
   useEffect(() => {
     async function getCollections() {
-      let publicCollections = await retrieveAllPublicCollections();
       let privateCollections = await retrieveAllPrivateCollections();
-      console.log("Public data 1", publicCollections[0]);
       console.log("Private data 1", privateCollections[0]);
       setprivateCollections(privateCollections);
-      setpublicCollections(publicCollections);
-      // let data = await retrieveAllCollections();
-      // console.log(data);
-      // setprivateCollections(data.private);
-      // setpublicCollections(data.public);
     }
     getCollections();
   }, []);
@@ -110,40 +100,12 @@ const DisplayCollections = () => {
     },
   ];
 
-  const publicTableMemo = [
-    {
-      accessorFn: (row) => {
-        return (
-          <MDButton
-            color="error"
-            onClick={async () => {
-              // ask the user are they sure they want to delete
-              let confirmation = window.confirm(
-                `Are you sure you want to delete ${row.id} collection?`
-              );
-              if (confirmation) {
-                await deletePublicCollection(row.parent_catalog, row.id);
-                let publicCollections = await retrieveAllPublicCollections();
-                setpublicCollections(publicCollections);
-              }
-            }}
-          >
-            Delete
-          </MDButton>
-        );
-      },
-      header: "Delete",
-      size: 10,
-    },
-  ];
+
   Array.prototype.push.apply(privateTableMemo, genericTableMemo);
-  Array.prototype.push.apply(publicTableMemo, genericTableMemo);
   const paramsColumnsPrivate = useMemo(() => privateTableMemo);
-  const paramsColumnsPublic = useMemo(() => publicTableMemo);
   //get the list of header names from genericTableMemo
   const headerNames = genericTableMemo.map((item) => item.header);
   const privateCollectionsTableColumnOrder = headerNames;
-  const publicCollectionsTableColumnOrder = headerNames;
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -166,18 +128,6 @@ const DisplayCollections = () => {
               rowClickAction={(row, table) => {}}
               rowsPerPage={20}
               title="Private Collections"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <h5>Public Collections</h5>
-            <Table
-              columns={paramsColumnsPublic}
-              gray
-              columnOrder={publicCollectionsTableColumnOrder}
-              data={publicCollections}
-              rowClickAction={(row, table) => {}}
-              rowsPerPage={20}
-              title="Public Collections"
             />
           </Grid>
         </Grid>

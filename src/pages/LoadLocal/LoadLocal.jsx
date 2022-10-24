@@ -52,7 +52,7 @@ const LoadLocal = () => {
     // Wait for 2 seconds and then redirect to collection
     setTimeout(() => {
       window.open(
-        `https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/${selectedCollection.id}`,
+        `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}/collections/${selectedCollection.id}`,
         "_blank"
       );
     }, 1500);
