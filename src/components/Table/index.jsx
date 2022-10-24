@@ -20,6 +20,7 @@ const Table = ({
         pagination: {
           pageSize: rowsPerPage,
         },
+        
       }}
       /**
        * Custom Table Actions

@@ -12,7 +12,6 @@ import DrawMap from "../../components/DrawMap";
 // Table
 import Tabs from "components/Tabs";
 
-import DownloadedCollections from "./components/DownloadedCollections";
 import PublicCollections from "./components/PublicCollections";
 
 import { retrieveAllCollections } from "interface/collections";
@@ -49,8 +48,6 @@ const Searcher = () => {
             </MDTypography>
           </Grid>
 
-
-
           <Grid item xs={12}>
             <MDBox>
               <DrawMap
@@ -69,34 +66,16 @@ const Searcher = () => {
             </MDBox>
           </Grid>
           <Grid item xs={12}>
-          <Grid item xs={12}>
-            <Tabs
-              tabs={[
-                {
-                  label: "Downloaded Collections",
-                  component: (
-                    <DownloadedCollections
-                      collections={downloadedCollections}
-                      setCollections={setDownloadedCollections}
-                    />
-                  ),
-                },
-                {
-                  label: "Public Collections",
-                  component: (
-                    <PublicCollections
-                      collections={publicCollections}
-                      setCollections={setPublicCollections}
-                      AOI={AOI}
-                      startDate={startDate}
-                      endDate={endDate}
-                      rowClickAction={(row, table) => {}}
-                    />
-                  ),
-                },
-              ]}
-            />
-          </Grid>
+            <Grid item xs={12}>
+              <PublicCollections
+                collections={publicCollections}
+                setCollections={setPublicCollections}
+                AOI={AOI}
+                startDate={startDate}
+                endDate={endDate}
+                rowClickAction={(row, table) => {}}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </MDBox>

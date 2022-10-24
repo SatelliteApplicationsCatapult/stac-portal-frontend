@@ -8,6 +8,7 @@ import MDBox from "components/MDBox";
 import { shortenDescription } from "../TableUtils";
 
 const DownloadedCollections = ({ collections, setCollections }) => {
+  console.log("Passed collections1", collections);
   // Table Columns
   const collectionColumns = useMemo(() => [
     {

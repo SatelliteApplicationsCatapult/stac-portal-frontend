@@ -11,22 +11,27 @@ import Footer from "examples/Footer";
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-
+import DownloadedCollections from "./components/DownloadedCollections";
 import Table from "components/Table";
 
 import {
   retrieveAllPrivateCollections,
   deletePrivateCollection,
+  retrieveAllCollections,
 } from "interface/collections";
 import MDButton from "components/MDButton";
 
 const DisplayCollections = () => {
-  const [privateCollections, setprivateCollections] = useState([]);
+  const [privateCollections, setPrivateCollections] = useState([]);
+  const [downloadedCollections, setDownloadedCollections] = useState([]);
+
   useEffect(() => {
     async function getCollections() {
       let privateCollections = await retrieveAllPrivateCollections();
-      console.log("Private data 1", privateCollections[0]);
-      setprivateCollections(privateCollections);
+      let collectionsOnStac = await retrieveAllCollections();
+      console.log("Collections on STAC", collectionsOnStac);
+      setPrivateCollections(privateCollections);
+      setDownloadedCollections(collectionsOnStac.collections);
     }
     getCollections();
   }, []);
@@ -87,7 +92,7 @@ const DisplayCollections = () => {
               if (confirmation) {
                 await deletePrivateCollection(row.id);
                 let privateCollections = await retrieveAllPrivateCollections();
-                setprivateCollections(privateCollections);
+                setPrivateCollections(privateCollections);
               }
             }}
           >
@@ -114,9 +119,14 @@ const DisplayCollections = () => {
           <Grid item xs={12}>
             <Card>
               <MDBox p={3}>
-                <MDTypography variant="h4">Collections</MDTypography>
+                <MDTypography variant="h4">My Catalog</MDTypography>
               </MDBox>
             </Card>
+          </Grid>
+          <Grid item xs={12}>
+          <DownloadedCollections
+                      collections={downloadedCollections}
+                    />
           </Grid>
           <Grid item xs={12}>
             <h5>Private Collections</h5>

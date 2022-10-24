@@ -12,6 +12,7 @@ import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDButton from "components/MDButton";
+import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 import Table from "components/Table";
 import { retrieveAllPublicCatalogs,syncAllPublicCatalogs } from "interface/catalogs";
@@ -41,10 +42,20 @@ const PublicCatalogs = () => {
     },
     {
       accessorFn: (row) => {
-        return row.description;
+        // Add a tooltip that shows the full description
+        return (
+          <CustomWidthTooltip
+            title={row.description}
+            disableTouchListener={false}
+            disableFocusListener={false}
+            enterDelay={1000}
+          >
+            <div>{row.description.substring(0,120) + "..."}</div>
+          </CustomWidthTooltip>
+        );
       },
       header: "Description",
-      size: 100,
+      size: 100, //medium column
     },
     {
       accessorFn: (row) => {
@@ -58,10 +69,20 @@ const PublicCatalogs = () => {
   const genericTableMemo = [
     {
       accessorFn: (row) => {
-        return row.id;
+        // Add a tooltip that shows the full description
+        return (
+          <CustomWidthTooltip
+            title={row.id}
+            disableTouchListener={false}
+            disableFocusListener={false}
+            enterDelay={1000}
+          >
+            <div>{row.id.substring(0,40) + "..."}</div>
+          </CustomWidthTooltip>
+        );
       },
       header: "Collection ID",
-      size: 100,
+      size: 100, //medium column
     },
     {
       accessorFn: (row) => {
@@ -72,14 +93,20 @@ const PublicCatalogs = () => {
     },
     {
       accessorFn: (row) => {
-        // if row.description is longer than 80 chars then truncate it and add ...
-        if (row.description.length > 80) {
-          return row.description.substring(0, 80) + "...";
-        }
-        return row.description;
+        // Add a tooltip that shows the full description
+        return (
+          <CustomWidthTooltip
+            title={row.description}
+            disableTouchListener={false}
+            disableFocusListener={false}
+            enterDelay={1000}
+          >
+            <div>{row.description.substring(0,80) + "..."}</div>
+          </CustomWidthTooltip>
+        );
       },
       header: "Description",
-      size: 100,
+      size: 100, //medium column
     },
     {
       accessorFn: (row) => {
