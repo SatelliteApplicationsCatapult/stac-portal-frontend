@@ -169,3 +169,39 @@ export const isCollectionPrivate = (collectionId, collections) => {
   }
   return false;
 };
+
+export const addPrivateCollection = async (
+  collectionId,
+  collectionTitle,
+  license,
+  keywords,
+  description,
+  stacVersion
+) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
+  const body = {
+    type:"Collection",
+    id: collectionId,
+    title: collectionTitle,
+    license: license,
+    keywords: keywords,
+    description: description,
+    stac_version: stacVersion,
+    extent: {
+      spatial: {
+        bbox: [[-180, -90, 180, 90]],
+      },
+      temporal: {
+        interval: [[null, null]],
+      },
+    },
+  };
+
+  const response = await axios({
+    method: "POST",
+    url: url,
+    data: body,
+  });
+  const data = await response.data;
+  return data;
+};
