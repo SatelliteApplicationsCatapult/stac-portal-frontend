@@ -13,3 +13,26 @@ export const syncAllPublicCatalogs = async () => {
   const data = await response.data;
   return data;
 };
+
+export const addPublicCatalog = async (
+  catalogName,
+  catalogURL,
+  catalogDescription,
+  catalogVersion
+) => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/`;
+  const body = {
+    name: catalogName,
+    url: catalogURL,
+    description: catalogDescription,
+    stac_version: catalogVersion,
+  };
+
+  const response = await axios({
+    method: "POST",
+    url: url,
+    data: body,
+  });
+  const data = await response.data;
+  return data;
+};
