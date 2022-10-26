@@ -120,7 +120,7 @@ export const createNewCollection = async (collection) => {
         bbox: [[-180, -90, 180, 90]],
       },
       temporal: {
-        interval: [["2020-01-01T00:00:00Z", "2022-12-31T23:59:59Z"]],
+        interval: [[null, null]],
       },
     },
   };
