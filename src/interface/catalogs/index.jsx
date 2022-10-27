@@ -36,3 +36,10 @@ export const addPublicCatalog = async (
   const data = await response.data;
   return data;
 };
+
+export const deleteAllPublicCatalogs = async () => {
+  const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/`;
+  const response = await axios({ method: "DELETE", url: url });
+  const data = await response.data;
+  return data;
+};
