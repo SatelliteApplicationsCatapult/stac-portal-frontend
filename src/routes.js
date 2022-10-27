@@ -39,6 +39,8 @@ import Updater from "pages/Updater/Updater";
 import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
 import PublicCatalogs from "pages/PublicCatalogs/PublicCatalogs";
+import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
+import AddPrivateCollection from "pages/AddPrivateCollection/AddPrivateCollection";
 // @mui icons
 import Icon from "@mui/material/Icon";
 const routes = [
@@ -61,6 +63,22 @@ const routes = [
     icon: <Icon fontSize="small">collections</Icon>,
     route: "/my-catalog",
     component: <DisplayCollections />,
+  },
+  {
+    type: "collapse",
+    name: "Add Public Catalog",
+    key: "addpubliccatalog",
+    icon: <Icon fontSize="small">add</Icon>,
+    route: "/add-public-catalog",
+    component: <AddPublicCatalog />,
+  },
+  {
+    type: "collapse",
+    name: "Add Private Collection",
+    key: "addprivatecollection",
+    icon: <Icon fontSize="small">add</Icon>,
+    route: "/add-private-collection",
+    component: <AddPrivateCollection />,
   },
   {
     type: "collapse",

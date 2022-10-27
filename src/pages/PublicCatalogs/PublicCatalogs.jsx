@@ -15,11 +15,14 @@ import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 import Table from "components/Table";
-import { retrieveAllPublicCatalogs,syncAllPublicCatalogs } from "interface/catalogs";
+import {
+  retrieveAllPublicCatalogs,
+  syncAllPublicCatalogs,
+  deleteAllPublicCatalogs,
+} from "interface/catalogs";
 import {
   retrieveAllPublicCollections,
   deletePublicCollection,
-  
 } from "interface/collections";
 const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
@@ -51,7 +54,7 @@ const PublicCatalogs = () => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{row.description.substring(0,120) + "..."}</div>
+            <div>{row.description.substring(0, 120) + "..."}</div>
           </CustomWidthTooltip>
         );
       },
@@ -78,7 +81,7 @@ const PublicCatalogs = () => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{row.id.substring(0,40) + "..."}</div>
+            <div>{row.id.substring(0, 40) + "..."}</div>
           </CustomWidthTooltip>
         );
       },
@@ -102,7 +105,7 @@ const PublicCatalogs = () => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{row.description.substring(0,80) + "..."}</div>
+            <div>{row.description.substring(0, 80) + "..."}</div>
           </CustomWidthTooltip>
         );
       },
@@ -124,6 +127,20 @@ const PublicCatalogs = () => {
       size: 100,
     },
   ];
+  const handleDeleteAllCatalogsButtonClicked = async () => {
+    let confirmation = window.confirm(
+      "Are you sure you want to delete all public catalogs? Doing so will delete all public collections as well."
+    );
+    if (confirmation) {
+      await deleteAllPublicCatalogs();
+      let data = await retrieveAllPublicCatalogs();
+      let publicCollections = await retrieveAllPublicCollections();
+      setCatalogs(data);
+      setpublicCollections(publicCollections);
+    } else {
+      return;
+    }
+  };
 
   const publicTableMemo = [
     {
@@ -163,17 +180,22 @@ const PublicCatalogs = () => {
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <h5>Syncronise with STAC Index</h5>
+            <h5>Synchronize with STAC Index</h5>
             <p>
               Running this operation will synchronise list of your public
               catalogs and collections with STAC Index.
             </p>
             <br></br>
-            <MDButton color="primary" onClick={async () => {
-              await syncAllPublicCatalogs();
-              window.alert("Syncronisation operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections.");
-            }}>
-              Syncronise
+            <MDButton
+              color="primary"
+              onClick={async () => {
+                await syncAllPublicCatalogs();
+                window.alert(
+                  "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
+                );
+              }}
+            >
+              Synchronize
             </MDButton>
           </Grid>
           <Grid item xs={12}>
@@ -186,6 +208,14 @@ const PublicCatalogs = () => {
               rowsPerPage={20}
               title="Load Operations"
             />
+            <MDButton
+              color="primary"
+              onClick={async () => {
+                handleDeleteAllCatalogsButtonClicked();
+              }}
+            >
+              Delete All Public Catalogs
+            </MDButton>
           </Grid>
           <Grid item xs={12}>
             <h5>Public Collections</h5>
