@@ -28,7 +28,6 @@ Coded by www.creative-tim.com
   10. The `component` key is used to store the component of its route.
 */
 // STAC Portal layouts
-import Dashboard from "layouts/dashboard";
 
 // STAC Portal pages
 import Validator from "pages/Validator/Validator";
@@ -132,15 +131,6 @@ const routes = [
     icon: <Icon fontSize="small">apps</Icon>,
     route: "/apps",
     component: <Applications />,
-  },
-
-  {
-    type: "collapse",
-    name: "Analytics",
-    key: "Analytics",
-    icon: <Icon fontSize="small">bar_chart</Icon>,
-    route: "/Analytics",
-    component: <Dashboard />,
   },
 ];
 export default routes;
