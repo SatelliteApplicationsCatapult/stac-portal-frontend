@@ -7,7 +7,7 @@ import { MapContainer, TileLayer, FeatureGroup, Polygon } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import { Icon, TextField } from "@mui/material";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
@@ -114,7 +114,7 @@ const DrawMap = ({
                 }
               }}
             />
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
               <DatePicker
                 label="Start Date"
                 value={startDate}
@@ -141,16 +141,28 @@ const DrawMap = ({
                 let bbox = AOI;
                 let datetime = "";
                 if (startDate) {
-                  datetime += startDate.toISOString();
+                  let startDateAsIsoString = startDate.toISOString();
+                  // remove everything after the first T and add 00:00:00Z
+                  startDateAsIsoString = startDateAsIsoString
+                    .split("T")[0]
+                    .concat("T00:00:00Z");
+                  datetime = startDateAsIsoString;
                 } else {
                   datetime += "..";
                 }
                 datetime += "/";
                 if (endDate) {
-                  datetime += endDate.toISOString();
+                  let endDateAsIsoString = endDate.toISOString();
+                  // remove everything after the first T and add 23:59:59Z
+                  endDateAsIsoString = endDateAsIsoString
+                    .split("T")[0]
+                    .concat("T23:59:59Z");
+                  datetime += endDateAsIsoString;
+
                 } else {
                   datetime += "..";
                 }
+                console.log("Datetime is: ", datetime);
                 //let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
                 let searchedCollections = await searchCollections(
                   bbox,
