@@ -13,6 +13,7 @@ const getAADToken = async () => {
     if (response.status === 200) {
       const { expires_on } = response.data[0];
       const tokenExpiryDateTime = new Date(expires_on);
+      const now = new Date();
       let timeToExpiry = tokenExpiryDateTime - now;
       if (timeToExpiry < 300000) {
         await instance.get("/.auth/refresh");
