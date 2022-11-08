@@ -12,9 +12,9 @@ const getAADToken = async () => {
     // Check if the response is valid
     if (response.status === 200) {
       const { expires_on } = response.data[0];
-
-      // If token expires in 5 minutes, get a new one
-      if (expires_on - Date.now() / 1000 < 300) {
+      const tokenExpiryDateTime = new Date(expires_on);
+      let timeToExpiry = tokenExpiryDateTime - now;
+      if (timeToExpiry < 300000) {
         await instance.get("/.auth/refresh");
       }
 
