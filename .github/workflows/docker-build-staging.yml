@@ -1,5 +1,5 @@
 # build a docker image using github actions and publish it to docker registry
-name: Docker-build-dev
+name: Docker-build-stage
 on:
   push:
     branches: ["stage"]
