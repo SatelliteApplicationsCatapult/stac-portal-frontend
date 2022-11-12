@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
+
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, CircularProgress, Icon, TextField } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -11,8 +13,8 @@ import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
+// Styles
 import "./style.scss";
-import { useState, useEffect } from "react";
 
 // Components
 import Dropzone from "./components/Dropzone";
@@ -23,12 +25,15 @@ import STACForm from "./components/STACForm";
 import { addItemsToCollection } from "interface/collections";
 
 const LoadLocal = () => {
-  const [files, setFiles] = useState([]);
-  const [groupedFiles, setGroupedFiles] = useState();
-  const [uploads, setUploads] = useState({});
-  const [groupedDownloads, setGroupedDownloads] = useState({});
-  const [selectedCollection, setSelectedCollection] = useState(null);
-  const [itemsMeta, setItemsMeta] = useState({});
+  /**
+   * These states take the files from being staged to fully uploaded and procesed
+   */
+  const [files, setFiles] = useState([]); // (1) Files staged for upload
+  const [groupedFiles, setGroupedFiles] = useState(); // (2) Files grouped by item
+  const [uploads, setUploads] = useState({}); // (3) Files uploading / uploaded
+  const [groupedDownloads, setGroupedDownloads] = useState({}); // (4) Files downloaded / downloading
+  const [selectedCollection, setSelectedCollection] = useState(null); // (5) Collection to add items to
+  const [itemsMeta, setItemsMeta] = useState({}); // (6) Metadata for items (Processed through GDAL)
 
   const [showLoading, setShowLoading] = useState(false);
 
@@ -41,7 +46,7 @@ const LoadLocal = () => {
       return acc;
     }, {});
 
-    setGroupedFiles(filesGroupedByItemId);
+    setGroupedFiles(filesGroupedByItemId); // (2)
   }, [files]);
 
   const publish = async () => {
@@ -56,8 +61,6 @@ const LoadLocal = () => {
         "_blank"
       );
     }, 1500);
-
-    // Navigate to https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/{collectionId} in new tab
   };
 
   return (
@@ -183,12 +186,7 @@ const LoadLocal = () => {
 
       {/* Modal for loading */}
       {showLoading && (
-        <MDBox
-          className="modal"
-          onClick={() => {
-            //setShowLoading(false);
-          }}
-        >
+        <MDBox className="modal">
           <MDBox
             className="modal-content"
             onClick={(e) => {
@@ -211,7 +209,6 @@ const LoadLocal = () => {
                 height="100%"
               >
                 <CircularProgress
-                  // BLue
                   sx={{
                     color: "#54A19A",
                   }}

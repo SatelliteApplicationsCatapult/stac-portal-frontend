@@ -1,9 +1,12 @@
-import { useCallback, forwardRef, useState, useEffect } from "react";
+import { useCallback, forwardRef } from "react";
+
+// Components
 import Uploady from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import UploadProgress from "./components/UploadProgress";
 import { asUploadButton } from "@rpldy/upload-button";
 
+// Styles
 import "./style.scss";
 
 const Dropzone = ({

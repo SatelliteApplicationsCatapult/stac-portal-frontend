@@ -1,7 +1,7 @@
+import axios from "axios";
+
 import { Planet } from "./sources/Planet";
 import { Maxar } from "./sources/Maxar";
-// Axios
-import axios from "axios";
 export class GenerateSTAC {
   constructor(metadata) {
     // Set metadata to a copy
@@ -127,13 +127,11 @@ export class GenerateSTAC {
 
   fetchAdditional(key) {
     // Loop through sources
-    for (let i = 0; i < this.sources.length; i++) {
-      const source = this.sources[i];
-      const value = source.find(key, this.additional);
+    for (const element of this.sources) {
+      const value = element.find(key, this.additional);
 
       if (value) {
-        // set static variable providerZ
-        this.staticVariables["provider"] = source.name;
+        this.staticVariables["provider"] = element.name;
         return value;
       }
     }
@@ -181,12 +179,10 @@ export class GenerateSTAC {
 
     if (this.metadata.additional) {
       this.additional = this.metadata.additional;
-      // delete this.metadata.additional;
     }
 
     if (this.metadata.otherAssets) {
       this.otherAssets = this.metadata.otherAssets;
-      // delete this.metadata.otherAssets;
     }
 
     // Remove non tiffs or tifs

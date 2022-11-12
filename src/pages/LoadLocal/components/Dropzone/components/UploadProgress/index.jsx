@@ -1,17 +1,22 @@
+import { useState, useEffect } from "react";
+
+// Components
 import { Circle } from "rc-progress";
 import axios from "axios";
-import { useItemProgressListener } from "@rpldy/uploady";
-import { useState, useEffect } from "react";
-import MDTypography from "components/MDTypography";
 import {
+  useItemProgressListener,
   useUploady,
   useBatchAddListener,
   useRequestPreSend,
 } from "@rpldy/uploady";
-import "./style.scss";
-import { Icon } from "@mui/material";
-
+import MDTypography from "components/MDTypography";
 import { findProvider } from "pages/LoadLocal/loader/utils";
+
+// Styles
+import "./style.scss";
+
+// Icons
+import { Icon } from "@mui/material";
 
 const UploadProgress = ({
   files,
