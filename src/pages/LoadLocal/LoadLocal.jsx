@@ -28,12 +28,21 @@ const LoadLocal = () => {
   /**
    * These states take the files from being staged to fully uploaded and procesed
    */
-  const [files, setFiles] = useState([]); // (1) Files staged for upload
-  const [groupedFiles, setGroupedFiles] = useState(); // (2) Files grouped by item
-  const [uploads, setUploads] = useState({}); // (3) Files uploading / uploaded
-  const [groupedDownloads, setGroupedDownloads] = useState({}); // (4) Files downloaded / downloading
-  const [selectedCollection, setSelectedCollection] = useState(null); // (5) Collection to add items to
-  const [itemsMeta, setItemsMeta] = useState({}); // (6) Metadata for items (Processed through GDAL)
+  const [groupedDownloads, setGroupedDownloads] = useState({}); // These are all the files that are staged to be downloaded and grouped by Item ID
+  const [uploads, setUploads] = useState({}); // Progress of the uploads sorted by batch 
+  const [files, setFiles] = useState([]); // The uploaded files (unsorted)
+  const [groupedFiles, setGroupedFiles] = useState(); // The uploaded files (sorted) -- Decision to create this state was for optimization purposes
+  const [itemsMeta, setItemsMeta] = useState({}); // The metadata for each item that is being uploaded (GDAL)
+  
+  const [selectedCollection, setSelectedCollection] = useState(null); // The collection that the user has selected to add the items to
+
+  console.log("groupedDownloads", groupedDownloads);
+  console.log("uploads", uploads);
+  console.log("files", files);
+  console.log("groupedFiles", groupedFiles);
+  console.log("itemsMeta", itemsMeta);
+  
+  console.log('====================================');
 
   const [showLoading, setShowLoading] = useState(false);
 

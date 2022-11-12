@@ -31,3 +31,5 @@ htmlcov/
 # Any __pycache__ folder
 __pycache__/
 *.db
+package-lock.json
+yarn.lock
