@@ -36,13 +36,13 @@ const LoadLocal = () => {
   
   const [selectedCollection, setSelectedCollection] = useState(null); // The collection that the user has selected to add the items to
 
-  console.log("groupedDownloads", groupedDownloads);
-  console.log("uploads", uploads);
-  console.log("files", files);
-  console.log("groupedFiles", groupedFiles);
-  console.log("itemsMeta", itemsMeta);
+  // console.log("groupedDownloads", groupedDownloads);
+  // console.log("uploads", uploads);
+  // console.log("files", files);
+  // console.log("groupedFiles", groupedFiles);
+  // console.log("itemsMeta", itemsMeta);
   
-  console.log('====================================');
+  // console.log('====================================');
 
   const [showLoading, setShowLoading] = useState(false);
 

@@ -11,15 +11,22 @@ export default class MaxarGenerator extends Base {
   }
 
   async parseManifest() {
+    this.findItemID();
+
     // Get the files array
     const files = this._manifestJSON.getElementsByTagName("productFile");
-
-    this.findItemID();
 
     // Get all tags of filename
     const filePaths = Array.from(files).map(
       (file) => file.getElementsByTagName("filename")[0].innerHTML
     );
+
+    console.log('deliveryfilepaths', filePaths);
+    // Add manifest file to the list of files to download
+    filePaths.push(this._manifestFile);
+    console.log('File paths', filePaths);
+
+
 
     this._filesToDownload = filePaths.map((filePath) => {
       const file = this._files.find((file) => file.file.name === filePath);
@@ -30,7 +37,8 @@ export default class MaxarGenerator extends Base {
         path: filePath,
       };
     });
-
+    console.log("deliveryfiles", this._files);
+    console.log("deliveryfilestodownload", this._filesToDownload);
   }
 
   async additionalMeta(files) {
@@ -45,9 +53,14 @@ export default class MaxarGenerator extends Base {
     const downloadLink = this._generateDownloadLink(metadataFiles[0]);
     const response = await axios.get(downloadLink);
 
-    const secondDownloadLink = this._generateDownloadLink({
-      name: this._manifestFile,
-    });
+    const secondMetadataFile = files.filter((file) =>
+      file.name.endsWith("DeliveryMetadata.xml")
+    );
+
+    const secondDownloadLink = this._generateDownloadLink(
+      secondMetadataFile[0]
+    );
+
     const secondResponse = await axios.get(secondDownloadLink);
 
     this._additionalMeta = await response.data;

@@ -19,11 +19,9 @@ import "./style.scss";
 import { Icon } from "@mui/material";
 
 const UploadProgress = ({
-  files,
   setFiles,
   uploads,
   setUploads,
-  groupedDownloads,
   setGroupedDownloads,
 }) => {
   const [stagedItems, setStagedItems] = useState([]);
@@ -38,7 +36,14 @@ const UploadProgress = ({
   });
 
   useRequestPreSend(async ({ items, options }) => {
-    const filename = items[0].file.name;
+    if (!items[0].file.item) {
+      console.log("Skipping", items[0].file.name);
+      return;
+    }
+    let filename = items[0].file.name;
+    //filename = items[0].file.item + "_" + filename;
+
+    console.log("Uploading file: ", filename, items[0]);
 
     const sasToken = await axios.get(
       `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/sas_token/${filename}/`
@@ -70,10 +75,12 @@ const UploadProgress = ({
     // Listen to toDownload and ensure that groupedDownloads is updated, but ensure no duplicates
     if (toDownload.length > 0) {
       let filesGroupedByItemId = toDownload.reduce((acc, file) => {
-        // if itemId is not undefined
         if (file.file.item) {
           acc[file.file.item] = acc[file.file.item] || [];
           acc[file.file.item].push(file);
+
+          // add item to file path
+          acc[file.path] = file.file.item + "_" + file.path;
         }
         return acc;
       }, {});
@@ -96,11 +103,11 @@ const UploadProgress = ({
         [progressData.id]: upload,
       });
 
-      if (progressData.completed === 100) {
+      if (progressData.completed === 100 && progressData.file.item) {
         setFiles((files) => [
           ...files,
           {
-            name: progressData.file.name,
+            name: progressData.file.item + "_" + progressData.file.name,
             size: progressData.file.size,
             type: progressData.file.type,
             itemId: progressData.file.item,

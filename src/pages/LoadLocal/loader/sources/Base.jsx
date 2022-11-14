@@ -13,6 +13,7 @@ export default class Base {
 
   // Check if the matching manifest file is present
   async checkForManifest() {
+    console.log("This files", this._files);
     const manifest = this._files.find(
       (file) => file.file.name === this._manifestFile
     );
@@ -28,6 +29,7 @@ export default class Base {
         resolve(reader.result);
       };
       reader.onerror = reject;
+      reader.onabort = reject;
     });
 
     // If its a JSON file, parse it
@@ -41,10 +43,14 @@ export default class Base {
       this._manifestJSON = parser.parseFromString(manifestData, "text/xml");
     }
 
+    // Close file
+    reader.abort();
+
+    console.log("Manifest JSON", this._manifestJSON);
     await this.parseManifest();
 
     // Find file index of manifest file
-    this.findManifestIndex();
+    // this.findManifestIndex();
   }
 
   // Parse the manifest file
@@ -74,6 +80,7 @@ export default class Base {
   _generateDownloadLink(item) {
     const BASE_URL = process.env.REACT_APP_PORTAL_BACKEND_URL;
     const endpoint = "/file/stac_assets/";
+    console.log("ITEM ", item);
     return `${BASE_URL}${endpoint}${item.name}/url/`;
   }
 }
