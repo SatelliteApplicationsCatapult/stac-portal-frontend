@@ -17,41 +17,54 @@ export default class MaxarGenerator extends Base {
     this.findItemID();
 
     // Get all tags of filename
-    const filePaths = Array.from(files).map(
+    let filePaths = Array.from(files).map(
       (file) => file.getElementsByTagName("filename")[0].innerHTML
     );
+
+    // Put manifest file in 0TH INDEX
+    filePaths.unshift(this._manifestFile);
+    console.log("Files", this._files);
 
     this._filesToDownload = filePaths.map((filePath) => {
       const file = this._files.find((file) => file.file.name === filePath);
       file.file.item = this._itemID;
-
+      console.log("FOUND FILE", file);
       return {
         file: file.file,
         path: filePath,
       };
     });
 
+    console.log('Files to download', this._filesToDownload);
   }
 
-  async additionalMeta(files) {
+  async additionalMeta(files, key) {
     const metadataFiles = files.filter((file) =>
-      file.name.endsWith("README.XML")
+      file.name.endsWith(`${key}_README.XML`)
     );
-
+    console.log("key is", key);
+    console.log("Metadata files", metadataFiles);
     if (metadataFiles.length === 0) {
+      console.log("RETURNING FALSE");
       return;
     }
 
-    const downloadLink = this._generateDownloadLink(metadataFiles[0]);
+    const downloadLink = this._generateDownloadLink(metadataFiles[0], key);
+    console.log("Download link", downloadLink);
     const response = await axios.get(downloadLink);
 
-    const secondDownloadLink = this._generateDownloadLink({
-      name: this._manifestFile,
-    });
+    const secondDownloadLink = this._generateDownloadLink(
+      {
+        name: `${this._manifestFile}`,
+      },
+      key
+    );
+    console.log("Second download link", secondDownloadLink);
     const secondResponse = await axios.get(secondDownloadLink);
 
     this._additionalMeta = await response.data;
 
+    console.log("additionalMeta", this._additionalMeta);
     // Also add second response to additional meta
     this._additionalMeta.message.delivery = await secondResponse.data;
 
@@ -60,10 +73,13 @@ export default class MaxarGenerator extends Base {
 
   // TODO: Maybe only use ones we need? For now, just use all of them
   _parseAdditionalMeta() {
+
     return this._additionalMeta;
   }
 
   findItemID() {
+    // this._itemID = "abc";
+    // return;
     // Go through the files
     const files = this._manifestJSON.getElementsByTagName("productFile");
 

@@ -28,16 +28,12 @@ export class GenerateSTAC {
   }
 
   async generate() {
-    console.log("Metadata", this.metadata);
     this.cleanMetadata();
-
     this.parseGroupedVariables();
     this.parseStaticVariables();
     this.parseAssets();
     this.parseAdditional();
-
     await this.sendToSTAC();
-
     return this.stacJSON;
   }
 
@@ -130,7 +126,6 @@ export class GenerateSTAC {
     for (let i = 0; i < this.sources.length; i++) {
       const source = this.sources[i];
       const value = source.find(key, this.additional);
-
       if (value) {
         // set static variable providerZ
         this.staticVariables["provider"] = source.name;
@@ -140,6 +135,7 @@ export class GenerateSTAC {
   }
 
   generatePayload() {
+    this.parseStaticVariables();
     return {
       assets: this.assets,
       additional: this.additional,
@@ -151,13 +147,14 @@ export class GenerateSTAC {
 
   async sendToSTAC() {
     let url = process.env.REACT_APP_PORTAL_BACKEND_URL;
-
-    // Rewrite to use axios
+    let body = {
+      metadata: this.generatePayload()
+    }
+    console.log("Body to stac generator is", body);
     const response = await axios.post(
       url + "/stac_generator/",
-      {
-        metadata: this.generatePayload(),
-      },
+      
+      body,
       {
         headers: {
           "Content-Type": "application/json",
@@ -167,7 +164,6 @@ export class GenerateSTAC {
 
     const json = await response.data;
 
-    console.log("Success:", JSON.stringify(json));
 
     this.stacJSON = json;
   }
