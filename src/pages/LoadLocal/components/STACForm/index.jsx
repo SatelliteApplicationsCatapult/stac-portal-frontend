@@ -64,7 +64,7 @@ const STACForm = ({
                   itemsMeta[file.itemId].otherAssets = [];
                 }
                 const fileMeta = {
-                  name: file.name,
+                  name: file.itemId + "_" + file.name,
                   size: file.size,
                   type: file.type,
                 };

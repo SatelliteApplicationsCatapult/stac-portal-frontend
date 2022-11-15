@@ -21,10 +21,8 @@ export default class MaxarGenerator extends Base {
       (file) => file.getElementsByTagName("filename")[0].innerHTML
     );
 
-    // Put manifest file in 8TH INDEX
-    filePaths.splice(8, 0, this._manifestFile);
-    console.log("filePaths", filePaths);
-
+    // Put manifest file in 0TH INDEX
+    filePaths.unshift(this._manifestFile);
     console.log("Files", this._files);
 
     this._filesToDownload = filePaths.map((filePath) => {
@@ -44,8 +42,10 @@ export default class MaxarGenerator extends Base {
     const metadataFiles = files.filter((file) =>
       file.name.endsWith(`${key}_README.XML`)
     );
-
+    console.log("key is", key);
+    console.log("Metadata files", metadataFiles);
     if (metadataFiles.length === 0) {
+      console.log("RETURNING FALSE");
       return;
     }
 
@@ -65,7 +65,6 @@ export default class MaxarGenerator extends Base {
     this._additionalMeta = await response.data;
 
     console.log("additionalMeta", this._additionalMeta);
-
     // Also add second response to additional meta
     this._additionalMeta.message.delivery = await secondResponse.data;
 
@@ -74,12 +73,13 @@ export default class MaxarGenerator extends Base {
 
   // TODO: Maybe only use ones we need? For now, just use all of them
   _parseAdditionalMeta() {
+
     return this._additionalMeta;
   }
 
   findItemID() {
-    this._itemID = "fff";
-    return;
+    // this._itemID = "abc";
+    // return;
     // Go through the files
     const files = this._manifestJSON.getElementsByTagName("productFile");
 
