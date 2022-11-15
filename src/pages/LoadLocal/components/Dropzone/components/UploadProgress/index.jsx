@@ -1,13 +1,13 @@
 import { Circle } from "rc-progress";
 import axios from "axios";
-import { useItemProgressListener } from "@rpldy/uploady";
-import { useState, useEffect } from "react";
-import MDTypography from "components/MDTypography";
 import {
+  useItemProgressListener,
   useUploady,
   useBatchAddListener,
   useRequestPreSend,
 } from "@rpldy/uploady";
+import { useState, useEffect } from "react";
+import MDTypography from "components/MDTypography";
 import "./style.scss";
 import { Icon } from "@mui/material";
 
@@ -29,23 +29,36 @@ const UploadProgress = ({
 
   // Add staged items to state
   useBatchAddListener((batch) => {
+    console.log("Batch added", batch);
+    for (const item of batch.items) {
+      console.log(item.file.name);
+    }
     setStagedItems((items) => items.concat(batch.items));
   });
 
   useRequestPreSend(async ({ items, options }) => {
-    const filename = items[0].file.name;
+    if (!items[0].file.item) {
+      return;
+    }
+    let filename = items[0].file.name;
+    filename = items[0].file.item + "_" + filename;
 
     const sasToken = await axios.get(
       `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/sas_token/${filename}/`
     );
+    console.log("Sending file", filename, sasToken.data, items);
+    console.log("Items", items);
+    console.log("Options", options);
 
     return Promise.resolve({
       options: {
         destination: {
+          // url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
           url: sasToken.data.endpoint,
         },
         method: "PUT",
       },
+      debug: true,
     });
   });
 
@@ -57,6 +70,7 @@ const UploadProgress = ({
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
+      console.log("Downloadaaaa ::", toDownload);
       processPending();
     }
   }, [toDownload]);
