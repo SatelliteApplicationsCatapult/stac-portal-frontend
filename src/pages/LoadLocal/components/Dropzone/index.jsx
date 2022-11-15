@@ -1,4 +1,4 @@
-import { useCallback, forwardRef, useState, useEffect } from "react";
+import { useCallback, forwardRef } from "react";
 import Uploady from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import UploadProgress from "./components/UploadProgress";
@@ -32,7 +32,12 @@ const Dropzone = ({
         ref={ref}
         onDragOverClassName="active"
         extraProps={{ onClick: onZoneClick }}
-        htmlDirContentParams={{ recursive: true }}
+        htmlDirContentParams={{
+          recursive: true,
+          webkitdirectory: true,
+          directory: true,
+          multiple: true,
+        }}
         grouped
         className="dropzone"
       >
@@ -64,10 +69,10 @@ const Dropzone = ({
       }}
       sendWithFormData={false}
       grouped={false}
-      batchSize={1}
+      maxConcurrent={1}
       maxConcurrentUploads={1}
       maxGroupSize={1}
-      maxFiles={99999}
+      maxFiles={1}
     >
       <DropZoneButton />
       <UploadProgress

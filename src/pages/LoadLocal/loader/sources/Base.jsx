@@ -2,9 +2,7 @@
 // This is the base class that will be extended by the other sources
 
 export default class Base {
-  constructor(stagedItems = null, setStagedItems = null) {
-    this._stagedItems = stagedItems;
-    this._setStagedItems = setStagedItems;
+  constructor() {
     this._files = null;
     this._manifestFile = null;
     this._manifestJSON = null;
@@ -18,6 +16,7 @@ export default class Base {
     );
 
     if (!manifest) {
+      console.log("No manifest file found");
       return;
     }
 
@@ -41,10 +40,12 @@ export default class Base {
       this._manifestJSON = parser.parseFromString(manifestData, "text/xml");
     }
 
+    console.log("Manifest data is", manifestData);
+
+    console.log("Manifest JSON", this._manifestJSON);
+
     await this.parseManifest();
 
-    // Find file index of manifest file
-    this.findManifestIndex();
   }
 
   // Parse the manifest file
@@ -57,23 +58,14 @@ export default class Base {
     await this.checkForManifest();
   }
 
-  async findManifestIndex() {
-    const manifestIndex = this._files.findIndex(
-      (file) => file.file.name === this._manifestFile
-    );
-
-    if (manifestIndex !== -1) {
-      this._files.splice(manifestIndex, 1);
-    }
-  }
-
   async additionalMeta(files) {
     return false;
   }
 
-  _generateDownloadLink(item) {
+  _generateDownloadLink(item, key) {
     const BASE_URL = process.env.REACT_APP_PORTAL_BACKEND_URL;
     const endpoint = "/file/stac_assets/";
-    return `${BASE_URL}${endpoint}${item.name}/url/`;
+    const url = `${BASE_URL}${endpoint}${key}_${item.name}/url/`;
+    return url;
   }
 }
