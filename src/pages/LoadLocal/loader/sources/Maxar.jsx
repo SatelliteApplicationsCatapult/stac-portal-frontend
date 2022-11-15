@@ -78,7 +78,7 @@ export default class MaxarGenerator extends Base {
   }
 
   findItemID() {
-    this._itemID = "aaaaaaaa";
+    this._itemID = "fff";
     return;
     // Go through the files
     const files = this._manifestJSON.getElementsByTagName("productFile");

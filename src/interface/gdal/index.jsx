@@ -6,6 +6,7 @@ export const returnTiffMeta = async (fileName) => {
 
   fileName =
     "https://ctpltstacstrgdev.blob.core.windows.net/stac-items/" + fileName;
+  console.log("Running gdal info for file", fileName);
 
   const response = await axios.post(
     url,
@@ -20,6 +21,6 @@ export const returnTiffMeta = async (fileName) => {
   );
 
   const data = await response.data;
-
+  console.log("Gdal info response", data);
   return data;
 };

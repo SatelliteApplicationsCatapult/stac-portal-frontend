@@ -28,16 +28,17 @@ export class GenerateSTAC {
   }
 
   async generate() {
-    console.log("Metadata", this.metadata);
     this.cleanMetadata();
-
+    console.log("1 am here");
     this.parseGroupedVariables();
     this.parseStaticVariables();
     this.parseAssets();
     this.parseAdditional();
-
+    console.log("2 am here");
+    console.log("Metadata", this.metadata);
     await this.sendToSTAC();
-
+    console.log("3 am here");
+    console.log("Metadata", this.metadata);
     return this.stacJSON;
   }
 
@@ -70,6 +71,7 @@ export class GenerateSTAC {
       } = this.metadata[key];
 
       if (key === "additional") {
+        console.log("Returing here");
         return;
       }
 
@@ -129,8 +131,10 @@ export class GenerateSTAC {
     // Loop through sources
     for (let i = 0; i < this.sources.length; i++) {
       const source = this.sources[i];
+      console.log("Source is", source);
+      console.log("this.additional is", this);
       const value = source.find(key, this.additional);
-
+      console.log("Value is", value);
       if (value) {
         // set static variable providerZ
         this.staticVariables["provider"] = source.name;
@@ -140,6 +144,8 @@ export class GenerateSTAC {
   }
 
   generatePayload() {
+    this.parseStaticVariables();
+    console.log("Static variables are", this.staticVariables);
     return {
       assets: this.assets,
       additional: this.additional,
@@ -151,13 +157,14 @@ export class GenerateSTAC {
 
   async sendToSTAC() {
     let url = process.env.REACT_APP_PORTAL_BACKEND_URL;
-
-    // Rewrite to use axios
+    let body = {
+      metadata: this.generatePayload()
+    }
+    console.log("Body is", body);
     const response = await axios.post(
       url + "/stac_generator/",
-      {
-        metadata: this.generatePayload(),
-      },
+      
+      body,
       {
         headers: {
           "Content-Type": "application/json",
