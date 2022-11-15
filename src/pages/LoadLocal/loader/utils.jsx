@@ -11,15 +11,15 @@ export const findProvider = async (
     return;
   }
 
-  const providers = [
-    new Planet(stagedItems, setStagedItems),
-    new Maxar(stagedItems, setStagedItems),
-  ];
+  const providers = [new Maxar()];
 
   for (let i = 0; i < providers.length; i += 1) {
     providers[i]._files = stagedItems;
     await providers[i].runChecks();
     if (providers[i]._filesToDownload) {
+      console.log("filesToDownload", providers[i]._filesToDownload);
+      setToDownload([...toDownload, ...providers[i]._filesToDownload]);
+
       setStagedItems((items) => {
         return items.filter((item) => {
           const files = !providers[i]._filesToDownload
@@ -29,17 +29,18 @@ export const findProvider = async (
           return files;
         });
       });
-      setToDownload([...toDownload, ...providers[i]._filesToDownload]);
+
+      console.log("To download", toDownload);
 
       return;
     }
   }
 };
 
-export const returnAdditionalMeta = async (files) => {
-  const providers = [new Planet(), new Maxar()];
+export const returnAdditionalMeta = async (files, key) => {
+  const providers = [new Maxar()];
   for (let i = 0; i < providers.length; i += 1) {
-    const meta = await providers[i].additionalMeta(files);
+    const meta = await providers[i].additionalMeta(files, key);
     if (meta && meta.message) {
       return meta.message;
     }

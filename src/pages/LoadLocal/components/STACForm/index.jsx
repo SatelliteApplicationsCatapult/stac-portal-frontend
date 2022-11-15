@@ -26,29 +26,13 @@ const STACForm = ({
   const [alreadyLoadedAdditionalMeta, setAlreadyLoadedAdditionalMeta] =
     useState([]);
 
-  // const isItemStillBeingDownloaded = (filename) => {
-  //   // Uploads is a dictionary of batches, loop through and find name that matches filename
-  //   let relatedItemBatchProgress;
-  //   for (const batch in uploads) {
-  //     const batchItem = uploads[batch];
-  //     if (batchItem.name === filename) {
-  //       relatedItemBatchProgress = batchItem.progress;
-  //     }
-  //   }
-
-  //   if (!relatedItemBatchProgress.includes(100)) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
   useEffect(() => {
     if (groupedFiles) {
       Object.keys(groupedFiles).forEach(async (key) => {
         await groupedFiles[key].forEach(async (file) => {
           if (
             !loadingGDAL.includes(file.name) &&
-            !loadedGDAL.includes(file.name) 
+            !loadedGDAL.includes(file.name)
             // !isItemStillBeingDownloaded(file.name)
           ) {
             setLoadingGDAL((prev) => [...prev, file.name]);
@@ -57,7 +41,9 @@ const STACForm = ({
             const allowedExtensions = ["tif", "tiff", "png", "jpg", "jpeg"];
 
             if (allowedExtensions.includes(fileExtension)) {
-              const tiffMeta = await returnTiffMeta(file.name);
+              console.log("Loading GDAL for", file);
+              const filename = file.itemId + "_" + file.name;
+              const tiffMeta = await returnTiffMeta(filename);
               setItemsMeta((prev) => ({
                 ...prev,
                 [file.itemId]: {
@@ -69,6 +55,11 @@ const STACForm = ({
               // Add the other files to the itemsMeta
               groupedFiles[key].forEach((file) => {
                 // Push to a key called "otherAssets" array to the itemsMeta if it doesn't exist
+                if (!itemsMeta[file.itemId]) {
+                  itemsMeta[file.itemId] = {
+                    otherAssets: [],
+                  };
+                }
                 if (!itemsMeta[file.itemId].otherAssets) {
                   itemsMeta[file.itemId].otherAssets = [];
                 }
@@ -108,7 +99,10 @@ const STACForm = ({
         });
 
         if (!alreadyLoadedAdditionalMeta.includes(key)) {
-          const additionalMeta = await returnAdditionalMeta(groupedFiles[key]);
+          const additionalMeta = await returnAdditionalMeta(
+            groupedFiles[key],
+            key
+          );
           if (additionalMeta) {
             setAlreadyLoadedAdditionalMeta((prev) => [...prev, key]);
             setItemsMeta((prev) => ({
