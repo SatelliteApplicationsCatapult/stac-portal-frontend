@@ -11,7 +11,7 @@ export const findProvider = async (
     return;
   }
 
-  const providers = [new Maxar()];
+  const providers = [new Maxar(), new Planet()];
 
   for (let i = 0; i < providers.length; i += 1) {
     providers[i]._files = stagedItems;
@@ -38,7 +38,7 @@ export const findProvider = async (
 };
 
 export const returnAdditionalMeta = async (files, key) => {
-  const providers = [new Maxar()];
+  const providers = [new Maxar(), new Planet()];
   for (let i = 0; i < providers.length; i += 1) {
     const meta = await providers[i].additionalMeta(files, key);
     if (meta && meta.message) {

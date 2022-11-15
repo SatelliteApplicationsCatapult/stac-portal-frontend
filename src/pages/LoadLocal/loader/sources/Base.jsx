@@ -16,6 +16,7 @@ export default class Base {
     );
 
     if (!manifest) {
+      console.log("No manifest file found");
       return;
     }
 
@@ -38,6 +39,8 @@ export default class Base {
       const parser = new DOMParser();
       this._manifestJSON = parser.parseFromString(manifestData, "text/xml");
     }
+
+    console.log("Manifest data is", manifestData);
 
     console.log("Manifest JSON", this._manifestJSON);
 
