@@ -15,6 +15,13 @@ const DownloadedCollections = ({ collections, setCollections }) => {
   // Table Columns
   const collectionColumns = useMemo(() => [
     {
+        accessorFn: (row) => {
+            return row.id;
+        },
+        header: "ID",
+        size: 10,
+    },
+    {
       accessorFn: (row) => {
         return row.title;
       },
@@ -94,6 +101,7 @@ const DownloadedCollections = ({ collections, setCollections }) => {
     },
   ]);
   const columnOrder = [
+      "ID",
     "Title",
     "Type",
     "Description",

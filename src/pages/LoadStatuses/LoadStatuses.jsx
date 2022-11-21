@@ -37,9 +37,9 @@ const LoadStatuses = () => {
     },
     {
       accessorFn: (row) => {
-        return row.source_stac_api_url;
+        return row.catalog.name;
       },
-      header: "Source",
+      header: "Source Catalog",
       size: 200,
     },
 
@@ -76,16 +76,16 @@ const LoadStatuses = () => {
     },
     {
       accessorFn: (row) => {
-        return row.newly_stored_collections.join(", ");
+        // collections is either row.newly_stored_collections or row.updated_collections
+        let newCollections = row.newly_stored_collections;
+        let updatedCollections = row.updated_collections;
+        let collections = newCollections.concat(updatedCollections);
+        // remove empty and duplicate collections
+        collections = collections.filter((item) => item);
+        collections = [...new Set(collections)];
+        return collections.join(", ");
       },
-      header: "New Collections",
-      size: 100,
-    },
-    {
-      accessorFn: (row) => {
-        return row.updated_collections.join(", ");
-      },
-      header: "Updated Collections",
+      header: "Collections",
       size: 100,
     },
     {

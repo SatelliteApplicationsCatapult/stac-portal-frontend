@@ -9,7 +9,7 @@ import DrawMap from "../../components/DrawMap";
 import PublicCollections from "./components/PublicCollections";
 import { retrieveAllCollections } from "interface/collections";
 
-const Searcher = () => {
+const PublicCatalogsSearcher = () => {
   const [AOI, setAOI] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -75,4 +75,4 @@ const Searcher = () => {
     </DashboardLayout>
   );
 };
-export default Searcher;
+export default PublicCatalogsSearcher;

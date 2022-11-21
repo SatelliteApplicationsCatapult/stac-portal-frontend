@@ -1,6 +1,8 @@
+import {retrieveAllPublicCatalogs} from "../catalogs";
 import axios from "axios";
 
 export const retrieveAllLoadStatuses = async () => {
+  const catalogs = await retrieveAllPublicCatalogs();
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/status_reporting/loading_public_stac_records/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
@@ -19,6 +21,11 @@ export const retrieveAllLoadStatuses = async () => {
       updatedCollections.push(splitCollection[splitCollection.length - 1]);
     });
     x.updated_collections = updatedCollections;
+
+    let catalog = catalogs.find((catalog) => {
+      return catalog.url === x.source_stac_api_url;
+    });
+    x.catalog = catalog;
     dataToReturn.push(x);
   });
   // return data to return sorted with highest id first

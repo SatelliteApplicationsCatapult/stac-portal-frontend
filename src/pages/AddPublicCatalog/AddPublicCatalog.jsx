@@ -33,20 +33,6 @@ const AddPublicCatalog = () => {
     }
   };
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox
-        sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 3,
-        }}
-      >
-        <MDBox sx={{ pt: 3 }}>
-          <MDTypography variant="h4" color="textPrimary">
-            Add Public Catalog
-          </MDTypography>
-          <br></br>
           <MDBox
             display="flex"
             flexDirection="column"
@@ -136,10 +122,6 @@ const AddPublicCatalog = () => {
               Create
             </MDButton>
           </MDBox>
-        </MDBox>
-      </MDBox>
-      <Footer />
-    </DashboardLayout>
   );
 };
 

@@ -21,8 +21,8 @@ const Applications = () => {
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <MDTypography variant="h4">Current Applications</MDTypography>
-            <br />
+            {/*<MDTypography variant="h4">Current Applications</MDTypography>*/}
+            {/*<br />*/}
             <Card>
               <MDBox p={3}>
                 <MDTypography variant="h5">STAC Browser</MDTypography>
@@ -45,25 +45,7 @@ const Applications = () => {
             </Card>
           </Grid>
         </Grid>
-        <br />
-
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
-            <MDTypography variant="h4">Potential applications</MDTypography>
-            <p>
-              This is a placeholder for potential future applications such as
-              <li>
-                <a href="https://projects.csopenportal.co.uk">
-                  CommonSensing Open Portal
-                </a>
-              </li>
-              <li>
-                <a href="https://jupyter.org/hub">Jupyter Hub</a>
-              </li>
-            </p>
-          </Grid>
-        </Grid>
-      </MDBox>
+        </MDBox>
       <Footer />
     </DashboardLayout>
   );

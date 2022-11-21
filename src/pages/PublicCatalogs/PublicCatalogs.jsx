@@ -1,12 +1,10 @@
 import React, { useMemo, useState, useEffect } from "react";
-
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
+import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -18,11 +16,9 @@ import Table from "components/Table";
 import {
   retrieveAllPublicCatalogs,
   syncAllPublicCatalogs,
-  deleteAllPublicCatalogs,
 } from "interface/catalogs";
 import {
   retrieveAllPublicCollections,
-  deletePublicCollection,
 } from "interface/collections";
 const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
@@ -73,6 +69,31 @@ const PublicCatalogs = () => {
   const genericTableMemo = [
     {
       accessorFn: (row) => {
+        return row.catalog.name;
+      },
+      header: "Catalog Name",
+      size: 100,
+    },
+    {
+      accessorFn: (row) => {
+        // Add a tooltip that shows the full description
+        // return (
+        //   <CustomWidthTooltip
+        //     title={row.id}
+        //     disableTouchListener={false}
+        //     disableFocusListener={false}
+        //     enterDelay={1000}
+        //   >
+        //     <div>{row.id.substring(0, 40) + "..."}</div>
+        //   </CustomWidthTooltip>
+        // );
+        return row.id;
+      },
+      header: "Collection ID",
+      size: 200, //medium column
+    },
+    {
+      accessorFn: (row) => {
         // Add a tooltip that shows the full description
         return (
           <CustomWidthTooltip
@@ -81,16 +102,9 @@ const PublicCatalogs = () => {
             disableFocusListener={false}
             enterDelay={1000}
           >
-            <div>{row.id.substring(0, 40) + "..."}</div>
+            <div>{row.title.substring(0, 40) + "..."}</div>
           </CustomWidthTooltip>
         );
-      },
-      header: "Collection ID",
-      size: 100, //medium column
-    },
-    {
-      accessorFn: (row) => {
-        return row.title;
       },
       header: "Title",
       size: 100,
@@ -127,46 +141,9 @@ const PublicCatalogs = () => {
       size: 100,
     },
   ];
-  const handleDeleteAllCatalogsButtonClicked = async () => {
-    let confirmation = window.confirm(
-      "Are you sure you want to delete all public catalogs? Doing so will delete all public collections as well."
-    );
-    if (confirmation) {
-      await deleteAllPublicCatalogs();
-      let data = await retrieveAllPublicCatalogs();
-      let publicCollections = await retrieveAllPublicCollections();
-      setCatalogs(data);
-      setpublicCollections(publicCollections);
-    } else {
-      return;
-    }
-  };
 
   const publicTableMemo = [
-    {
-      accessorFn: (row) => {
-        return (
-          <MDButton
-            color="error"
-            onClick={async () => {
-              // ask the user are they sure they want to delete
-              let confirmation = window.confirm(
-                `Are you sure you want to delete ${row.id} collection?`
-              );
-              if (confirmation) {
-                await deletePublicCollection(row.parent_catalog, row.id);
-                let publicCollections = await retrieveAllPublicCollections();
-                setpublicCollections(publicCollections);
-              }
-            }}
-          >
-            Delete
-          </MDButton>
-        );
-      },
-      header: "Delete",
-      size: 10,
-    },
+
   ];
   Array.prototype.push.apply(publicTableMemo, genericTableMemo);
   const paramsColumnsPublic = useMemo(() => publicTableMemo);
@@ -179,6 +156,11 @@ const PublicCatalogs = () => {
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <h5>Add Public Catalog</h5>
+            <br></br>
+            <AddPublicCatalog />
+          </Grid>
           <Grid item xs={12}>
             <h5>Synchronize with STAC Index</h5>
             <p>
@@ -208,14 +190,6 @@ const PublicCatalogs = () => {
               rowsPerPage={20}
               title="Load Operations"
             />
-            <MDButton
-              color="primary"
-              onClick={async () => {
-                handleDeleteAllCatalogsButtonClicked();
-              }}
-            >
-              Delete All Public Catalogs
-            </MDButton>
           </Grid>
           <Grid item xs={12}>
             <h5>Public Collections</h5>
