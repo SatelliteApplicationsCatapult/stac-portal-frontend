@@ -1,9 +1,8 @@
-import { Button, Icon, TextField } from "@mui/material";
-import MDBox from "components/MDBox";
+import {Icon} from "@mui/material";
 import MDTypography from "components/MDTypography";
-import { useState } from "react";
+import {useState} from "react";
 
-const Item = ({ item, selectedMeta }) => {
+const Item = ({item, selectedMeta}) => {
   const [showInfo, setShowInfo] = useState(false);
 
   return (
@@ -53,7 +52,7 @@ const Item = ({ item, selectedMeta }) => {
                         href={selectedMeta[item.name].description}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ color: "inherit" }}
+                        style={{color: "inherit"}}
                       >
                         {selectedMeta[item.name].description}
                       </a>

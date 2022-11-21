@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -14,7 +14,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import Table from "components/Table";
 // import MDButton from "components/MDButton";
-import { retrieveAllLoadStatuses } from "interface/loadstatuses";
+import {retrieveAllLoadStatuses} from "interface/loadstatuses";
 
 const LoadStatuses = () => {
   const [statuses, setStatuses] = useState([]);
@@ -24,6 +24,7 @@ const LoadStatuses = () => {
       console.log(data);
       setStatuses(data);
     }
+
     getStatuses();
   }, []);
 
@@ -109,7 +110,7 @@ const LoadStatuses = () => {
   const columnOrder = ["Catalog"];
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -125,14 +126,15 @@ const LoadStatuses = () => {
               gray
               columnOrder={columnOrder}
               data={statuses}
-              rowClickAction={(row, table) => {}}
+              rowClickAction={(row, table) => {
+              }}
               rowsPerPage={20}
               title="Load Operations"
             />
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };

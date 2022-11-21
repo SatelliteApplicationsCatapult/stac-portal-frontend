@@ -1,25 +1,25 @@
 /**
-=========================================================
-* STAC Portal - v2.1.0
-=========================================================
+ =========================================================
+ * STAC Portal - v2.1.0
+ =========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+ * Product Page: https://www.creative-tim.com/product/material-dashboard-react
+ * Copyright 2022 Creative Tim (https://www.creative-tim.com)
 
-Coded by www.creative-tim.com
+ Coded by www.creative-tim.com
 
  =========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
 
-import { useState, useEffect, useMemo } from "react";
+import {useEffect, useMemo, useState} from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
+import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
@@ -40,14 +40,14 @@ import themeDarkRTL from "assets/theme-dark/theme-rtl";
 
 // RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
+import {CacheProvider} from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // STAC Portal routes
 import routes from "routes";
 
 // STAC Portal contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import {setMiniSidenav, setOpenConfigurator, useMaterialUIController} from "context";
 
 // Images
 import brandWhite from "assets/images/logo-ct.png";
@@ -69,7 +69,7 @@ export default function App() {
   } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   const [rtlCache, setRtlCache] = useState(null);
-  const { pathname } = useLocation();
+  const {pathname} = useLocation();
 
   // Cache for the rtl
   useMemo(() => {
@@ -118,7 +118,7 @@ export default function App() {
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+        return <Route exact path={route.route} element={route.component} key={route.key}/>;
       }
 
       return null;
@@ -139,7 +139,7 @@ export default function App() {
       bottom="2rem"
       zIndex={99}
       color="dark"
-      sx={{ cursor: "pointer" }}
+      sx={{cursor: "pointer"}}
       onClick={handleConfiguratorOpen}
     >
       <Icon fontSize="small" color="inherit">
@@ -151,7 +151,7 @@ export default function App() {
   return direction === "rtl" ? (
     <CacheProvider value={rtlCache}>
       <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
-        <CssBaseline />
+        <CssBaseline/>
         {layout === "dashboard" && (
           <>
             <Sidenav
@@ -162,20 +162,20 @@ export default function App() {
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
             />
-            <Configurator />
+            <Configurator/>
             {configsButton}
           </>
         )}
-        {layout === "vr" && <Configurator />}
+        {layout === "vr" && <Configurator/>}
         <Routes>
           {getRoutes(routes)}
-          <Route path="*" element={<Navigate to="/searcher" />} />
+          <Route path="*" element={<Navigate to="/searcher"/>}/>
         </Routes>
       </ThemeProvider>
     </CacheProvider>
   ) : (
     <ThemeProvider theme={darkMode ? themeDark : theme}>
-      <CssBaseline />
+      <CssBaseline/>
       {layout === "dashboard" && (
         <>
           <Sidenav
@@ -186,14 +186,14 @@ export default function App() {
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           />
-          <Configurator />
+          <Configurator/>
           {configsButton}
         </>
       )}
-      {layout === "vr" && <Configurator />}
+      {layout === "vr" && <Configurator/>}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/searcher" />} />
+        <Route path="*" element={<Navigate to="/searcher"/>}/>
       </Routes>
     </ThemeProvider>
   );

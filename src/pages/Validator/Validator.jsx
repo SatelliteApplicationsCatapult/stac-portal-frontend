@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import { TextField } from "@mui/material";
+import {CircularProgress, TextField} from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -14,13 +13,13 @@ import Icon from "@mui/material/Icon";
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { Box } from "@mui/system";
-import { useState } from "react";
-import { CircularProgress } from "@mui/material";
+import {Box} from "@mui/system";
+import {useState} from "react";
 
 import "./Validator.scss";
 
 import axios from "axios";
+
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
   const [validatorResponse, setValidatorResponse] = useState(null);
@@ -40,7 +39,7 @@ const Validator = () => {
   };
 
   const handleSubmit = () => {
-    setAlertBox({ display: false, message: "", severity: "error" });
+    setAlertBox({display: false, message: "", severity: "error"});
     setIsLoading(true);
     let textField = document.getElementById("text-field");
     const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`;
@@ -114,7 +113,7 @@ const Validator = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       {renderSuccessSB}
       {renderErrorSB}
       <Grid item xs={12} pt={2}>
@@ -143,7 +142,7 @@ const Validator = () => {
           <MDButton
             variant="contained"
             color="info"
-            sx={{ mr: 4 }}
+            sx={{mr: 4}}
             onClick={() => {
               navigator.clipboard.readText().then((text) => {
                 const textField = document.getElementById("text-field");
@@ -160,7 +159,7 @@ const Validator = () => {
             variant="contained"
             color="info"
             disabled={isLoading}
-            sx={{ mr: 4 }}
+            sx={{mr: 4}}
             onClick={() => {
               // export as json
               const textField = document.getElementById("text-field");
@@ -183,7 +182,7 @@ const Validator = () => {
           <MDButton
             variant="contained"
             color="info"
-            sx={{ mr: 4 }}
+            sx={{mr: 4}}
             onClick={() => {
               const textField = document.getElementById("text-field");
               textField.value = "";
@@ -229,17 +228,17 @@ const Validator = () => {
                 validJSON === true
                   ? "valid"
                   : validJSON === false
-                  ? "invalid"
-                  : validJSON === null
-                  ? "null"
-                  : ""
+                    ? "invalid"
+                    : validJSON === null
+                      ? "null"
+                      : ""
               } ${isLoading ? "hide" : ""}`}
             />
-            {isLoading && <CircularProgress />}
+            {isLoading && <CircularProgress/>}
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };

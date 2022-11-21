@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import Grid from "@mui/material/Grid";
 
 // STAC Portal components
@@ -13,13 +13,9 @@ import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 import Table from "components/Table";
-import {
-  retrieveAllPublicCatalogs,
-  syncAllPublicCatalogs,
-} from "interface/catalogs";
-import {
-  retrieveAllPublicCollections,
-} from "interface/collections";
+import {retrieveAllPublicCatalogs, syncAllPublicCatalogs,} from "interface/catalogs";
+import {retrieveAllPublicCollections,} from "interface/collections";
+
 const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [publicCollections, setpublicCollections] = useState([]);
@@ -30,6 +26,7 @@ const PublicCatalogs = () => {
       setCatalogs(data);
       setpublicCollections(publicCollections);
     }
+
     getAll();
   }, []);
   const catalogsColumns = useMemo(() => [
@@ -142,9 +139,7 @@ const PublicCatalogs = () => {
     },
   ];
 
-  const publicTableMemo = [
-
-  ];
+  const publicTableMemo = [];
   Array.prototype.push.apply(publicTableMemo, genericTableMemo);
   const paramsColumnsPublic = useMemo(() => publicTableMemo);
   const publicCollectionsTableColumnOrder = genericTableMemo.map(
@@ -153,13 +148,13 @@ const PublicCatalogs = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <h5>Add Public Catalog</h5>
             <br></br>
-            <AddPublicCatalog />
+            <AddPublicCatalog/>
           </Grid>
           <Grid item xs={12}>
             <h5>Synchronize with STAC Index</h5>
@@ -168,8 +163,9 @@ const PublicCatalogs = () => {
               catalogs and collections with STAC Index.
             </p>
             <br></br>
+
             <MDButton
-              color="primary"
+              color="info"
               onClick={async () => {
                 await syncAllPublicCatalogs();
                 window.alert(
@@ -186,7 +182,8 @@ const PublicCatalogs = () => {
               columns={catalogsColumns}
               gray
               data={catalogs}
-              rowClickAction={(row, table) => {}}
+              rowClickAction={(row, table) => {
+              }}
               rowsPerPage={20}
               title="Load Operations"
             />
@@ -198,14 +195,15 @@ const PublicCatalogs = () => {
               gray
               columnOrder={publicCollectionsTableColumnOrder}
               data={publicCollections}
-              rowClickAction={(row, table) => {}}
+              rowClickAction={(row, table) => {
+              }}
               rowsPerPage={20}
               title="Public Collections"
             />
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };

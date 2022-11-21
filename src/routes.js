@@ -33,7 +33,7 @@
 import Validator from "pages/Validator/Validator";
 import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
-import PublicCatalogsSearcher from "pages/PublicCatalogsSearcher/PublicCatalogsSearcher";
+import PublicCollectionsSearcher from "pages/PublicCollectionsSearcher/PublicCollectionsSearcher";
 import Updater from "pages/Updater/Updater";
 import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
@@ -98,7 +98,7 @@ const routes = [
         key: "searcher",
         icon: <Icon fontSize="small">search</Icon>,
         route: "/searcher",
-        component: <PublicCatalogsSearcher/>,
+        component: <PublicCollectionsSearcher/>,
     },
     {
         type: "collapse",

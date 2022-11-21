@@ -38,7 +38,7 @@ export default class PlanetGenerator extends Base {
   }
 
   // TODO: This is a hack to get the metadata.json file
-  async additionalMeta(files,key) {
+  async additionalMeta(files, key) {
     console.log("Key to planet is", key);
     const metadataFiles = files.filter((file) =>
       file.name.endsWith(key + "_metadata.json")
@@ -48,7 +48,7 @@ export default class PlanetGenerator extends Base {
       return;
     }
 
-    const downloadLink = this._generateDownloadLink(metadataFiles[0],key);
+    const downloadLink = this._generateDownloadLink(metadataFiles[0], key);
     const response = await axios.get(downloadLink);
     this._additionalMeta = await response.data;
 

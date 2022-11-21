@@ -1,9 +1,7 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useEffect, useMemo, useState} from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { styled } from "@mui/material/styles";
-import { Tooltip, tooltipClasses } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -15,10 +13,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Interface
-import {
-  getAllStoredSearchParameters,
-  runStoredSearchParamUpdate,
-} from "interface/collections";
+import {getAllStoredSearchParameters, runStoredSearchParamUpdate,} from "interface/collections";
 
 // Table
 import Table from "components/Table";
@@ -32,6 +27,7 @@ const Updater = () => {
       let data = await getAllStoredSearchParameters();
       setParams(data);
     }
+
     getParams();
   }, []);
 
@@ -92,7 +88,7 @@ const Updater = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -108,14 +104,15 @@ const Updater = () => {
               gray
               columnOrder={columnOrder}
               data={params}
-              rowClickAction={(row, table) => {}}
+              rowClickAction={(row, table) => {
+              }}
               rowsPerPage={20}
               title="Search Parameters"
             />
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };
