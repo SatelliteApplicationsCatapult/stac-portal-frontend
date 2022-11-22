@@ -1,5 +1,6 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -13,8 +14,12 @@ import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 import Table from "components/Table";
-import {retrieveAllPublicCatalogs, syncAllPublicCatalogs,} from "interface/catalogs";
-import {retrieveAllPublicCollections,} from "interface/collections";
+import {
+  retrieveAllPublicCatalogs,
+  syncAllPublicCatalogs,
+} from "interface/catalogs";
+import { retrieveAllPublicCollections } from "interface/collections";
+import MDTypography from "components/MDTypography";
 
 const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
@@ -148,62 +153,105 @@ const PublicCatalogs = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <h5>Add Public Catalog</h5>
-            <br></br>
-            <AddPublicCatalog/>
-          </Grid>
-          <Grid item xs={12}>
-            <h5>Synchronize with STAC Index</h5>
-            <p>
-              Running this operation will synchronise list of your public
-              catalogs and collections with STAC Index.
-            </p>
-            <br></br>
-
-            <MDButton
-              color="info"
-              onClick={async () => {
-                await syncAllPublicCatalogs();
-                window.alert(
-                  "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
-                );
+            <Card
+              sx={{
+                p: 3,
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
               }}
             >
-              Synchronize
-            </MDButton>
+              <MDTypography variant="h4" color="textPrimary">
+                Synchronise with STAC Index
+              </MDTypography>
+              <MDTypography variant="body2" color="textPrimary">
+                Running this operation will synchronise list of your public
+                catalogs and collections with STAC Index.
+              </MDTypography>
+
+              <br></br>
+
+              <MDButton
+                color="secondary"
+                variant="contained"
+                onClick={async () => {
+                  await syncAllPublicCatalogs();
+                  window.alert(
+                    "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
+                  );
+                }}
+                sx={{ width: "30%" }}
+              >
+                Synchronize
+              </MDButton>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card
+              sx={{
+                p: 3,
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <MDTypography variant="h4" color="textPrimary">
+                Add Public Catalog
+              </MDTypography>
+              <MDTypography variant="body2" color="textPrimary">
+                Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
+                loin, kielbasa turducken sausage prosciutto frankfurter biltong
+                beef tenderloin jowl buffalo.
+              </MDTypography>
+              <br></br>
+              <AddPublicCatalog />
+            </Card>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
+              <MDTypography variant="h4" color="textPrimary">
+                Public Catalogs
+              </MDTypography>
+              <MDTypography variant="body2" color="textPrimary">
+                Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
+                loin, kielbasa turducken sausage prosciutto frankfurter biltong
+                beef tenderloin jowl buffalo.
+              </MDTypography>
+              <Table
+                columns={catalogsColumns}
+                gray
+                data={catalogs}
+                rowClickAction={(row, table) => {}}
+                rowsPerPage={20}
+                title="Load Operations"
+              />
+            </Card>
           </Grid>
           <Grid item xs={12}>
-            <h5>Public Catalogs</h5>
-            <Table
-              columns={catalogsColumns}
-              gray
-              data={catalogs}
-              rowClickAction={(row, table) => {
-              }}
-              rowsPerPage={20}
-              title="Load Operations"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <h5>Public Collections</h5>
-            <Table
-              columns={paramsColumnsPublic}
-              gray
-              columnOrder={publicCollectionsTableColumnOrder}
-              data={publicCollections}
-              rowClickAction={(row, table) => {
-              }}
-              rowsPerPage={20}
-              title="Public Collections"
-            />
+            <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
+              <MDTypography variant="h4" color="textPrimary">
+                Public Collections
+              </MDTypography>
+              <Table
+                columns={paramsColumnsPublic}
+                gray
+                columnOrder={publicCollectionsTableColumnOrder}
+                data={publicCollections}
+                rowClickAction={(row, table) => {}}
+                rowsPerPage={20}
+                title="Public Collections"
+              />
+            </Card>
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
+      <Footer />
     </DashboardLayout>
   );
 };
