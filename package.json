@@ -3,15 +3,6 @@
   "version": "2.1.0",
   "private": true,
   "author": "James Hinton",
-  "license": "See license in https://www.creative-tim.com/license",
-  "description": "React version of Material Dashboard 2 by Creative Tim",
-  "bugs": {
-    "url": "https://github.com/creativetimofficial/material-dashboard-react/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/creativetimofficial/material-dashboard-react.git"
-  },
   "engines": {
     "node": "16",
     "npm": ">=6"
