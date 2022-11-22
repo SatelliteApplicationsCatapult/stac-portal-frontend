@@ -18,36 +18,30 @@ import { forwardRef } from "react";
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
-// Custom styles for MDTypography
-import MDTypographyRoot from "components/MDTypography/MDTypographyRoot";
-
 // STAC Portal contexts
 import { useMaterialUIController } from "context";
 
 const MDTypography = forwardRef(
   (
-    { color, fontWeight, textTransform, verticalAlign, textGradient, opacity, children, ...rest },
+    {
+      color,
+      fontWeight,
+      textTransform,
+      verticalAlign,
+      textGradient,
+      opacity,
+      children,
+      ...rest
+    },
     ref
   ) => {
     const [controller] = useMaterialUIController();
     const { darkMode } = controller;
 
     return (
-      <MDTypographyRoot
-        {...rest}
-        ref={ref}
-        ownerState={{
-          color,
-          textTransform,
-          verticalAlign,
-          fontWeight,
-          opacity,
-          textGradient,
-          darkMode,
-        }}
-      >
+      <span ref={ref} {...rest}>
         {children}
-      </MDTypographyRoot>
+      </span>
     );
   }
 );
@@ -78,7 +72,12 @@ MDTypography.propTypes = {
     "white",
   ]),
   fontWeight: PropTypes.oneOf([false, "light", "regular", "medium", "bold"]),
-  textTransform: PropTypes.oneOf(["none", "capitalize", "uppercase", "lowercase"]),
+  textTransform: PropTypes.oneOf([
+    "none",
+    "capitalize",
+    "uppercase",
+    "lowercase",
+  ]),
   verticalAlign: PropTypes.oneOf([
     "unset",
     "baseline",

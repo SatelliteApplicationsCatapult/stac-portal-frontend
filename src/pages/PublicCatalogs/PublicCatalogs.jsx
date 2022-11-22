@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
-import Footer from "examples/Footer";
+
 import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
 
 // STAC Portal example components
@@ -251,7 +251,6 @@ const PublicCatalogs = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
+
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DrawMap from "../../components/DrawMap";
@@ -74,7 +74,7 @@ const PublicCollectionsSearcher = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
+      
     </DashboardLayout>
   );
 };

@@ -3,7 +3,7 @@ import {TextField} from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
-import Footer from "examples/Footer";
+
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -28,7 +28,7 @@ const Settings = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
+      
     </DashboardLayout>
   );
 };

@@ -5,9 +5,8 @@ import {CircularProgress, TextField} from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import MDSnackbar from "components/MDSnackbar";
 import MDAlert from "components/MDAlert";
-import Footer from "examples/Footer";
+
 import Icon from "@mui/material/Icon";
 
 // STAC Portal example components
@@ -79,43 +78,17 @@ const Validator = () => {
   const [successSB, setSuccessSB] = useState(false);
   const openSuccessSB = () => setSuccessSB(true);
   const closeSuccessSB = () => setSuccessSB(false);
-  const renderSuccessSB = (
-    <MDSnackbar
-      color="success"
-      icon="check"
-      title="Valid STAC"
-      content="The JSON is a valid STAC"
-      datetime="now"
-      open={successSB}
-      onClose={closeSuccessSB}
-      close={closeSuccessSB}
-      bgWhite
-    />
-  );
+
 
   // Error Toast Message
   const [errorSB, setErrorSB] = useState(false);
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
-  const renderErrorSB = (
-    <MDSnackbar
-      color="error"
-      icon="error"
-      title="Invalid STAC"
-      content="The JSON is not a valid STAC"
-      datetime="now"
-      open={errorSB}
-      onClose={closeErrorSB}
-      close={closeErrorSB}
-      bgWhite
-    />
-  );
+
 
   return (
     <DashboardLayout>
       <DashboardNavbar/>
-      {renderSuccessSB}
-      {renderErrorSB}
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
           Use the Area Downloader to choose a date range and geographic area to
@@ -238,7 +211,7 @@ const Validator = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
+      
     </DashboardLayout>
   );
 };

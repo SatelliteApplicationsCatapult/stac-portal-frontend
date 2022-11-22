@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
+
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -47,7 +47,7 @@ const DisplayCollections = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
+      
     </DashboardLayout>
   );
 };
