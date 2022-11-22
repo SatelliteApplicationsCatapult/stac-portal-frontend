@@ -1,16 +1,8 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormLabel,
-  TextField,
-} from "@mui/material";
-import { Stack } from "@mui/system";
-import { useState } from "react";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,} from "@mui/material";
+import {Stack} from "@mui/system";
+import {useState} from "react";
 
-export const FindMoreCollections = ({ open, columns, onClose, onSubmit }) => {
+export const FindMoreCollections = ({open, columns, onClose, onSubmit}) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
       acc[column.accessorKey ?? ""] = "";
@@ -32,7 +24,7 @@ export const FindMoreCollections = ({ open, columns, onClose, onSubmit }) => {
           <Stack
             sx={{
               width: "100%",
-              minWidth: { xs: "300px", sm: "360px", md: "400px" },
+              minWidth: {xs: "300px", sm: "360px", md: "400px"},
             }}
           >
             <TextField
@@ -40,30 +32,30 @@ export const FindMoreCollections = ({ open, columns, onClose, onSubmit }) => {
               variant="outlined"
               fullWidth
               // margin top
-              sx={{ mt: 1 }}
+              sx={{mt: 1}}
               value={values.url}
-              onChange={(e) => setValues({ ...values, url: e.target.value })}
+              onChange={(e) => setValues({...values, url: e.target.value})}
             />
 
             <TextField
               label="Collection Name (Optional)"
               variant="outlined"
               fullWidth
-              sx={{ mt: 1 }}
+              sx={{mt: 1}}
               value={values.name}
-              onChange={(e) => setValues({ ...values, name: e.target.value })}
+              onChange={(e) => setValues({...values, name: e.target.value})}
             />
             <small>Takes the default collection name if not supplied</small>
           </Stack>
         </form>
       </DialogContent>
-      <DialogActions sx={{ p: "1.25rem" }}>
+      <DialogActions sx={{p: "1.25rem"}}>
         <Button onClick={onClose}>Cancel</Button>
         <Button
           color="primary"
           onClick={handleSubmit}
           variant="contained"
-          sx={{ color: "white!important" }}
+          sx={{color: "white!important"}}
         >
           Add New STAC Collection
         </Button>

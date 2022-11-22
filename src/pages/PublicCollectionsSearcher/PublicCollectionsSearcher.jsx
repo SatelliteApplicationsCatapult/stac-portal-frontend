@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -7,9 +7,9 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DrawMap from "../../components/DrawMap";
 import PublicCollections from "./components/PublicCollections";
-import { retrieveAllCollections } from "interface/collections";
+import {retrieveAllCollections} from "interface/collections";
 
-const Searcher = () => {
+const PublicCollectionsSearcher = () => {
   const [AOI, setAOI] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -25,12 +25,13 @@ const Searcher = () => {
         setDownloadedCollections(resp.collections);
       }
     }
+
     getCollections();
   }, []);
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -53,7 +54,8 @@ const Searcher = () => {
                 setPublicCollections={setPublicCollections}
                 downloadedCollections={downloadedCollections}
                 setDownloadedCollections={setDownloadedCollections}
-                rowClickAction={(row, table) => {}}
+                rowClickAction={(row, table) => {
+                }}
               />
             </MDBox>
           </Grid>
@@ -65,14 +67,15 @@ const Searcher = () => {
                 AOI={AOI}
                 startDate={startDate}
                 endDate={endDate}
-                rowClickAction={(row, table) => {}}
+                rowClickAction={(row, table) => {
+                }}
               />
             </Grid>
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };
-export default Searcher;
+export default PublicCollectionsSearcher;

@@ -1,19 +1,19 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useMemo} from "react";
 import Table from "components/Table";
 // Interface
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-import { callSelectiveIngester } from "interface/collections";
-import { shortenDescription } from "../TableUtils";
+import {callSelectiveIngester} from "interface/collections";
+import {shortenDescription} from "../TableUtils";
 
 const PublicCollections = ({
-  collections,
-  setCollections,
-  AOI,
-  startDate,
-  endDate,
-}) => {
+                             collections,
+                             setCollections,
+                             AOI,
+                             startDate,
+                             endDate,
+                           }) => {
   // Table Columns
 
   const collectionColumns = useMemo(() => [
@@ -62,6 +62,7 @@ const PublicCollections = ({
       accessorFn: (row) => {
         return (
           <MDButton
+            color="success"
             onClick={() => {
               const parentCatalogId = row.catalog.id;
               const collectionId = row.id;

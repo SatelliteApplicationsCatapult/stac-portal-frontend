@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { Button, FormLabel, Icon, TextField } from "@mui/material";
+import {useEffect, useState} from "react";
+import {Icon} from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-import { returnTiffMeta } from "interface/gdal";
-import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
+import {returnTiffMeta} from "interface/gdal";
+import {returnAdditionalMeta} from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import STACJSON from "./components/STACJSON";
 
 const STACForm = ({
-  groupedFiles,
-  groupedDownloads,
-  itemsMeta,
-  setItemsMeta,
-  files,
-  uploads,
-}) => {
+                    groupedFiles,
+                    groupedDownloads,
+                    itemsMeta,
+                    setItemsMeta,
+                    files,
+                    uploads,
+                  }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
 

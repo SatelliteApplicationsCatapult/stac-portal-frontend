@@ -1,31 +1,26 @@
-import { Circle } from "rc-progress";
+import {Circle} from "rc-progress";
 import axios from "axios";
-import {
-  useItemProgressListener,
-  useUploady,
-  useBatchAddListener,
-  useRequestPreSend,
-} from "@rpldy/uploady";
-import { useState, useEffect } from "react";
+import {useBatchAddListener, useItemProgressListener, useRequestPreSend, useUploady,} from "@rpldy/uploady";
+import {useEffect, useState} from "react";
 import MDTypography from "components/MDTypography";
 import "./style.scss";
-import { Icon } from "@mui/material";
+import {Icon} from "@mui/material";
 
-import { findProvider } from "pages/LoadLocal/loader/utils";
+import {findProvider} from "pages/LoadLocal/loader/utils";
 
 const UploadProgress = ({
-  files,
-  setFiles,
-  uploads,
-  setUploads,
-  groupedDownloads,
-  setGroupedDownloads,
-}) => {
+                          files,
+                          setFiles,
+                          uploads,
+                          setUploads,
+                          groupedDownloads,
+                          setGroupedDownloads,
+                        }) => {
   const [stagedItems, setStagedItems] = useState([]);
   const [toDownload, setToDownload] = useState([]);
 
   const progressData = useItemProgressListener();
-  const { processPending } = useUploady();
+  const {processPending} = useUploady();
 
   // Add staged items to state
   useBatchAddListener((batch) => {
@@ -36,7 +31,7 @@ const UploadProgress = ({
     setStagedItems((items) => items.concat(batch.items));
   });
 
-  useRequestPreSend(async ({ items, options }) => {
+  useRequestPreSend(async ({items, options}) => {
     if (!items[0].file.item) {
       return;
     }
@@ -160,7 +155,7 @@ const UploadProgress = ({
               return (
                 <div key={item.id} className="progress-item">
                   {/* Icon for waiting */}
-                  <Icon style={{ color: "#119F9A" }}>hourglass_empty</Icon>
+                  <Icon style={{color: "#119F9A"}}>hourglass_empty</Icon>
                   <p>{item.file.name}</p>
                 </div>
               );
@@ -192,7 +187,7 @@ const UploadProgress = ({
         </div>
 
         {/* Arrow pointing right */}
-        <Icon style={{ color: "#119F9A", marginTop: "1em" }}>
+        <Icon style={{color: "#119F9A", marginTop: "1em"}}>
           arrow_forward
         </Icon>
 
@@ -204,7 +199,7 @@ const UploadProgress = ({
             </MDTypography>
           </div>
           <div className="progress-body">
-            {entries.map(([id, { progress, name }]) => {
+            {entries.map(([id, {progress, name}]) => {
               const lastProgress = progress[progress.length - 1];
 
               return (

@@ -1,11 +1,12 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import { addPrivateCollection } from "interface/collections";
+import {addPrivateCollection} from "interface/collections";
+
 const AddPrivateCollection = () => {
   const [collectionId, setCollectionId] = useState("");
   const [collectionTitle, setCollectionName] = useState("");
@@ -14,7 +15,8 @@ const AddPrivateCollection = () => {
   const [description, setDescription] = useState("");
   const [stacVersion, setStacVersion] = useState("1.0.0");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+  }, []);
   const handleSubmit = async () => {
     try {
       await addPrivateCollection(
@@ -32,7 +34,7 @@ const AddPrivateCollection = () => {
   };
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox
         sx={{
           backgroundColor: "background.default",
@@ -40,7 +42,7 @@ const AddPrivateCollection = () => {
           py: 3,
         }}
       >
-        <MDBox sx={{ pt: 3 }}>
+        <MDBox sx={{pt: 3}}>
           <MDTypography variant="h4" color="textPrimary">
             Add Private Collection
           </MDTypography>
@@ -67,7 +69,7 @@ const AddPrivateCollection = () => {
               }}
               autocomplete="off"
               required={true}
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDInput
@@ -79,7 +81,7 @@ const AddPrivateCollection = () => {
               value={collectionId}
               autocomplete="off"
               required={true}
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDInput
@@ -89,7 +91,7 @@ const AddPrivateCollection = () => {
                 setDescription(event.target.value);
               }}
               autocomplete="off"
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDInput
@@ -100,7 +102,7 @@ const AddPrivateCollection = () => {
                 setKeywords(keywords);
               }}
               autocomplete="off"
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDInput
@@ -111,7 +113,7 @@ const AddPrivateCollection = () => {
                 setLicense(event.target.value);
               }}
               autocomplete="off"
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDInput
@@ -122,7 +124,7 @@ const AddPrivateCollection = () => {
                 setStacVersion(event.target.value);
               }}
               autocomplete="off"
-              sx={{ mb: 2 }}
+              sx={{mb: 2}}
             />
 
             <MDButton

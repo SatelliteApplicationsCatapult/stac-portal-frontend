@@ -3,17 +3,14 @@ import MDTypography from "components/MDTypography";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
-import {
-  retrieveAllPrivateCollections,
-  createNewCollection,
-} from "interface/collections";
-import { useState, useEffect } from "react";
+import {createNewCollection, retrieveAllPrivateCollections,} from "interface/collections";
+import {useEffect, useState} from "react";
 
 import "./style.scss";
 import MDInput from "components/MDInput";
-import { CircularProgress } from "@mui/material";
+import {CircularProgress} from "@mui/material";
 
-const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
+const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
   const [collections, setCollections] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [newCollection, setNewCollection] = useState({
@@ -76,9 +73,9 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
           >
             <Autocomplete
               options={collections}
-              sx={{ width: 300 }}
+              sx={{width: 300}}
               renderInput={(params) => (
-                <TextField {...params} label="Choose Collection" />
+                <TextField {...params} label="Choose Collection"/>
               )}
               onChange={(event, value) => {
                 setSelectedCollection(value);
@@ -181,7 +178,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
                     }}
                     autoComplete="off"
                     autoFocus={true}
-                    sx={{ mb: 2 }}
+                    sx={{mb: 2}}
                   />
 
                   {/* Description */}
@@ -195,7 +192,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
                       });
                     }}
                     autoComplete="off"
-                    sx={{ mb: 2 }}
+                    sx={{mb: 2}}
                   />
 
                   {/* Button */}

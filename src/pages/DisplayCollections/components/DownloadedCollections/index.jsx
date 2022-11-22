@@ -1,19 +1,22 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, {useMemo} from "react";
 
 import Table from "components/Table";
 // Interface
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 import MDButton from "components/MDButton";
-import { shortenDescription } from "../TableUtils";
-import {
-  deletePrivateCollection,
-  deletePublicCollection,
-} from "interface/collections";
-import { retrieveAllCollections } from "interface/collections";
+import {shortenDescription} from "../TableUtils";
+import {deletePrivateCollection, deletePublicCollection, retrieveAllCollections,} from "interface/collections";
 
-const DownloadedCollections = ({ collections, setCollections }) => {
+const DownloadedCollections = ({collections, setCollections}) => {
   // Table Columns
   const collectionColumns = useMemo(() => [
+    {
+      accessorFn: (row) => {
+        return row.id;
+      },
+      header: "ID",
+      size: 10,
+    },
     {
       accessorFn: (row) => {
         return row.title;
@@ -94,6 +97,7 @@ const DownloadedCollections = ({ collections, setCollections }) => {
     },
   ]);
   const columnOrder = [
+    "ID",
     "Title",
     "Type",
     "Description",

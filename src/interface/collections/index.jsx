@@ -1,6 +1,9 @@
 // import auth from src/auth
+import {retrieveAllPublicCatalogs} from "../catalogs";
+
 import format from "date-fns/format";
 import axios from "axios";
+
 
 export const retrieveAllCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
@@ -10,10 +13,20 @@ export const retrieveAllCollections = async () => {
 };
 
 export const retrieveAllPublicCollections = async () => {
+  const catalogs = await retrieveAllPublicCatalogs();
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
-  return data;
+  let newData = [];
+  for (let i = 0; i < data.length; i++) {
+    let catalog = catalogs.find((catalog) => {
+      return parseInt(catalog.id) === data[i].parent_catalog;
+    });
+    let x = data[i];
+    x.catalog = catalog;
+    newData.push(x);
+  }
+  return newData;
 };
 
 export const retrieveAllPrivateCollections = async () => {

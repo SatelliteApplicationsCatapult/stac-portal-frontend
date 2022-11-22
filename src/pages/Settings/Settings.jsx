@@ -1,10 +1,8 @@
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import { TextField } from "@mui/material";
+import {TextField} from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 import Footer from "examples/Footer";
 
 // STAC Portal example components
@@ -16,7 +14,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 const Settings = () => {
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      <DashboardNavbar/>
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -30,7 +28,7 @@ const Settings = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
+      <Footer/>
     </DashboardLayout>
   );
 };
