@@ -73,6 +73,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               fontSize: "0.75rem",
               marginTop: "1.4rem",
               marginBottom: "0.4rem",
+              marginLeft: "1rem",
             }}
             pl={3}
             mt={2}
@@ -86,7 +87,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         returnValue = (
           <hr
             key={key}
-            className="sidenav-divider"
           >
           </hr>
           
@@ -114,7 +114,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         ></MDBox>
         <MDBox component={NavLink} to="/" display="flex">
           {brand && (
-            <MDBox component="img" src={brand} alt="Brand" width="60%" />
+            <img src={brand} alt="brand" className="sidenav-brand" />
+
           )}
           <MDBox width={"100%"} height={"40%"}>
             <MDTypography

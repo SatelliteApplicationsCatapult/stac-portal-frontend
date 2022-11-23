@@ -87,14 +87,13 @@ export default function App() {
             flex: "1 1 auto",
             marginLeft: "300px",
             padding: "1rem",
-            marginTop: "4rem",
             width: "calc(100% - 330px)",
             height: "100%",
           }}
         >
           <Routes>
             {getRoutes(routes)}
-            <Route path="*" element={<Navigate to="/searcher" />} />
+            <Route path="*" element={<Navigate to="/local-searcher" />} />
           </Routes>
         </div>
       </div>
