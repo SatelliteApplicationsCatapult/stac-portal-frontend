@@ -232,7 +232,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
 
                   {/* Button */}
                   <MDButton
-                    variant="contained"
+                    
                     onClick={() => {
                       // Set show loading
                       // If input is empty

@@ -124,7 +124,6 @@ const DrawMap = ({
                 inputProps={{
                   style: { padding: "0.67em", fontSize: "0.9rem" },
                 }}
-
               />
               <DatePicker
                 label="End Date"
@@ -193,8 +192,14 @@ const DrawMap = ({
                   setPublicCollections(allCollections);
                 }
               }}
+              noIcon
             >
-              <Search></Search> Search
+              <Search
+                style={{
+                  marginRight: "0.5em",
+                }}
+              ></Search>
+              Search
             </MDButton>
           </Box>
         </div>

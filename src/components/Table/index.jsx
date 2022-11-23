@@ -33,7 +33,7 @@ const Table = ({
                 color={button.color}
                 className="table-toolbar-button"
                 onClick={button.onCustomClick}
-                variant="contained"
+                
               >
                 <Icon fontSize="small" className="table-icon">
                   {button.icon}

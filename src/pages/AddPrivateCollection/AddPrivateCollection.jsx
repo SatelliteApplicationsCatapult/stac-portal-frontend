@@ -48,6 +48,12 @@ const AddPrivateCollection = () => {
             flexDirection="column"
             width="30%"
             minWidth="450px"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "30%",
+              minWidth: "450px",
+            }}
           >
             <Card
               sx={{
@@ -57,12 +63,7 @@ const AddPrivateCollection = () => {
                 height: "100%",
               }}
             >
-              <div
-                style={{
-                  width: "30%",
-                  minWidth: "450px",
-                }}
-              >
+              <div>
                 <MDInput
                   label="Collection Title"
                   placeholder="Enter collection title"
@@ -138,8 +139,8 @@ const AddPrivateCollection = () => {
                 />
 
                 <MDButton
-                  variant="contained"
                   buttonType="create"
+                  className="btn-full-width"
                   onClick={() => {
                     // Set show loading
                     // If input is empty
@@ -150,20 +151,6 @@ const AddPrivateCollection = () => {
                     }
 
                     handleSubmit();
-                  }}
-                  sx={{
-                    width: "30%",
-                    mt: 2,
-                    backgroundColor: "#54A19A",
-                    color: "white!important",
-                    width: "100%",
-                    // On hover
-                    "&:hover": {
-                      backgroundColor: "#66B08A",
-                    },
-                    "&:focus:not(:hover)": {
-                      backgroundColor: "#66B08A",
-                    },
                   }}
                 >
                   Create

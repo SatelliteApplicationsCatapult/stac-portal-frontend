@@ -54,7 +54,7 @@ export const FindMoreCollections = ({open, columns, onClose, onSubmit}) => {
         <Button
           color="primary"
           onClick={handleSubmit}
-          variant="contained"
+          
           sx={{color: "white!important"}}
         >
           Add New STAC Collection

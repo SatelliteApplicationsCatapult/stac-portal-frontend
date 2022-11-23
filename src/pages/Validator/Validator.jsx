@@ -8,6 +8,13 @@ import MDButton from "components/MDButton";
 import MDAlert from "components/MDAlert";
 
 import Icon from "@mui/material/Icon";
+import {
+  ContentPaste,
+  SaveAlt,
+  Clear,
+  TaskAlt,
+  Error,
+} from "@mui/icons-material";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -26,8 +33,7 @@ const Validator = () => {
   const [alertBox, setAlertBox] = useState({
     display: false,
     message: "",
-    severity: "error",
-    icon: "error",
+    severity: "success",
   });
 
   const generateErrorMessage = (error) => {
@@ -74,16 +80,6 @@ const Validator = () => {
     });
   };
 
-  // Success Toast Message
-  const [successSB, setSuccessSB] = useState(false);
-  const openSuccessSB = () => setSuccessSB(true);
-  const closeSuccessSB = () => setSuccessSB(false);
-
-  // Error Toast Message
-  const [errorSB, setErrorSB] = useState(false);
-  const openErrorSB = () => setErrorSB(true);
-  const closeErrorSB = () => setErrorSB(false);
-
   return (
     <DashboardLayout>
       <Grid item xs={12} pt={2}>
@@ -93,19 +89,12 @@ const Validator = () => {
           t-bone bresaola pork belly.
         </MDTypography>
         {alertBox.display ? (
-          <MDAlert color={alertBox.severity}>
-            <Icon
-              fontSize="small"
-              sx={{
-                mr: 3,
-              }}
-            >
-              {alertBox.icon}
-            </Icon>
+          <div className={`alert alert-${alertBox.severity}`}>
+            <Error />
             <MDTypography variant="overline" color="white">
               {alertBox.message}
             </MDTypography>
-          </MDAlert>
+          </div>
         ) : null}
       </Grid>
       <Box pt={4} display="flex" justifyContent="space-between">
@@ -120,8 +109,14 @@ const Validator = () => {
               });
             }}
             startIcon={<Icon>content_paste</Icon>}
+            noIcon
           >
             {" "}
+            <ContentPaste
+              sx={{
+                mr: 1,
+              }}
+            />
             Paste from clipboard
           </MDButton>
 
@@ -143,32 +138,43 @@ const Validator = () => {
               downloadAnchorNode.click();
               downloadAnchorNode.remove();
             }}
-            startIcon={<Icon>save_alt</Icon>}
+            noIcon
           >
             {" "}
+            <SaveAlt
+              sx={{
+                mr: 1,
+              }}
+            />
             Export as JSON
           </MDButton>
 
           <MDButton
-            buttonType="update"
+            buttonType="delete"
             style={{ marginRight: "10px" }}
             sx={{ mr: 4 }}
             onClick={() => {
               const textField = document.getElementById("text-field");
               textField.value = "";
             }}
-            startIcon={<Icon>clear</Icon>}
+            noIcon
           >
             {" "}
+            <Clear
+              sx={{
+                mr: 1,
+              }}
+            />
             Clear
           </MDButton>
         </Box>
         <Box display="flex" width="100%" justifyContent="flex-end">
-          <MDButton
-            buttonType="create"
-            onClick={handleSubmit}
-            startIcon={<Icon>task_alt</Icon>}
-          >
+          <MDButton buttonType="create" onClick={handleSubmit} noIcon>
+            <TaskAlt
+              sx={{
+                mr: 1,
+              }}
+            />
             Validate STAC
           </MDButton>
         </Box>

@@ -119,23 +119,32 @@ overline {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   max-width: 20rem;
+  min-width: 7rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  // shadow
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   &:hover {
     opacity: 0.8;
   }
 
-  // blue 4299E0
-  // green 54A19A
+  &-icon {
+    margin-right: 0.5rem;
+    display: flex;
+  }
 
   &-create {
     // Create is green
     background-color: #54a19a;
     color: #fff;
     cursor: pointer !important;
+
+    &:hover {
+      background-color: #13726c;
+    }
   }
 
   &-update {
@@ -143,13 +152,22 @@ overline {
     background-color: #4299e0;
     color: #fff;
     cursor: pointer;
+
+    // deeper blue on hover
+    &:hover {
+      background-color: #2369ac;
+    }
   }
 
   &-delete {
     // Delete is red
-    background-color: #e53e3e;
+    background-color: #e18080fe;
     color: #fff;
     cursor: pointer;
+
+    &:hover {
+      background-color: #cd3232;
+    }
   }
 
   &-info {
@@ -158,11 +176,48 @@ overline {
     color: black;
     cursor: pointer;
   }
+
+  &-full-width {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .card {
   &-title {
     padding: 1.5rem 1.2rem !important;
+  }
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  & svg {
+    margin-right: 2rem;
+  }
+  
+
+  &-error {
+    background-color: #f56565;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  &-success {
+    background-color: #54a19a;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
   }
 }
 

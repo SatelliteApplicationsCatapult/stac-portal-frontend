@@ -12,6 +12,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 import Table from "components/Table";
 import {
@@ -181,7 +182,9 @@ const PublicCatalogs = () => {
                     "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
                   );
                 }}
+                noIcon
               >
+                <CloudSyncIcon sx={{ mr: 1 }} />
                 Synchronize
               </MDButton>
             </Card>

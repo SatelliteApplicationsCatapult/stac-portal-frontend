@@ -43,6 +43,7 @@ const AddPublicCatalog = () => {
           style={{
             width: "100%",
             maxWidth: "20rem",
+            marginBottom: "1em",
           }}
         />
 
@@ -57,6 +58,7 @@ const AddPublicCatalog = () => {
           style={{
             width: "100%",
             maxWidth: "20rem",
+            marginBottom: "1em",
           }}
         />
         <MDInput
@@ -69,11 +71,8 @@ const AddPublicCatalog = () => {
           style={{
             width: "100%",
             maxWidth: "20rem",
-            height: "80px",
-            // Wrap text
+            marginBottom: "1em",
             whiteSpace: "pre-wrap",
-            
-
           }}
         />
         <MDInput
@@ -87,6 +86,7 @@ const AddPublicCatalog = () => {
           style={{
             width: "100%",
             maxWidth: "20rem",
+            marginBottom: "1em",
           }}
         />
 
