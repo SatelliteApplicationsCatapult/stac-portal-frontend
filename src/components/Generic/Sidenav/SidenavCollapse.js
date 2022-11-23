@@ -10,6 +10,9 @@ import "./styles/style.scss";
 
 function SidenavCollapse({ icon, name, ...rest }) {
   const [active, setActive] = useState(false);
+
+  console.log("Rest: ", rest);
+
   return (
     <ListItem
       className="sidenav-collapse"
@@ -24,14 +27,17 @@ function SidenavCollapse({ icon, name, ...rest }) {
       <MDBox
         {...rest}
         className={`
-        sidenav-collapse-item ${active ? "sidenav-active" : ""}
+        sidenav-collapse-item ${
+          (active ? "sidenav-active" : "", rest.active ? "sidenav-current" : "")
+        }
       `}
       >
-        <MDBox className="sidenav-collapse-item__icon">
-          {/* Icon */}
-          {icon}
-        </MDBox>
-        <ListItemText primary={name} className="sidenav-collapse-item__text" />
+        <MDBox className="sidenav-collapse-item__icon">{icon}</MDBox>
+        <ListItemText
+          primary={name}
+          className={`sidenav-collapse-item__text 
+        ${rest.active ? "sidenav-collapse-item__text-active" : ""}`}
+        />
       </MDBox>
     </ListItem>
   );

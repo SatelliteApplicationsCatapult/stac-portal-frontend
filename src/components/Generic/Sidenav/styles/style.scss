@@ -20,6 +20,14 @@
           font-size: 0.9rem;
           font-weight: 400;
         }
+
+        &-active {
+          color: white;
+
+          & span {
+            font-weight: 900;
+          }
+        }
       }
 
       &__icon {
@@ -42,6 +50,17 @@
     transition: all 0.3s;
     background-color: #555555;
     border-radius: 15px;
+  }
+
+  &-current {
+    transition: all 0.3s;
+    background-color: #54a19a;
+    color: white !important;
+    border-radius: 15px;
+
+    & .sidenav-collapse-item__icon {
+      color: white;
+    }
   }
 
   &-title {
