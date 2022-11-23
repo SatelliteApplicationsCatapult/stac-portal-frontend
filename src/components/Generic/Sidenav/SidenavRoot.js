@@ -11,7 +11,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
     background: "linear-gradient(180deg, #3F3F46 0%, #000000 100%)",
     margin: "1em",
     width: "200px",
-    height: "calc(100vh - 4em)",
+    height: "calc(90vh)",
     borderRadius: "10px",
     overflowX: "hidden",
     transform: "translateX(10px)",

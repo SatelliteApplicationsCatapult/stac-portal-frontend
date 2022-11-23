@@ -30,8 +30,14 @@ const AddPublicCatalog = () => {
     }
   };
   return (
-    <MDBox display="flex" flexDirection="column" width="30%" minWidth="450px">
-
+    <MDBox
+      display="flex"
+      flexDirection="column"
+      width="30%"
+      minWidth="900px"
+      className="w-30"
+    >
+      <div>
         <MDInput
           label="Catalog Name"
           placeholder="Enter catalog name"
@@ -75,7 +81,7 @@ const AddPublicCatalog = () => {
 
         {/* Button */}
         <MDButton
-          variant="contained"
+          buttonType="create"
           onClick={() => {
             // Set show loading
             // If input is empty
@@ -84,7 +90,6 @@ const AddPublicCatalog = () => {
               catalogURL === "" ||
               catalogVersion === ""
             ) {
-              // alert("Please fill in required fields");
               window.alert("Please fill in required fields");
               return;
             }
@@ -97,23 +102,10 @@ const AddPublicCatalog = () => {
             }
             handleSubmit();
           }}
-          sx={{
-            width: "30%",
-            mt: 2,
-            backgroundColor: "#54A19A",
-            color: "white!important",
-            width: "100%",
-            // On hover
-            "&:hover": {
-              backgroundColor: "#66B08A",
-            },
-            "&:focus:not(:hover)": {
-              backgroundColor: "#66B08A",
-            },
-          }}
         >
           Create
         </MDButton>
+      </div>
     </MDBox>
   );
 };

@@ -2,10 +2,97 @@
   font-family: Roboto, Helvetica, Arial, sans-serif !important;
 }
 
+body {
+  background-color: #f0f2f5;
+}
+
+h4 {
+  font-weight: 500;
+  // Nice heading
+  font-size: 1.25em;
+  letter-spacing: 0.0075em;
+  color: #3c4858;
+  margin: 0;
+  padding-top: 0.625em;
+  padding-bottom: 0.625em;
+}
+
 h6 {
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: 0.0075em;
   margin-block-start: 1em;
   margin-block-end: 1em;
+}
+
+span {
+  text-decoration-thickness: none;
+}
+
+.form-input {
+  // Text input
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  width: 100%;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #2d3748;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  margin-bottom: 1rem;
+  &:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  }
+}
+
+.btn {
+  // Button
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.0075em;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &-create {
+    // Create is green
+    background-color: #48bb78;
+    color: #fff;
+  }
+
+  &-update {
+    // Update is blue
+    background-color: #4299e1;
+    color: #fff;
+  }
+
+  &-delete {
+    // Delete is red
+    background-color: #e53e3e;
+    color: #fff;
+  }
+}
+
+.MuiPaper-root {
+  border-radius: 1rem !important;
+  // nice shadow
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  padding: 0.5em;
+  padding-left: 1em;
+}
+
+.w-30 {
+  width: 30%;
 }

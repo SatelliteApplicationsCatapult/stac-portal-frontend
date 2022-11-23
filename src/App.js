@@ -65,28 +65,7 @@ export default function App() {
       return null;
     });
 
-  const configsButton = (
-    <MDBox
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      width="3.25rem"
-      height="3.25rem"
-      bgColor="white"
-      shadow="sm"
-      borderRadius="50%"
-      position="fixed"
-      right="2rem"
-      bottom="2rem"
-      zIndex={99}
-      color="dark"
-      sx={{ cursor: "pointer" }}
-    >
-      <Icon fontSize="small" color="inherit">
-        settings
-      </Icon>
-    </MDBox>
-  );
+
   return (
     <>
       <Sidenav
@@ -96,12 +75,10 @@ export default function App() {
         routes={routes}
 
       />
-      {configsButton}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
-          minHeight: "100vh",
         }}
       >
         {/* The sidenav takes 300px, so use rest of the screen */}
@@ -112,6 +89,7 @@ export default function App() {
             padding: "1rem",
             marginTop: "4rem",
             width: "calc(100% - 330px)",
+            height: "100%",
           }}
         >
           <Routes>

@@ -17,13 +17,12 @@ const MDTypography = forwardRef(
     },
     ref
   ) => {
-    console.log("component", component);
-    //if component is not defined, use the default one
+    //if component is not defined, use the variant as the component
     if (!component) {
-      component = variant === "h1" ? "h1" : "p";
+      component = variant;
     }
 
-    console.log('Variant', variant)
+    console.log("Variant", variant);
 
     return (
       <span ref={ref} {...rest}>

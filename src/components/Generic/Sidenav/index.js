@@ -71,6 +71,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               alignItems: "center",
               textTransform: "uppercase",
               fontSize: "0.75rem",
+              marginTop: "1.4rem",
+              marginBottom: "0.4rem",
             }}
             pl={3}
             mt={2}

@@ -153,7 +153,6 @@ const PublicCatalogs = () => {
 
   return (
     <DashboardLayout>
-      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -162,7 +161,6 @@ const PublicCatalogs = () => {
                 p: 3,
                 display: "flex",
                 flexDirection: "column",
-                width: "100%",
               }}
             >
               <MDTypography variant="h4" color="textPrimary">
@@ -176,15 +174,15 @@ const PublicCatalogs = () => {
               <br></br>
 
               <MDButton
-                color="secondary"
-                variant="contained"
+                buttonType="update"
                 onClick={async () => {
                   await syncAllPublicCatalogs();
                   window.alert(
                     "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
                   );
                 }}
-                sx={{ width: "30%" }}
+                // 30% width
+                className="w-30"
               >
                 Synchronize
               </MDButton>
@@ -197,7 +195,6 @@ const PublicCatalogs = () => {
                 p: 3,
                 display: "flex",
                 flexDirection: "column",
-                height: "100%",
               }}
             >
               <MDTypography variant="h4" color="textPrimary">
@@ -223,6 +220,8 @@ const PublicCatalogs = () => {
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.
               </MDTypography>
+              <br />
+              <br />
               <Table
                 columns={catalogsColumns}
                 gray
@@ -238,6 +237,8 @@ const PublicCatalogs = () => {
               <MDTypography variant="h4" color="textPrimary">
                 Public Collections
               </MDTypography>
+              <br />
+              <br />
               <Table
                 columns={paramsColumnsPublic}
                 gray

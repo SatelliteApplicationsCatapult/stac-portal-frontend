@@ -3,9 +3,6 @@ import { useEffect } from "react";
 // react-router-dom components
 import { useLocation } from "react-router-dom";
 
-// prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
-
 // STAC Portal components
 import MDBox from "components/MDBox";
 
@@ -22,11 +19,10 @@ function DashboardLayout({ children }) {
 
   return (
     <MDBox
-      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+      sx={({ transitions }) => ({
         p: 3,
         position: "relative",
-
-        marginLeft: '274px',
+        marginLeft: "274px",
         transition: transitions.create(["margin-left", "margin-right"], {
           easing: transitions.easing.easeInOut,
           duration: transitions.duration.standard,
@@ -37,10 +33,5 @@ function DashboardLayout({ children }) {
     </MDBox>
   );
 }
-
-// Typechecking props for the DashboardLayout
-DashboardLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 export default DashboardLayout;

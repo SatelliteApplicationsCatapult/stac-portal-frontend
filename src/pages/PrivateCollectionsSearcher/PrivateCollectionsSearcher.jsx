@@ -14,9 +14,9 @@ const PrivateCollectionsSearcher = () => {
         <MDBox
           pt={6}
           pb={3}
-          sx={{
+          style={{
             width: "100%",
-            height: "86vh",
+            height: "83vh",
           }}
         >
           <Iframe
