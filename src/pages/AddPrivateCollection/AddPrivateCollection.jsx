@@ -37,12 +37,7 @@ const AddPrivateCollection = () => {
     <DashboardLayout>
       <MDBox>
         <MDBox sx={{ pt: 3 }}>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <Card className="card-title">
             <MDTypography variant="h4" color="textPrimary">
               Add Private Collection
             </MDTypography>

@@ -33,9 +33,11 @@ const DisplayCollections = () => {
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
+            <Card 
+              className="card-title"
+            >
               <MDBox p={3}>
-                <MDTypography variant="h4">My Catalog</MDTypography>
+                <MDTypography variant="h4">Local Catalog</MDTypography>
               </MDBox>
             </Card>
           </Grid>

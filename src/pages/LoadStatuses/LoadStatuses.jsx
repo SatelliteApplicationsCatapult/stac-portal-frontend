@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -7,14 +7,12 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 
-
 import Table from "components/Table";
 // import MDButton from "components/MDButton";
-import {retrieveAllLoadStatuses} from "interface/loadstatuses";
+import { retrieveAllLoadStatuses } from "interface/loadstatuses";
 
 const LoadStatuses = () => {
   const [statuses, setStatuses] = useState([]);
@@ -110,13 +108,12 @@ const LoadStatuses = () => {
   const columnOrder = ["Catalog"];
   return (
     <DashboardLayout>
-      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
+            <Card className="card-title">
               <MDBox p={3}>
-                <MDTypography variant="h4">Load Operations</MDTypography>
+                <MDTypography variant="h4">Load Status</MDTypography>
               </MDBox>
             </Card>
           </Grid>
@@ -126,15 +123,13 @@ const LoadStatuses = () => {
               gray
               columnOrder={columnOrder}
               data={statuses}
-              rowClickAction={(row, table) => {
-              }}
+              rowClickAction={(row, table) => {}}
               rowsPerPage={20}
               title="Load Operations"
             />
           </Grid>
         </Grid>
       </MDBox>
-      
     </DashboardLayout>
   );
 };

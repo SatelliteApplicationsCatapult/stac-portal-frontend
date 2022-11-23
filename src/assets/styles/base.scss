@@ -160,6 +160,12 @@ overline {
   }
 }
 
+.card {
+  &-title {
+    padding: 1.5rem 1.2rem !important;
+  }
+}
+
 .MuiPaper-root {
   border-radius: 1rem !important;
   // nice shadow

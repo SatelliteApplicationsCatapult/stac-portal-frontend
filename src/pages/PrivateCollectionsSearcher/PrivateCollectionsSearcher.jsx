@@ -10,7 +10,6 @@ const PrivateCollectionsSearcher = () => {
   return (
     <>
       <DashboardLayout>
-        
         <MDBox
           pt={6}
           pb={3}

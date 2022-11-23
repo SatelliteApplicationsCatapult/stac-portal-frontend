@@ -178,7 +178,7 @@ const UploadProgress = ({
                     // Gray and italics and small font
                     color: "#9E9E9E",
                     fontStyle: "italic",
-                    fontSize: "0.8em",
+                    fontSize: "1em",
                   }}
                 >
                   No files uploaded
@@ -238,7 +238,7 @@ const UploadProgress = ({
                     // Gray and italics and small font
                     color: "#9E9E9E",
                     fontStyle: "italic",
-                    fontSize: "0.8em",
+                    fontSize: "1em",
                   }}
                 >
                   No items detected

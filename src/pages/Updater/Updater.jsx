@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -7,13 +7,14 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 
-
 // Interface
-import {getAllStoredSearchParameters, runStoredSearchParamUpdate,} from "interface/collections";
+import {
+  getAllStoredSearchParameters,
+  runStoredSearchParamUpdate,
+} from "interface/collections";
 
 // Table
 import Table from "components/Table";
@@ -88,11 +89,10 @@ const Updater = () => {
 
   return (
     <DashboardLayout>
-      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
+            <Card className="card-title">
               <MDBox p={3}>
                 <MDTypography variant="h4">Update Collection</MDTypography>
               </MDBox>
@@ -104,15 +104,13 @@ const Updater = () => {
               gray
               columnOrder={columnOrder}
               data={params}
-              rowClickAction={(row, table) => {
-              }}
+              rowClickAction={(row, table) => {}}
               rowsPerPage={20}
               title="Search Parameters"
             />
           </Grid>
         </Grid>
       </MDBox>
-      
     </DashboardLayout>
   );
 };
