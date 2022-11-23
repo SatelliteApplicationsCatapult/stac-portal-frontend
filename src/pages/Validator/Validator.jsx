@@ -11,7 +11,7 @@ import Icon from "@mui/material/Icon";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 import {Box} from "@mui/system";
 import {useState} from "react";
 
@@ -88,7 +88,7 @@ const Validator = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
           Use the Area Downloader to choose a date range and geographic area to

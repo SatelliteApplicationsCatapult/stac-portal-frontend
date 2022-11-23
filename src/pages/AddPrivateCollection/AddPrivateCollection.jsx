@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
@@ -35,7 +35,7 @@ const AddPrivateCollection = () => {
   };
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      
       <MDBox
         sx={{
           backgroundColor: "background.default",

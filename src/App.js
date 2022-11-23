@@ -1,5 +1,3 @@
-
-
 import { useEffect, useMemo, useState } from "react";
 
 // react-router components
@@ -30,56 +28,16 @@ import {
 
 import STAClogo from "assets/images/stac.png";
 
+import "./assets/styles/base.scss";
+
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
-  const {
-    miniSidenav,
-    direction,
-    layout,
-    openConfigurator,
-    sidenavColor,
-  } = controller;
+  const { direction, layout, sidenavColor } =
+    controller;
 
   console.log("Layout: ", layout);
   console.log("Direction: ", direction);
-  const [onMouseEnter, setOnMouseEnter] = useState(false);
-  const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-
-  // Cache for the rtl
-  useMemo(() => {
-    const cacheRtl = createCache({
-      key: "rtl",
-      stylisPlugins: [rtlPlugin],
-    });
-
-    setRtlCache(cacheRtl);
-  }, []);
-
-  // Open sidenav when mouse enter on mini sidenav
-  const handleOnMouseEnter = () => {
-    if (miniSidenav && !onMouseEnter) {
-      setMiniSidenav(dispatch, false);
-      setOnMouseEnter(true);
-    }
-  };
-
-  // Close sidenav when mouse leave mini sidenav
-  const handleOnMouseLeave = () => {
-    if (onMouseEnter) {
-      setMiniSidenav(dispatch, true);
-      setOnMouseEnter(false);
-    }
-  };
-
-  // Change the openConfigurator state
-  const handleConfiguratorOpen = () =>
-    setOpenConfigurator(dispatch, !openConfigurator);
-
-  // Setting the dir attribute for the body element
-  useEffect(() => {
-    document.body.setAttribute("dir", direction);
-  }, [direction]);
 
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
@@ -123,7 +81,6 @@ export default function App() {
       zIndex={99}
       color="dark"
       sx={{ cursor: "pointer" }}
-      onClick={handleConfiguratorOpen}
     >
       <Icon fontSize="small" color="inherit">
         settings
@@ -137,14 +94,32 @@ export default function App() {
         brand={STAClogo}
         brandName="STAC Portal"
         routes={routes}
-        onMouseEnter={handleOnMouseEnter}
-        onMouseLeave={handleOnMouseLeave}
+
       />
       {configsButton}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/searcher" />} />
-      </Routes>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+        }}
+      >
+        {/* The sidenav takes 300px, so use rest of the screen */}
+        <div
+          style={{
+            flex: "1 1 auto",
+            marginLeft: "300px",
+            padding: "1rem",
+            marginTop: "4rem",
+            width: "calc(100% - 330px)",
+          }}
+        >
+          <Routes>
+            {getRoutes(routes)}
+            <Route path="*" element={<Navigate to="/searcher" />} />
+          </Routes>
+        </div>
+      </div>
     </>
   );
 }

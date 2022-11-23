@@ -8,7 +8,7 @@ import MDTypography from "components/MDTypography";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 import MDButton from "components/MDButton";
 
 // Text editor box
@@ -16,7 +16,7 @@ import MDButton from "components/MDButton";
 const Applications = () => {
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>

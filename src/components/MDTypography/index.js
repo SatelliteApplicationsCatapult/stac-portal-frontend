@@ -1,8 +1,4 @@
-
-import { forwardRef } from "react";
-
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import { forwardRef, createElement } from "react";
 
 const MDTypography = forwardRef(
   (
@@ -14,64 +10,42 @@ const MDTypography = forwardRef(
       textGradient,
       opacity,
       children,
+      variant,
+      component,
+      sx,
       ...rest
     },
     ref
   ) => {
+    console.log("component", component);
+    //if component is not defined, use the default one
+    if (!component) {
+      component = variant === "h1" ? "h1" : "p";
+    }
+
+    console.log('Variant', variant)
+
     return (
       <span ref={ref} {...rest}>
-        {children}
+        {/* Component can be p or h2, h3 ,h6 etc. */}
+        {createElement(
+          component,
+          {
+            style: {
+              color,
+              fontWeight,
+              textTransform,
+              verticalAlign,
+              textGradient,
+              opacity,
+              ...sx,
+            },
+          },
+          children
+        )}
       </span>
     );
   }
 );
-
-// Setting default values for the props of MDTypography
-MDTypography.defaultProps = {
-  color: "dark",
-  fontWeight: false,
-  textTransform: "none",
-  verticalAlign: "unset",
-  textGradient: false,
-  opacity: 1,
-};
-
-// Typechecking props for the MDTypography
-MDTypography.propTypes = {
-  color: PropTypes.oneOf([
-    "inherit",
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
-    "text",
-    "white",
-  ]),
-  fontWeight: PropTypes.oneOf([false, "light", "regular", "medium", "bold"]),
-  textTransform: PropTypes.oneOf([
-    "none",
-    "capitalize",
-    "uppercase",
-    "lowercase",
-  ]),
-  verticalAlign: PropTypes.oneOf([
-    "unset",
-    "baseline",
-    "sub",
-    "super",
-    "text-top",
-    "text-bottom",
-    "middle",
-    "top",
-    "bottom",
-  ]),
-  textGradient: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  opacity: PropTypes.number,
-};
 
 export default MDTypography;

@@ -4,31 +4,18 @@ import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 
 export default styled(Drawer)(({ theme, ownerState }) => {
-  const sidebarWidth = 250;
-
-  // styles for the sidenav when miniSidenav={false}
-  const drawerOpenStyles = () => ({
-    background: "red",
-    transform: "translateX(0)",
-
-    boxShadow: "none",
-    marginBottom: "inherit",
-    left: "0",
-    width: sidebarWidth,
-    transform: "translateX(0)",
-  });
 
   // styles for the sidenav when miniSidenav={true}
   const drawerCloseStyles = () => ({
-    background: "red",
-    transform: `translateX(320px)`,
-
-    boxShadow: "none",
-    marginBottom: "inherit",
-    left: "0",
-    width: "96px",
+    // background a graident from gray to black down
+    background: "linear-gradient(180deg, #3F3F46 0%, #000000 100%)",
+    margin: "1em",
+    width: "200px",
+    height: "calc(100vh - 4em)",
+    borderRadius: "10px",
     overflowX: "hidden",
-    transform: "translateX(0)",
+    transform: "translateX(10px)",
+    padding: "2em",
   });
 
   return {

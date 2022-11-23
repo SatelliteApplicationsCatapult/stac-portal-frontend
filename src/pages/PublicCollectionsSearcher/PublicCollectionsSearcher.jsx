@@ -4,7 +4,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 import DrawMap from "../../components/DrawMap";
 import PublicCollections from "./components/PublicCollections";
 import {retrieveAllCollections} from "interface/collections";
@@ -31,7 +31,7 @@ const PublicCollectionsSearcher = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

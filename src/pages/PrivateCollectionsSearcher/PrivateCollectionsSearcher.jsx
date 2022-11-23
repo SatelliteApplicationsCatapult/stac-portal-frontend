@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 import { useState } from "react";
 import Iframe from "react-iframe";
 import './style.scss'
@@ -10,7 +10,7 @@ const PrivateCollectionsSearcher = () => {
   return (
     <>
       <DashboardLayout>
-        <DashboardNavbar />
+        
         <MDBox
           pt={6}
           pb={3}

@@ -9,7 +9,7 @@ import MDTypography from "components/MDTypography";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 
 import "./style.scss";
 import {useEffect, useState} from "react";
@@ -62,7 +62,7 @@ const LoadLocal = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
+      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           {/* Step 1 - Upload */}
