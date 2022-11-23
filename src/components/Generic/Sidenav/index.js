@@ -123,6 +123,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               variant="button"
               fontWeight="medium"
               className="sidenav-title"
+              color="white"
             >
               {brandName}
             </MDTypography>

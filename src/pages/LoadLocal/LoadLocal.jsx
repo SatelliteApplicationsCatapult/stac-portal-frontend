@@ -1,18 +1,17 @@
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import {Button, CircularProgress} from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
+import MDButton from "components/MDButton";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 
-
 import "./style.scss";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 // Components
 import Dropzone from "./components/Dropzone";
@@ -20,7 +19,7 @@ import CollectionSelect from "./components/CollectionSelect";
 import STACForm from "./components/STACForm";
 
 // Utils
-import {addItemsToCollection} from "interface/collections";
+import { addItemsToCollection } from "interface/collections";
 
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
@@ -62,7 +61,6 @@ const LoadLocal = () => {
 
   return (
     <DashboardLayout>
-      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           {/* Step 1 - Upload */}
@@ -78,7 +76,7 @@ const LoadLocal = () => {
               <MDTypography variant="h5" color="textSecondary">
                 Step 1 - Select Folder(s)
               </MDTypography>
-              <MDTypography variant="body2" mb={2}>
+              <MDTypography variant="overline" mb={2}>
                 Drag and drop the folder containing the imagery files from your
                 source provider e.g. Planet, Maxar etc.
               </MDTypography>
@@ -95,7 +93,13 @@ const LoadLocal = () => {
           </Grid>
 
           {/* Step 4 - Choose Collection */}
-          <Grid item xs={12}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              marginTop: "3rem",
+            }}
+          >
             <MDBox>
               <Card
                 sx={{
@@ -108,7 +112,11 @@ const LoadLocal = () => {
                 <MDTypography variant="h5" color="textSecondary">
                   Step 4 - Choose Collection
                 </MDTypography>
-                <MDTypography variant="body2" mb={2}>
+                <MDTypography variant="overline" 
+                  style={{
+                    marginBottom: "1rem",
+                  }}
+                >
                   Choose a collection to add your new STAC items to.
                 </MDTypography>
                 <MDBox
@@ -139,32 +147,31 @@ const LoadLocal = () => {
                 }}
               >
                 <MDBox
-                  display="flex"
-                  flexDirection="row"
-                  width="100%"
-                  minWidth="450px"
-                  alignItems="center"
-                  justifyContent="space-between"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "100%",
+                    minWidth: "450px",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
                 >
                   <MDTypography variant="h5" color="textSecondary">
                     Step 5 - View STAC Records
                   </MDTypography>
-                  <Button
+                  <MDButton
                     // Publish all files
                     onClick={publish}
-                    variant="contained"
-                    color="primary"
-                    sx={{
-                      backgroundColor: "#54A19A",
-                      color: "white!important",
-                    }}
+                    buttonType="create"
                     disabled={!selectedCollection}
                   >
                     Publish All
-                  </Button>
+                  </MDButton>
                 </MDBox>
 
-                <MDTypography variant="body2" mb={2}>
+                <MDTypography variant="overline" style={{
+                  marginBottom: "1rem",
+                }}>
                   View the newly created STAC records for each item.
                 </MDTypography>
                 <STACForm
@@ -224,8 +231,6 @@ const LoadLocal = () => {
           </MDBox>
         </MDBox>
       )}
-
-      
     </DashboardLayout>
   );
 };

@@ -88,8 +88,9 @@ const Validator = () => {
     <DashboardLayout>
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
-          Use the Area Downloader to choose a date range and geographic area to
-          download STAC data from.
+          Spicy jalapeno bacon ipsum dolor amet prosciutto sausage meatloaf
+          tongue, drumstick jowl kielbasa rump. Doner jerky tenderloin tail
+          t-bone bresaola pork belly.
         </MDTypography>
         {alertBox.display ? (
           <MDAlert color={alertBox.severity}>

@@ -166,7 +166,7 @@ const PublicCatalogs = () => {
               <MDTypography variant="h4" color="textPrimary">
                 Synchronise with STAC Index
               </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
+              <MDTypography variant="overline" color="textPrimary">
                 Running this operation will synchronise list of your public
                 catalogs and collections with STAC Index.
               </MDTypography>
@@ -198,7 +198,7 @@ const PublicCatalogs = () => {
               <MDTypography variant="h4" color="textPrimary">
                 Add Public Catalog
               </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
+              <MDTypography variant="overline" color="textPrimary">
                 Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.
@@ -213,13 +213,11 @@ const PublicCatalogs = () => {
               <MDTypography variant="h4" color="textPrimary">
                 Public Catalogs
               </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
+              <MDTypography variant="overline" color="textPrimary">
                 Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.
               </MDTypography>
-              <br />
-              <br />
               <Table
                 columns={catalogsColumns}
                 gray
@@ -235,8 +233,11 @@ const PublicCatalogs = () => {
               <MDTypography variant="h4" color="textPrimary">
                 Public Collections
               </MDTypography>
-              <br />
-              <br />
+              <MDTypography variant="overline" color="textPrimary">
+                Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
+                loin, kielbasa turducken sausage prosciutto frankfurter biltong
+                beef tenderloin jowl buffalo.
+              </MDTypography>
               <Table
                 columns={paramsColumnsPublic}
                 gray

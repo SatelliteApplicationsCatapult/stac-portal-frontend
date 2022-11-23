@@ -94,7 +94,7 @@ const Updater = () => {
           <Grid item xs={12}>
             <Card>
               <MDBox p={3}>
-                <MDTypography variant="h4">Updater</MDTypography>
+                <MDTypography variant="h4">Update Collection</MDTypography>
               </MDBox>
             </Card>
           </Grid>

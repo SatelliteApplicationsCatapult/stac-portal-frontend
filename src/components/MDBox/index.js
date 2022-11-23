@@ -1,24 +1,13 @@
 
 import { forwardRef } from "react";
 
-// prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-
-const MDBox = forwardRef(
-  (
-    {
-      variant,
-      bgColor,
-      color,
-      opacity,
-      borderRadius,
-      shadow,
-      coloredShadow,
-      ...rest
-    },
-    ref
-  ) => <div ref={ref} {...rest} />
-);
+const MDBox = forwardRef(({ children, ...rest }, ref) => {
+  return (
+    <div ref={ref} {...rest}>
+      {children}
+    </div>
+  );
+});
 
 
 export default MDBox;

@@ -3,14 +3,17 @@ import MDTypography from "components/MDTypography";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import MDButton from "components/MDButton";
-import {createNewCollection, retrieveAllPrivateCollections,} from "interface/collections";
-import {useEffect, useState} from "react";
+import {
+  createNewCollection,
+  retrieveAllPrivateCollections,
+} from "interface/collections";
+import { useEffect, useState } from "react";
 
 import "./style.scss";
 import MDInput from "components/MDInput";
-import {CircularProgress} from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
-const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
+const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
   const [collections, setCollections] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [newCollection, setNewCollection] = useState({
@@ -57,25 +60,45 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
       {/* Either select an existing selection or create a new one */}
 
       {/* First box is to choose existing collection using a dropdown which is searchable */}
-      <MDBox display="flex" flexDirection="row" width="100%">
-        <MDBox display="flex" flexDirection="column" mb={2} width="100%">
+      <MDBox
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+        }}
+      >
+        <MDBox
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "16px",
+            width: "100%",
+          }}
+        >
           <MDTypography variant="h6" color="textSecondary">
             Choose an existing collection
           </MDTypography>
-          <MDTypography variant="body2" mb={2}>
+          <MDTypography variant="overline" mb={2}>
             Choose a collection from your organisation's existing Catalog.
           </MDTypography>
           <MDBox
-            display="flex"
-            flexDirection="column"
-            width="30%"
-            minWidth="450px"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "30%",
+              minWidth: "450px",
+            }}
           >
             <Autocomplete
-              options={collections}
-              sx={{width: 300}}
+              options={collections || []}
+              // If options is empty, then don't show no collections found
+              noOptionsText={collections ? "" : "No collections found"}
+              sx={{ width: 300, height: "3rem" }}
+              size="small"
+              // Small font
+              text
               renderInput={(params) => (
-                <TextField {...params} label="Choose Collection"/>
+                <TextField {...params} label="Choose Collection" />
               )}
               onChange={(event, value) => {
                 setSelectedCollection(value);
@@ -86,11 +109,13 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
 
         {/* Arrow */}
         <MDBox
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          justifyContent="center"
-          width="20%"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "20%",
+          }}
         >
           <MDTypography
             variant="h6"
@@ -103,23 +128,31 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
         </MDBox>
 
         {/* Second box is to create a new collection */}
-        <MDBox display="flex" flexDirection="column" mb={2} width="100%">
+        <MDBox
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: "16px",
+            width: "100%",
+          }}
+        >
           <MDTypography variant="h6" color="textSecondary">
             Create a new collection
           </MDTypography>
-          <MDTypography variant="body2" mb={2}>
+          <MDTypography variant="overline" mb={2}>
             Create a new collection to add to your organisation's existing
             Catalog.
           </MDTypography>
           <MDBox
-            display="flex"
-            flexDirection="column"
-            width="30%"
-            minWidth="450px"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "30%",
+              minWidth: "450px",
+            }}
           >
             <MDButton
-              variant="contained"
-              color="secondary"
+              buttonType="create"
               onClick={() => {
                 console.log("Create new collection");
                 setOpenModal(true);
@@ -160,10 +193,12 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
                   Catalog.
                 </MDTypography>
                 <MDBox
-                  display="flex"
-                  flexDirection="column"
-                  width="30%"
-                  minWidth="450px"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "30%",
+                    minWidth: "450px",
+                  }}
                 >
                   {/* Form with collection name */}
                   {/* Input */}
@@ -178,7 +213,7 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
                     }}
                     autoComplete="off"
                     autoFocus={true}
-                    sx={{mb: 2}}
+                    sx={{ mb: 2 }}
                   />
 
                   {/* Description */}
@@ -192,7 +227,7 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
                       });
                     }}
                     autoComplete="off"
-                    sx={{mb: 2}}
+                    sx={{ mb: 2 }}
                   />
 
                   {/* Button */}
@@ -229,18 +264,22 @@ const CollectionSelect = ({selectedCollection, setSelectedCollection}) => {
               </>
             ) : (
               <MDBox
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                height="100%"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  height: "100%",
+                }}
               >
                 <MDBox
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="center"
-                  justifyContent="center"
-                  height="100%"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
                 >
                   <CircularProgress
                     // BLue
