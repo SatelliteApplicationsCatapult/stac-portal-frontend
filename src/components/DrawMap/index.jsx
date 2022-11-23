@@ -14,6 +14,7 @@ import axios from "axios";
 import "./map.scss";
 import { Stack, Box } from "@mui/system";
 import MDButton from "components/MDButton";
+import { Search } from "@mui/icons-material";
 
 const searchCollections = async (bbox, datetime) => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search/`;
@@ -66,14 +67,6 @@ const DrawMap = ({
     setAOI("");
   };
 
-  const handleMount = () => {
-    // Check if there is already an AOI
-    if (AOI) {
-      //const aoi = wktToArray(AOI);
-      //setRectangleBounds(aoi);
-    }
-    //
-  };
   return (
     <>
       <Stack spacing={2}>
@@ -88,12 +81,17 @@ const DrawMap = ({
             <TextField
               id="aoi"
               label="AOI"
-              style={{ margin: 8, width: "50%" }}
+              style={{ margin: 6, width: "50%", padding: "0" }}
               // If showMap is true then set placeholder to "Click to draw"
               placeholder={"Click to draw AOI on the map"}
               margin="normal"
               InputLabelProps={{
                 shrink: true,
+              }}
+              padding="0"
+              // set inside padding to 0
+              inputProps={{
+                style: { padding: "0.67em", fontSize: "0.9rem" },
               }}
               value={AOI}
               variant="outlined"
@@ -121,6 +119,12 @@ const DrawMap = ({
                 onChange={(e) => setStartDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"
+                padding="0"
+                style={{ padding: "0" }}
+                inputProps={{
+                  style: { padding: "0.67em", fontSize: "0.9rem" },
+                }}
+
               />
               <DatePicker
                 label="End Date"
@@ -130,11 +134,13 @@ const DrawMap = ({
                 onChange={(e) => setEndDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"
+                inputProps={{
+                  style: { padding: "0.67em", fontSize: "0.9rem" },
+                }}
               />
             </LocalizationProvider>
             <MDButton
-              variant="contained"
-              color="info"
+              buttonType="create"
               onClick={async () => {
                 // Hide map
                 setShowMap(false);
@@ -158,7 +164,6 @@ const DrawMap = ({
                     .split("T")[0]
                     .concat("T23:59:59Z");
                   datetime += endDateAsIsoString;
-
                 } else {
                   datetime += "..";
                 }
@@ -189,7 +194,7 @@ const DrawMap = ({
                 }
               }}
             >
-              <Icon>search</Icon> Search
+              <Search></Search> Search
             </MDButton>
           </Box>
         </div>
@@ -201,7 +206,6 @@ const DrawMap = ({
                   position="topright"
                   onCreated={handleCreate}
                   onDeleted={handleDelete}
-                  onMounted={handleMount}
                   onDrawStop={handleDraw}
                   draw={{
                     rectangle: true,

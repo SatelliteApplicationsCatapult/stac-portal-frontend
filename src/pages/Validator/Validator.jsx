@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import {CircularProgress, TextField} from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -12,8 +12,8 @@ import Icon from "@mui/material/Icon";
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 
-import {Box} from "@mui/system";
-import {useState} from "react";
+import { Box } from "@mui/system";
+import { useState } from "react";
 
 import "./Validator.scss";
 
@@ -38,7 +38,7 @@ const Validator = () => {
   };
 
   const handleSubmit = () => {
-    setAlertBox({display: false, message: "", severity: "error"});
+    setAlertBox({ display: false, message: "", severity: "error" });
     setIsLoading(true);
     let textField = document.getElementById("text-field");
     const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`;
@@ -79,16 +79,13 @@ const Validator = () => {
   const openSuccessSB = () => setSuccessSB(true);
   const closeSuccessSB = () => setSuccessSB(false);
 
-
   // Error Toast Message
   const [errorSB, setErrorSB] = useState(false);
   const openErrorSB = () => setErrorSB(true);
   const closeErrorSB = () => setErrorSB(false);
 
-
   return (
     <DashboardLayout>
-      
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
           Use the Area Downloader to choose a date range and geographic area to
@@ -113,9 +110,8 @@ const Validator = () => {
       <Box pt={4} display="flex" justifyContent="space-between">
         <Box display="flex" width="100%">
           <MDButton
-            variant="contained"
-            color="info"
-            sx={{mr: 4}}
+            buttonType="update"
+            style={{ marginRight: "10px" }}
             onClick={() => {
               navigator.clipboard.readText().then((text) => {
                 const textField = document.getElementById("text-field");
@@ -129,10 +125,10 @@ const Validator = () => {
           </MDButton>
 
           <MDButton
-            variant="contained"
-            color="info"
+            buttonType="update"
+            style={{ marginRight: "10px" }}
             disabled={isLoading}
-            sx={{mr: 4}}
+            sx={{ mr: 4 }}
             onClick={() => {
               // export as json
               const textField = document.getElementById("text-field");
@@ -153,9 +149,9 @@ const Validator = () => {
           </MDButton>
 
           <MDButton
-            variant="contained"
-            color="info"
-            sx={{mr: 4}}
+            buttonType="update"
+            style={{ marginRight: "10px" }}
+            sx={{ mr: 4 }}
             onClick={() => {
               const textField = document.getElementById("text-field");
               textField.value = "";
@@ -168,8 +164,7 @@ const Validator = () => {
         </Box>
         <Box display="flex" width="100%" justifyContent="flex-end">
           <MDButton
-            variant="contained"
-            color="primary"
+            buttonType="create"
             onClick={handleSubmit}
             startIcon={<Icon>task_alt</Icon>}
           >
@@ -178,7 +173,7 @@ const Validator = () => {
         </Box>
       </Box>
       <MDBox pb={3}>
-        <Grid container spacing={6}>
+        <Grid>
           <Grid item xs={12} display="flex" justifyContent="center">
             <TextField
               id="text-field"
@@ -201,17 +196,16 @@ const Validator = () => {
                 validJSON === true
                   ? "valid"
                   : validJSON === false
-                    ? "invalid"
-                    : validJSON === null
-                      ? "null"
-                      : ""
+                  ? "invalid"
+                  : validJSON === null
+                  ? "null"
+                  : ""
               } ${isLoading ? "hide" : ""}`}
             />
-            {isLoading && <CircularProgress/>}
+            {isLoading && <CircularProgress />}
           </Grid>
         </Grid>
       </MDBox>
-      
     </DashboardLayout>
   );
 };

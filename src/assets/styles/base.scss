@@ -27,14 +27,6 @@ h6 {
 
 a {
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-    // Decoration color
-    text-decoration-color: #ffffff;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 1px;
-  }
 }
 
 span {
@@ -65,6 +57,8 @@ hr {
     background-color: #ffffff;
     border-radius: 0.5rem;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
   }
   &-input {
     // Text input
@@ -100,6 +94,11 @@ hr {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   max-width: 20rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:hover {
     opacity: 0.8;
   }
@@ -111,18 +110,28 @@ hr {
     // Create is green
     background-color: #54a19a;
     color: #fff;
+    cursor: pointer !important;
   }
 
   &-update {
     // Update is blue
     background-color: #4299e0;
     color: #fff;
+    cursor: pointer;
   }
 
   &-delete {
     // Delete is red
     background-color: #e53e3e;
     color: #fff;
+    cursor: pointer;
+  }
+
+  &-info {
+    // Info is lightgray
+    background-color: #cccccc;
+    color: black;
+    cursor: pointer;
   }
 }
 

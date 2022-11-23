@@ -15,6 +15,13 @@ function DashboardLayout({ children }) {
   const { pathname } = useLocation();
 
   console.log("Pathbname", pathname);
+  // Remove forward slash and convert to title case
+  let page = pathname.replace("/", "").replace(/-/g, " ");
+  // Convert each word to title case
+  page = page
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   useEffect(() => {
     setLayout(dispatch, "dashboard");
@@ -22,7 +29,7 @@ function DashboardLayout({ children }) {
 
   return (
     <>
-      <Breadcrumbs page="Dashboard" />
+      <Breadcrumbs page={page} />
       <MDBox
         sx={({ transitions }) => ({
           p: 3,

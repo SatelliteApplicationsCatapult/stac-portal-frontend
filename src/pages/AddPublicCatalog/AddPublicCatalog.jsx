@@ -40,7 +40,10 @@ const AddPublicCatalog = () => {
           }}
           autoComplete="off"
           autoFocus={true}
-          sx={{ mb: 2 }}
+          style={{
+            width: "100%",
+            maxWidth: "20rem",
+          }}
         />
 
         {/* Description */}
@@ -51,7 +54,10 @@ const AddPublicCatalog = () => {
             setCatalogURL(event.target.value);
           }}
           autoComplete="off"
-          sx={{ mb: 2 }}
+          style={{
+            width: "100%",
+            maxWidth: "20rem",
+          }}
         />
         <MDInput
           label="Catalog Description"
@@ -60,7 +66,15 @@ const AddPublicCatalog = () => {
             setCatalogDescription(event.target.value);
           }}
           autoComplete="off"
-          sx={{ mb: 2 }}
+          style={{
+            width: "100%",
+            maxWidth: "20rem",
+            height: "80px",
+            // Wrap text
+            whiteSpace: "pre-wrap",
+            
+
+          }}
         />
         <MDInput
           label="Catalog Version"
@@ -70,7 +84,10 @@ const AddPublicCatalog = () => {
             setCatalogVersion(event.target.value);
           }}
           autoComplete="off"
-          sx={{ mb: 2 }}
+          style={{
+            width: "100%",
+            maxWidth: "20rem",
+          }}
         />
 
         {/* Button */}

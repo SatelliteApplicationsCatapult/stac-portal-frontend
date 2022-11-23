@@ -12,6 +12,7 @@ function SidenavCollapse({ icon, name, ...rest }) {
   const [active, setActive] = useState(false);
   return (
     <ListItem
+      className="sidenav-collapse"
       component="li"
       onMouseEnter={() => {
         setActive(true);
