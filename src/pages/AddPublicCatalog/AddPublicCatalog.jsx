@@ -30,14 +30,8 @@ const AddPublicCatalog = () => {
     }
   };
   return (
-    <MDBox
-      display="flex"
-      flexDirection="column"
-      width="30%"
-      minWidth="900px"
-      className="w-30"
-    >
-      <div>
+    <MDBox display="flex" flexDirection="column" width="30%" minWidth="900px">
+      <div className="form-container">
         <MDInput
           label="Catalog Name"
           placeholder="Enter catalog name"
@@ -82,6 +76,7 @@ const AddPublicCatalog = () => {
         {/* Button */}
         <MDButton
           buttonType="create"
+          style={{ width: "100%" }}
           onClick={() => {
             // Set show loading
             // If input is empty

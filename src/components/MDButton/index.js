@@ -3,6 +3,8 @@ const MDButton = ({
   onClick,
   className,
   buttonType,
+  // style
+  style,
   ...rest
 }) => {
   // Add button type to className
@@ -10,11 +12,12 @@ const MDButton = ({
   // Add all classes to a string
   const classes = `btn ${buttonTypeClassName} ${className}`;
 
-
   return (
     <button
       className={classes}
       onClick={onClick}
+      // style
+      style={style}
     >
       {children}
     </button>

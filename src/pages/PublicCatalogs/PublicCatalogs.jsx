@@ -181,8 +181,6 @@ const PublicCatalogs = () => {
                     "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
                   );
                 }}
-                // 30% width
-                className="w-30"
               >
                 Synchronize
               </MDButton>
