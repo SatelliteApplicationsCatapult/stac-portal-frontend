@@ -143,7 +143,7 @@ const PublicCatalogs = () => {
 
   return (
     <DashboardLayout>
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card
@@ -153,10 +153,10 @@ const PublicCatalogs = () => {
                 flexDirection: "column",
               }}
             >
-              <MDTypography variant="h4" color="textPrimary">
+              <MDTypography variant="h4" >
                 Synchronise with STAC Index
               </MDTypography>
-              <MDTypography variant="overline" color="textPrimary">
+              <MDTypography variant="overline" >
                 Running this operation will synchronise list of your public
                 catalogs and collections with STAC Index.
               </MDTypography>
@@ -187,10 +187,10 @@ const PublicCatalogs = () => {
                 flexDirection: "column",
               }}
             >
-              <MDTypography variant="h4" color="textPrimary">
+              <MDTypography variant="h4" >
                 Add Public Catalog
               </MDTypography>
-              <MDTypography variant="overline" color="textPrimary">
+              <MDTypography variant="overline" >
                 Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.
@@ -202,10 +202,10 @@ const PublicCatalogs = () => {
 
           <Grid item xs={12}>
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
-              <MDTypography variant="h4" color="textPrimary">
+              <MDTypography variant="h4" >
                 Public Catalogs
               </MDTypography>
-              <MDTypography variant="overline" color="textPrimary">
+              <MDTypography variant="overline" >
                 Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.
@@ -222,10 +222,10 @@ const PublicCatalogs = () => {
           </Grid>
           <Grid item xs={12}>
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
-              <MDTypography variant="h4" color="textPrimary">
+              <MDTypography variant="h4" >
                 Public Collections
               </MDTypography>
-              <MDTypography variant="overline" color="textPrimary">
+              <MDTypography variant="overline" >
                 Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
                 loin, kielbasa turducken sausage prosciutto frankfurter biltong
                 beef tenderloin jowl buffalo.

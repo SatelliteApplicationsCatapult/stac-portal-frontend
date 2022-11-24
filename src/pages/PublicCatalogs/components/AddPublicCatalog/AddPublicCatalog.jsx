@@ -29,7 +29,7 @@ const AddPublicCatalog = () => {
     }
   };
   return (
-    <MDBox display="flex" flexDirection="column" width="30%" minWidth="900px">
+    <MDBox>
       <div className="form-container">
         <MDInput
           label="Catalog Name"

@@ -52,7 +52,7 @@ export const FindMoreCollections = ({open, columns, onClose, onSubmit}) => {
       <DialogActions sx={{p: "1.25rem"}}>
         <Button onClick={onClose}>Cancel</Button>
         <Button
-          color="primary"
+          
           onClick={handleSubmit}
           
           sx={{color: "white!important"}}

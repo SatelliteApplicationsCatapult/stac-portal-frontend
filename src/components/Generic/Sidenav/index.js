@@ -85,18 +85,11 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
 
   return (
     <SidenavRoot {...rest} variant="permanent">
-      <MDBox pt={3} pb={1} px={4} textAlign="center">
-        <MDBox
-          display={{ xs: "block", xl: "none" }}
-          position="absolute"
-          top={0}
-          right={0}
-          p={1.625}
-          sx={{ cursor: "pointer" }}
-        ></MDBox>
-        <MDBox component={NavLink} to="/" display="flex">
+      <MDBox>
+        <MDBox sx={{ cursor: "pointer" }}></MDBox>
+        <MDBox component={NavLink} to="/">
           {brand && <img src={brand} alt="brand" className="sidenav-brand" />}
-          <MDBox width={"100%"} height={"40%"}>
+          <MDBox >
             <MDTypography
               component="h6"
               variant="button"

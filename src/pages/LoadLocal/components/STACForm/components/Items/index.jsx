@@ -1,12 +1,12 @@
-import {Icon} from "@mui/material";
+import { Icon } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import "./style.scss";
 
 import Item from "../Item";
-import {useState} from "react";
+import { useState } from "react";
 
-const Items = ({selectedMeta, items}) => {
+const Items = ({ selectedMeta, items }) => {
   const [showAssets, setShowAssets] = useState(false);
 
   return (
@@ -20,12 +20,7 @@ const Items = ({selectedMeta, items}) => {
             backgroundColor: showAssets ? "#f5f5f5" : "transparent",
           }}
         >
-          <MDBox/>
-          <MDTypography
-            variant="h6"
-            className="items__title"
-            
-          >
+          <MDTypography variant="h6" className="items__title">
             Assets ({items ? items.length : "0"})
           </MDTypography>
           <Icon
@@ -42,7 +37,7 @@ const Items = ({selectedMeta, items}) => {
               items.length &&
               items.map((item) => {
                 return (
-                  <Item key={item.id} item={item} selectedMeta={selectedMeta}/>
+                  <Item key={item.id} item={item} selectedMeta={selectedMeta} />
                 );
               })}
           </div>

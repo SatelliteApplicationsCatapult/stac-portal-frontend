@@ -241,7 +241,7 @@ const DrawMap = ({
         <Box display="flex" justifyContent="flex-end" alignItems="center">
           <MDButton
             variant="text"
-            color="primary"
+            
             // style hidden if showMap is false
             style={{ display: showMap ? "block" : "none" }}
             onClick={() => {

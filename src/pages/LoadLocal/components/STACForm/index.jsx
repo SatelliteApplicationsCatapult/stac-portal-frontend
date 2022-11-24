@@ -194,9 +194,7 @@ const STACForm = ({
             borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <MDTypography variant="h6" >
-            Items
-          </MDTypography>
+          <MDTypography variant="h6">Items</MDTypography>
         </MDBox>
         {groupedFiles &&
           Object.keys(groupedFiles).map((key) => {
@@ -250,7 +248,7 @@ const STACForm = ({
                     alignItems: "center",
                   }}
                 >
-                  <MDTypography variant="body2" mr={1}>
+                  <MDTypography  mr={1}>
                     {/* Check if item is being loaded */}
                     {checkIfItemIsBeingLoaded(key) ? (
                       <Icon
@@ -263,7 +261,7 @@ const STACForm = ({
                       </Icon>
                     ) : (
                       // Show amount of files
-                      <MDTypography variant="body2" mr={1}>
+                      <MDTypography  mr={1}>
                         {groupedFiles[key].length} Items
                       </MDTypography>
                     )}
@@ -291,9 +289,7 @@ const STACForm = ({
             borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <MDTypography variant="h6" >
-            Data
-          </MDTypography>
+          <MDTypography variant="h6">Data</MDTypography>
         </MDBox>
         {/* Generated Item Form */}
         <MDBox
@@ -357,12 +353,9 @@ const STACForm = ({
                             padding: "2em",
                             border: "1px solid #e0e0e0",
                             marginBottom: "10px",
-
                           }}
                         >
-                          <MDTypography variant="h6" >
-                            Loading...
-                          </MDTypography>
+                          <MDTypography variant="h6">Loading...</MDTypography>
                         </MDBox>
                       )}
                     </MDBox>
@@ -378,7 +371,7 @@ const STACForm = ({
                 p={2}
                 marginBottom="10px"
               >
-                <MDTypography variant="h6" >
+                <MDTypography variant="h6">
                   Generating STAC Metadata for {selectedItem}
                 </MDTypography>
               </MDBox>
@@ -390,7 +383,7 @@ const STACForm = ({
               p={2}
               marginBottom="10px"
             >
-              <MDTypography variant="h6" ></MDTypography>
+              <MDTypography variant="h6"></MDTypography>
             </MDBox>
           )}
         </MDBox>

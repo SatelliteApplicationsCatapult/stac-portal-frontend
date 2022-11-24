@@ -45,7 +45,7 @@ const Item = ({item, selectedMeta}) => {
               {selectedMeta &&
                 selectedMeta[item.name] &&
                 selectedMeta[item.name].description && (
-                  <MDTypography variant="body2" >
+                  <MDTypography  >
                     {/* If this starts with https, then make it a link */}
                     {selectedMeta[item.name].description.startsWith("http") ? (
                       <a
@@ -77,14 +77,14 @@ const Item = ({item, selectedMeta}) => {
                 selectedMeta[item.name].bands.map((band) => {
                   return (
                     <div className="item__body__col__band" key={band.name}>
-                      <MDTypography variant="body2" >
+                      <MDTypography  >
                         {band.band}
                       </MDTypography>
 
-                      <MDTypography variant="body2" >
+                      <MDTypography  >
                         {band.colorInterpretation}
                       </MDTypography>
-                      <MDTypography variant="body2" >
+                      <MDTypography  >
                         <p>{band.description}</p>
                       </MDTypography>
                     </div>

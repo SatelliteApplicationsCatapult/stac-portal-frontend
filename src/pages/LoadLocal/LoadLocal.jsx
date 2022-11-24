@@ -61,7 +61,7 @@ const LoadLocal = () => {
 
   return (
     <DashboardLayout>
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           {/* Step 1 - Upload */}
           <Grid item xs={12}>
@@ -73,7 +73,7 @@ const LoadLocal = () => {
                 height: "100%",
               }}
             >
-              <MDTypography variant="h5" >
+              <MDTypography variant="h5">
                 Step 1 - Select Folder(s)
               </MDTypography>
               <MDTypography variant="overline" mb={2}>
@@ -109,23 +109,18 @@ const LoadLocal = () => {
                   height: "100%",
                 }}
               >
-                <MDTypography variant="h5" >
+                <MDTypography variant="h5">
                   Step 4 - Choose Collection
                 </MDTypography>
-                <MDTypography variant="overline" 
+                <MDTypography
+                  variant="overline"
                   style={{
                     marginBottom: "1rem",
                   }}
                 >
                   Choose a collection to add your new STAC items to.
                 </MDTypography>
-                <MDBox
-                  display="flex"
-                  flexDirection="column"
-                  width="100%"
-                  minWidth="450px"
-                  alignItems="center"
-                >
+                <MDBox>
                   <CollectionSelect
                     selectedCollection={selectedCollection}
                     setSelectedCollection={setSelectedCollection}
@@ -156,7 +151,7 @@ const LoadLocal = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <MDTypography variant="h5" >
+                  <MDTypography variant="h5">
                     Step 5 - View STAC Records
                   </MDTypography>
                   <MDButton
@@ -169,9 +164,12 @@ const LoadLocal = () => {
                   </MDButton>
                 </MDBox>
 
-                <MDTypography variant="overline" style={{
-                  marginBottom: "1rem",
-                }}>
+                <MDTypography
+                  variant="overline"
+                  style={{
+                    marginBottom: "1rem",
+                  }}
+                >
                   View the newly created STAC records for each item.
                 </MDTypography>
                 <STACForm
@@ -223,7 +221,7 @@ const LoadLocal = () => {
                     color: "#54A19A",
                   }}
                 />
-                <MDTypography variant="h5"  mt={2}>
+                <MDTypography variant="h5" mt={2}>
                   Publishing...
                 </MDTypography>
               </MDBox>

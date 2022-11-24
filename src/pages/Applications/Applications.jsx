@@ -12,11 +12,11 @@ import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 const Applications = () => {
   return (
     <DashboardLayout>
-      <MDBox pt={6} pb={3}>
+      <MDBox >
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card>
-              <MDBox p={3}>
+              <MDBox>
                 <MDTypography variant="h5">STAC Browser</MDTypography>
                 <p>
                   STAC API Browser powered by{" "}
@@ -26,7 +26,7 @@ const Applications = () => {
                 </p>
                 <br />
                 <MDButton
-                  color="primary"
+                  
                   onClick={async () => {
                     window.open(
                       process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL

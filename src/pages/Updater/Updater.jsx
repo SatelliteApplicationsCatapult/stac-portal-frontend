@@ -93,11 +93,11 @@ const Updater = () => {
 
   return (
     <DashboardLayout>
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card className="card-title">
-              <MDBox p={3}>
+              <MDBox>
                 <MDTypography variant="h4">Update Collection</MDTypography>
               </MDBox>
             </Card>

@@ -190,7 +190,7 @@ const Validator = () => {
           </MDButton>
         </Box>
       </Box>
-      <MDBox pb={3}>
+      <MDBox>
         <Grid>
           <Grid item xs={12} display="flex" justifyContent="center">
             <TextField

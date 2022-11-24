@@ -9,8 +9,6 @@ const PrivateCollectionsSearcher = () => {
     <>
       <DashboardLayout>
         <MDBox
-          pt={6}
-          pb={3}
           style={{
             width: "100%",
             height: "83vh",
