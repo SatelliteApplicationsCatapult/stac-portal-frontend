@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -6,17 +6,13 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
-
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DownloadedCollections from "./components/DownloadedCollections";
 
-import {
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-  retrieveAllCollections,
-} from "interface/collections";
+// Interface
+import { retrieveAllCollections } from "interface/collections";
 
 const DisplayCollections = () => {
   const [downloadedCollections, setDownloadedCollections] = useState([]);
@@ -25,19 +21,18 @@ const DisplayCollections = () => {
       let collectionsOnStac = await retrieveAllCollections();
       setDownloadedCollections(collectionsOnStac.collections);
     }
+
     getCollections();
   }, []);
 
-  //get the list of header names from genericTableMemo
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h4">My Catalog</MDTypography>
+            <Card className="card-title">
+              <MDBox>
+                <MDTypography variant="h4">Local Catalog</MDTypography>
               </MDBox>
             </Card>
           </Grid>
@@ -49,7 +44,6 @@ const DisplayCollections = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };

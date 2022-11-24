@@ -5,6 +5,7 @@ RUN npm install
 COPY . .
 ENV REACT_APP_PORTAL_BACKEND_URL=https://ctplt-pda-rg-prod-stac-portal-backend.azurewebsites.net
 ENV REACT_APP_PORTAL_STAC_API_BROWSER_URL=https://ctplt-pda-rg-prod-stac-api-browser.azurewebsites.net
+ENV REACT_APP_BLOB_URL=https://ctpltstacstrgdev.blob.core.windows.net/stac-items/
 
 RUN npm run build
 

@@ -1,35 +1,37 @@
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import MDSnackbar from "components/MDSnackbar";
-import MDAlert from "components/MDAlert";
-import Footer from "examples/Footer";
-import Icon from "@mui/material/Icon";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import Icon from "@mui/material/Icon";
+import {
+  ContentPaste,
+  SaveAlt,
+  Clear,
+  TaskAlt,
+  Error,
+} from "@mui/icons-material";
+
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { CircularProgress } from "@mui/material";
 
 import "./Validator.scss";
 
 import axios from "axios";
+
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
-  const [validatorResponse, setValidatorResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [alertBox, setAlertBox] = useState({
     display: false,
     message: "",
-    severity: "error",
-    icon: "error",
+    severity: "success",
   });
 
   const generateErrorMessage = (error) => {
@@ -43,7 +45,6 @@ const Validator = () => {
     setAlertBox({ display: false, message: "", severity: "error" });
     setIsLoading(true);
     let textField = document.getElementById("text-field");
-    const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`;
 
     axios(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`, {
       method: "POST",
@@ -56,7 +57,6 @@ const Validator = () => {
       let data = res.data;
       if (data.message === "Valid STAC") {
         setValidJSON(true);
-        setValidatorResponse(null);
         setAlertBox({
           display: true,
           message: "Valid STAC",
@@ -65,7 +65,6 @@ const Validator = () => {
         });
       } else {
         setValidJSON(false);
-        setValidatorResponse(data);
         setAlertBox({
           display: true,
           message: generateErrorMessage(data),
@@ -76,89 +75,62 @@ const Validator = () => {
     });
   };
 
-  // Success Toast Message
-  const [successSB, setSuccessSB] = useState(false);
-  const openSuccessSB = () => setSuccessSB(true);
-  const closeSuccessSB = () => setSuccessSB(false);
-  const renderSuccessSB = (
-    <MDSnackbar
-      color="success"
-      icon="check"
-      title="Valid STAC"
-      content="The JSON is a valid STAC"
-      datetime="now"
-      open={successSB}
-      onClose={closeSuccessSB}
-      close={closeSuccessSB}
-      bgWhite
-    />
-  );
-
-  // Error Toast Message
-  const [errorSB, setErrorSB] = useState(false);
-  const openErrorSB = () => setErrorSB(true);
-  const closeErrorSB = () => setErrorSB(false);
-  const renderErrorSB = (
-    <MDSnackbar
-      color="error"
-      icon="error"
-      title="Invalid STAC"
-      content="The JSON is not a valid STAC"
-      datetime="now"
-      open={errorSB}
-      onClose={closeErrorSB}
-      close={closeErrorSB}
-      bgWhite
-    />
-  );
-
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      {renderSuccessSB}
-      {renderErrorSB}
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
-          Use the Area Downloader to choose a date range and geographic area to
-          download STAC data from.
+          Use the space below to paste your STAC JSON and validate it against the STAC standard.
         </MDTypography>
         {alertBox.display ? (
-          <MDAlert color={alertBox.severity}>
-            <Icon
-              fontSize="small"
-              sx={{
-                mr: 3,
-              }}
-            >
-              {alertBox.icon}
-            </Icon>
+          <div className={`alert alert-${alertBox.severity}`}>
+            <Error />
             <MDTypography variant="overline" color="white">
-              {alertBox.message}
+              <strong>{alertBox.message}</strong>
             </MDTypography>
-          </MDAlert>
+          </div>
         ) : null}
       </Grid>
       <Box pt={4} display="flex" justifyContent="space-between">
         <Box display="flex" width="100%">
           <MDButton
-            variant="contained"
-            color="info"
-            sx={{ mr: 4 }}
+            buttonType="update"
+            style={{ marginRight: "10px" }}
             onClick={() => {
+              // Remove any existing alert
+              setAlertBox({ display: false, message: "", severity: "error" });
               navigator.clipboard.readText().then((text) => {
                 const textField = document.getElementById("text-field");
-                textField.value = text;
+
+                try {
+                  let ugly = JSON.parse(text);
+                  let pretty = JSON.stringify(ugly, undefined, 4);
+                  textField.value = pretty;
+                } catch {
+                  textField.value = "";
+                  setAlertBox({
+                    display: true,
+                    message:
+                      "Invalid JSON, please put this through a JSON formatter before validating STAC",
+                    severity: "error",
+                    icon: "error",
+                  });
+                }
               });
             }}
-            startIcon={<Icon>content_paste</Icon>}
+            noIcon
           >
             {" "}
+            <ContentPaste
+              sx={{
+                mr: 1,
+              }}
+            />
             Paste from clipboard
           </MDButton>
 
           <MDButton
-            variant="contained"
-            color="info"
+            buttonType="update"
+            style={{ marginRight: "10px" }}
             disabled={isLoading}
             sx={{ mr: 4 }}
             onClick={() => {
@@ -174,45 +146,55 @@ const Validator = () => {
               downloadAnchorNode.click();
               downloadAnchorNode.remove();
             }}
-            startIcon={<Icon>save_alt</Icon>}
+            noIcon
           >
             {" "}
+            <SaveAlt
+              sx={{
+                mr: 1,
+              }}
+            />
             Export as JSON
           </MDButton>
 
           <MDButton
-            variant="contained"
-            color="info"
+            buttonType="delete"
+            style={{ marginRight: "10px" }}
             sx={{ mr: 4 }}
             onClick={() => {
               const textField = document.getElementById("text-field");
               textField.value = "";
             }}
-            startIcon={<Icon>clear</Icon>}
+            noIcon
           >
             {" "}
+            <Clear
+              sx={{
+                mr: 1,
+              }}
+            />
             Clear
           </MDButton>
         </Box>
         <Box display="flex" width="100%" justifyContent="flex-end">
-          <MDButton
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            startIcon={<Icon>task_alt</Icon>}
-          >
+          <MDButton buttonType="create" onClick={handleSubmit} noIcon>
+            <TaskAlt
+              sx={{
+                mr: 1,
+              }}
+            />
             Validate STAC
           </MDButton>
         </Box>
       </Box>
-      <MDBox pb={3}>
-        <Grid container spacing={6}>
+      <MDBox>
+        <Grid>
           <Grid item xs={12} display="flex" justifyContent="center">
             <TextField
               id="text-field"
               placeholder="Paste STAC JSON here"
               multiline
-              rows={35}
+              rows={30}
               margin="normal"
               fullWidth
               onInput={() => {
@@ -221,6 +203,32 @@ const Validator = () => {
                     display: false,
                     message: "",
                     severity: "error",
+                  });
+
+                  setValidJSON(null);
+                }
+              }}
+              // on paste
+              onPaste={(e) => {
+                let textField = document.getElementById("text-field");
+
+                try {
+                  e.preventDefault();
+
+                  const text = e.clipboardData.getData("text/plain");
+                  // Clear the text field
+
+                  let ugly = JSON.parse(text);
+                  let pretty = JSON.stringify(ugly, undefined, 4);
+                  textField.value = pretty;
+                } catch (err) {
+                  textField.value = "";
+                  setAlertBox({
+                    display: true,
+                    message:
+                      "Invalid JSON, please put this through a JSON formatter before validating STAC",
+                    severity: "error",
+                    icon: "error",
                   });
                 }
               }}
@@ -239,7 +247,6 @@ const Validator = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };

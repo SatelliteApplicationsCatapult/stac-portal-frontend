@@ -1,4 +1,6 @@
 // import auth from src/auth
+import { retrieveAllPublicCatalogs } from "../catalogs";
+
 import format from "date-fns/format";
 import axios from "axios";
 
@@ -10,10 +12,20 @@ export const retrieveAllCollections = async () => {
 };
 
 export const retrieveAllPublicCollections = async () => {
+  const catalogs = await retrieveAllPublicCatalogs();
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/`;
   const response = await axios({ method: "GET", url: url });
   const data = await response.data;
-  return data;
+  let newData = [];
+  for (let i = 0; i < data.length; i++) {
+    let catalog = catalogs.find((catalog) => {
+      return parseInt(catalog.id) === data[i].parent_catalog;
+    });
+    let x = data[i];
+    x.catalog = catalog;
+    newData.push(x);
+  }
+  return newData;
 };
 
 export const retrieveAllPrivateCollections = async () => {
@@ -47,7 +59,6 @@ export const callSelectiveIngester = async (
   startDate,
   endDate
 ) => {
-  // alert("Download");
   let startDateString = "..";
   if (startDate) {
     const startDateDateTime = new Date(startDate);
@@ -142,14 +153,14 @@ export const addItemsToCollection = async (collection, items) => {
     // Get the item
     const item = items[key];
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: url,
         data: item.json,
       });
     } catch (error) {
       console.log("Doing put instead of post");
-      const responseWithPut = await axios({
+      await axios({
         method: "PUT",
         url: url + item.json.id + "/",
         data: item.json,
@@ -180,7 +191,7 @@ export const addPrivateCollection = async (
 ) => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
   const body = {
-    type:"Collection",
+    type: "Collection",
     id: collectionId,
     title: collectionTitle,
     license: license,

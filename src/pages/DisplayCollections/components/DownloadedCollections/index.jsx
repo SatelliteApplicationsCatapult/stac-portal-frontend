@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 
 import Table from "components/Table";
 // Interface
@@ -8,12 +8,19 @@ import { shortenDescription } from "../TableUtils";
 import {
   deletePrivateCollection,
   deletePublicCollection,
+  retrieveAllCollections,
 } from "interface/collections";
-import { retrieveAllCollections } from "interface/collections";
 
 const DownloadedCollections = ({ collections, setCollections }) => {
   // Table Columns
   const collectionColumns = useMemo(() => [
+    {
+      accessorFn: (row) => {
+        return row.id;
+      },
+      header: "ID",
+      size: 10,
+    },
     {
       accessorFn: (row) => {
         return row.title;
@@ -65,7 +72,8 @@ const DownloadedCollections = ({ collections, setCollections }) => {
       accessorFn: (row) => {
         return (
           <MDButton
-            color="error"
+            buttonType={"delete"}
+            noText
             onClick={async () => {
               // ask the user are they sure they want to delete
               let confirmation = window.confirm(
@@ -94,6 +102,7 @@ const DownloadedCollections = ({ collections, setCollections }) => {
     },
   ]);
   const columnOrder = [
+    "ID",
     "Title",
     "Type",
     "Description",

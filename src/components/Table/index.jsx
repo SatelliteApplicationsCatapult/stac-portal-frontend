@@ -1,6 +1,7 @@
 import MaterialReactTable from "material-react-table";
-import { Button, Icon } from "@mui/material";
+import { Icon } from "@mui/material";
 import "./Table.scss";
+import MDButton from "components/MDButton";
 
 const Table = ({
   columns,
@@ -20,7 +21,6 @@ const Table = ({
         pagination: {
           pageSize: rowsPerPage,
         },
-        
       }}
       /**
        * Custom Table Actions
@@ -29,17 +29,18 @@ const Table = ({
         <div className="table-toolbar-buttons">
           {toolbarButtons &&
             toolbarButtons.map((button) => (
-              <Button
+              <MDButton
+                key={button.label}
+                buttonType={'update'}
                 color={button.color}
                 className="table-toolbar-button"
                 onClick={button.onCustomClick}
-                variant="contained"
               >
                 <Icon fontSize="small" className="table-icon">
                   {button.icon}
                 </Icon>{" "}
                 {button.label}
-              </Button>
+              </MDButton>
             ))}
         </div>
       )}
@@ -60,7 +61,6 @@ const Table = ({
           backgroundColor: "transparent",
         },
       }}
-
       muiTableHeadRowProps={{
         sx: {
           backgroundColor: "#252527",
@@ -84,7 +84,7 @@ const Table = ({
           boxShadow: "none",
           backgroundColor: "transparent",
         },
-        className: "table-toolbar"
+        className: "table-toolbar",
       }}
       muiBottomToolbarProps={{
         sx: {

@@ -1,24 +1,22 @@
 import { Circle } from "rc-progress";
 import axios from "axios";
 import {
-  useItemProgressListener,
-  useUploady,
   useBatchAddListener,
+  useItemProgressListener,
   useRequestPreSend,
+  useUploady,
 } from "@rpldy/uploady";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import MDTypography from "components/MDTypography";
 import "./style.scss";
-import { Icon } from "@mui/material";
+import { Check, HourglassEmpty, ArrowForward } from "@mui/icons-material";
 
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
 const UploadProgress = ({
-  files,
   setFiles,
   uploads,
   setUploads,
-  groupedDownloads,
   setGroupedDownloads,
 }) => {
   const [stagedItems, setStagedItems] = useState([]);
@@ -29,14 +27,10 @@ const UploadProgress = ({
 
   // Add staged items to state
   useBatchAddListener((batch) => {
-    console.log("Batch added", batch);
-    for (const item of batch.items) {
-      console.log(item.file.name);
-    }
     setStagedItems((items) => items.concat(batch.items));
   });
 
-  useRequestPreSend(async ({ items, options }) => {
+  useRequestPreSend(async ({ items }) => {
     if (!items[0].file.item) {
       return;
     }
@@ -46,14 +40,10 @@ const UploadProgress = ({
     const sasToken = await axios.get(
       `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/sas_token/${filename}/`
     );
-    console.log("Sending file", filename, sasToken.data, items);
-    console.log("Items", items);
-    console.log("Options", options);
 
     return Promise.resolve({
       options: {
         destination: {
-          // url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
           url: sasToken.data.endpoint,
         },
         method: "PUT",
@@ -70,7 +60,6 @@ const UploadProgress = ({
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
-      console.log("Downloadaaaa ::", toDownload);
       processPending();
     }
   }, [toDownload]);
@@ -160,7 +149,9 @@ const UploadProgress = ({
               return (
                 <div key={item.id} className="progress-item">
                   {/* Icon for waiting */}
-                  <Icon style={{ color: "#119F9A" }}>hourglass_empty</Icon>
+                  <HourglassEmpty
+                    style={{ color: "#119F9A", fontSize: "2rem" }}
+                  />
                   <p>{item.file.name}</p>
                 </div>
               );
@@ -181,7 +172,7 @@ const UploadProgress = ({
                     // Gray and italics and small font
                     color: "#9E9E9E",
                     fontStyle: "italic",
-                    fontSize: "0.8em",
+                    fontSize: "1em",
                   }}
                 >
                   No files uploaded
@@ -192,9 +183,7 @@ const UploadProgress = ({
         </div>
 
         {/* Arrow pointing right */}
-        <Icon style={{ color: "#119F9A", marginTop: "1em" }}>
-          arrow_forward
-        </Icon>
+        <ArrowForward style={{ color: "#119F9A", marginTop: "1em" }} />
 
         <div className="progress-container">
           {/* Header that says uploading */}
@@ -210,7 +199,7 @@ const UploadProgress = ({
               return (
                 <div key={id} className="progress-item">
                   {lastProgress === 100 ? (
-                    <Icon>check</Icon>
+                    <Check />
                   ) : (
                     <Circle
                       strokeWidth={5}
@@ -241,7 +230,7 @@ const UploadProgress = ({
                     // Gray and italics and small font
                     color: "#9E9E9E",
                     fontStyle: "italic",
-                    fontSize: "0.8em",
+                    fontSize: "1em",
                   }}
                 >
                   No items detected

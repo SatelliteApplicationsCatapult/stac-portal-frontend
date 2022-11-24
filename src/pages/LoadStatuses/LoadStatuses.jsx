@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
@@ -6,14 +6,11 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import Table from "components/Table";
-// import MDButton from "components/MDButton";
 import { retrieveAllLoadStatuses } from "interface/loadstatuses";
 
 const LoadStatuses = () => {
@@ -37,9 +34,9 @@ const LoadStatuses = () => {
     },
     {
       accessorFn: (row) => {
-        return row.source_stac_api_url;
+        return row.catalog.name;
       },
-      header: "Source",
+      header: "Source Catalog",
       size: 200,
     },
 
@@ -76,16 +73,16 @@ const LoadStatuses = () => {
     },
     {
       accessorFn: (row) => {
-        return row.newly_stored_collections.join(", ");
+        // collections is either row.newly_stored_collections or row.updated_collections
+        const newCollections = row.newly_stored_collections;
+        const updatedCollections = row.updated_collections;
+        let collections = newCollections.concat(updatedCollections);
+        // remove empty and duplicate collections
+        collections = collections.filter((item) => item);
+        collections = [...new Set(collections)];
+        return collections.join(", ");
       },
-      header: "New Collections",
-      size: 100,
-    },
-    {
-      accessorFn: (row) => {
-        return row.updated_collections.join(", ");
-      },
-      header: "Updated Collections",
+      header: "Collections",
       size: 100,
     },
     {
@@ -109,13 +106,12 @@ const LoadStatuses = () => {
   const columnOrder = ["Catalog"];
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h4">Load Operations</MDTypography>
+            <Card className="card-title">
+              <MDBox>
+                <MDTypography variant="h4">Load Status</MDTypography>
               </MDBox>
             </Card>
           </Grid>
@@ -132,7 +128,6 @@ const LoadStatuses = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };

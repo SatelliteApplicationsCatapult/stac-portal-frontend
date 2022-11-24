@@ -1,5 +1,4 @@
-import { Button, Icon, TextField } from "@mui/material";
-import MDBox from "components/MDBox";
+import { Done } from "@mui/icons-material";
 import MDTypography from "components/MDTypography";
 import { useState } from "react";
 
@@ -12,12 +11,12 @@ const Item = ({ item, selectedMeta }) => {
         <div className="item__header" onClick={() => setShowInfo(!showInfo)}>
           {selectedMeta && selectedMeta[item.name] ? (
             <div className="item__header__tick">
-              <Icon>done</Icon>
+              <Done />
             </div>
           ) : (
             <div className="item__header__tick">
               {/* Loading */}
-              <Icon>done</Icon>
+              <Done />
             </div>
           )}
 
@@ -35,18 +34,14 @@ const Item = ({ item, selectedMeta }) => {
         {showInfo && selectedMeta[item.name] && selectedMeta[item.name].bands && (
           <div className="item__body">
             <div className="item__body__col">
-              <MDTypography
-                variant="h6"
-                color="textSecondary"
-                className="item__body__col__title"
-              >
+              <MDTypography variant="h6" className="item__body__col__title">
                 Properties
               </MDTypography>
               {/* Properties */}
               {selectedMeta &&
                 selectedMeta[item.name] &&
                 selectedMeta[item.name].description && (
-                  <MDTypography variant="body2" color="textSecondary">
+                  <MDTypography variant="overline">
                     {/* If this starts with https, then make it a link */}
                     {selectedMeta[item.name].description.startsWith("http") ? (
                       <a
@@ -64,11 +59,7 @@ const Item = ({ item, selectedMeta }) => {
                 )}
             </div>
             <div className="item__body__col">
-              <MDTypography
-                variant="h6"
-                color="textSecondary"
-                className="item__body__col__title"
-              >
+              <MDTypography variant="h6" className="item__body__col__title">
                 Bands
               </MDTypography>
               {/* Bands */}
@@ -78,14 +69,10 @@ const Item = ({ item, selectedMeta }) => {
                 selectedMeta[item.name].bands.map((band) => {
                   return (
                     <div className="item__body__col__band" key={band.name}>
-                      <MDTypography variant="body2" color="textSecondary">
-                        {band.band}
-                      </MDTypography>
+                      <MDTypography>{band.band}</MDTypography>
 
-                      <MDTypography variant="body2" color="textSecondary">
-                        {band.colorInterpretation}
-                      </MDTypography>
-                      <MDTypography variant="body2" color="textSecondary">
+                      <MDTypography>{band.colorInterpretation}</MDTypography>
+                      <MDTypography>
                         <p>{band.description}</p>
                       </MDTypography>
                     </div>

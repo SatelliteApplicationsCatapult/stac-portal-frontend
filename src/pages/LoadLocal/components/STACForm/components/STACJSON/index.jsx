@@ -1,10 +1,9 @@
-import { useEffect } from "react";
-import { GenerateSTAC } from "interface/metadata";
-import { Button, FormLabel, TextField } from "@mui/material";
+import {useEffect} from "react";
+import {GenerateSTAC} from "interface/metadata";
+import {TextField} from "@mui/material";
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 
-const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
+const STACJSON = ({itemsMeta, selectedItem, setItemsMeta}) => {
   useEffect(() => {
     const returnSTAC = async () => {
       const stac = new GenerateSTAC(itemsMeta[selectedItem]);

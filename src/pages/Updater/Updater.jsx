@@ -1,18 +1,15 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { styled } from "@mui/material/styles";
-import { Tooltip, tooltipClasses } from "@mui/material";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 // Interface
 import {
@@ -32,6 +29,7 @@ const Updater = () => {
       let data = await getAllStoredSearchParameters();
       setParams(data);
     }
+
     getParams();
   }, []);
 
@@ -69,11 +67,14 @@ const Updater = () => {
       accessorFn: (row) => {
         return (
           <MDButton
+            buttonType={"update"}
+            noIcon
             onClick={() => {
               runStoredSearchParamUpdate(row.id);
               alert(`Updating ${row.collection} from ${row.parentCatalogName}`);
             }}
           >
+            <CloudSyncIcon sx={{ mr: 1 }} />
             Update
           </MDButton>
         );
@@ -92,13 +93,12 @@ const Updater = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Card>
-              <MDBox p={3}>
-                <MDTypography variant="h4">Updater</MDTypography>
+            <Card className="card-title">
+              <MDBox>
+                <MDTypography variant="h4">Update Collection</MDTypography>
               </MDBox>
             </Card>
           </Grid>
@@ -115,7 +115,6 @@ const Updater = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };
