@@ -78,8 +78,8 @@ const DrawMap = ({
             <TextField
               id="aoi"
               label="AOI"
+              autoComplete="off"
               style={{ margin: 6, width: "50%", padding: "0" }}
-              // If showMap is true then set placeholder to "Click to draw"
               placeholder={"Click to draw AOI on the map"}
               margin="normal"
               InputLabelProps={{
@@ -140,6 +140,8 @@ const DrawMap = ({
               onClick={async () => {
                 // Hide map
                 setShowMap(false);
+                // Empty the collections
+                setPublicCollections([]);
                 let bbox = AOI;
                 let datetime = "";
                 if (startDate) {
@@ -163,7 +165,6 @@ const DrawMap = ({
                 } else {
                   datetime += "..";
                 }
-                console.log("Datetime is: ", datetime);
                 let searchedCollections = await searchCollections(
                   bbox,
                   datetime

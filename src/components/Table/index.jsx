@@ -31,7 +31,7 @@ const Table = ({
             toolbarButtons.map((button) => (
               <MDButton
                 key={button.label}
-                buttonType={'update'}
+                buttonType={"update"}
                 color={button.color}
                 className="table-toolbar-button"
                 onClick={button.onCustomClick}
@@ -63,7 +63,8 @@ const Table = ({
       }}
       muiTableHeadRowProps={{
         sx: {
-          backgroundColor: "#252527",
+          backgroundColor: "#2C2C2F",
+          color: "white",
         },
       }}
       muiTableHeadCellProps={{
