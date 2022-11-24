@@ -1,4 +1,4 @@
-// STAC Portal pages
+// Pages
 import Validator from "pages/Validator/Validator";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import PrivateCollectionsSearcher from "pages/PrivateCollectionsSearcher/PrivateCollectionsSearcher";

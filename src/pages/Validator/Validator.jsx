@@ -1,12 +1,15 @@
-import Grid from "@mui/material/Grid";
-import { CircularProgress, TextField } from "@mui/material";
+// React
+import { useState } from "react";
 
-// STAC Portal components
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import axios from "axios";
 
-import Icon from "@mui/material/Icon";
+// @mui components
+import Grid from "@mui/material/Grid";
+import { CircularProgress, TextField } from "@mui/material";
 import {
   ContentPaste,
   SaveAlt,
@@ -14,16 +17,13 @@ import {
   TaskAlt,
   Error,
 } from "@mui/icons-material";
+import { Box } from "@mui/system";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-import { Box } from "@mui/system";
-import { useState } from "react";
-
+// Styles
 import "./Validator.scss";
-
-import axios from "axios";
 
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
@@ -247,7 +247,7 @@ const Validator = () => {
               } ${isLoading ? "hide" : ""}`}
             />
             {isLoading && (
-              <div 
+              <div
                 style={{
                   position: "absolute",
                   top: "45%",

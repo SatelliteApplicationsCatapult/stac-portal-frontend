@@ -1,7 +1,12 @@
+// Components
+import MDButton from "components/MDButton";
+
+// @mui components
 import MaterialReactTable from "material-react-table";
 import { Icon } from "@mui/material";
+
+// Styles
 import "./Table.scss";
-import MDButton from "components/MDButton";
 
 const Table = ({
   columns,

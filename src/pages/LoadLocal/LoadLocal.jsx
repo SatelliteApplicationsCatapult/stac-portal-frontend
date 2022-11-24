@@ -1,22 +1,24 @@
+// React
+import { useEffect, useState } from "react";
+
+// Components
+import MDBox from "components/MDBox";
+import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
+import Dropzone from "./components/Dropzone";
+import CollectionSelect from "./components/CollectionSelect";
+import STACForm from "./components/STACForm";
+
+// @mui components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { Button, CircularProgress } from "@mui/material";
 
-// STAC Portal components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
-
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-import "./style.scss";
-import { useEffect, useState } from "react";
-
-// Components
-import Dropzone from "./components/Dropzone";
-import CollectionSelect from "./components/CollectionSelect";
-import STACForm from "./components/STACForm";
+// Styles
+import "./style.scss"
 
 // Utils
 import { addItemsToCollection } from "interface/collections";

@@ -1,7 +1,12 @@
+// React
 import React, { useEffect, useState } from "react";
+
+// Components
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
+
+// Interface
 import { addPublicCatalog } from "interface/catalogs";
 
 const AddPublicCatalog = () => {

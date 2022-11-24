@@ -1,16 +1,23 @@
-import { Circle } from "rc-progress";
-import axios from "axios";
+// React
+import { useEffect, useState } from "react";
+
+// @mui components
+import { Check, HourglassEmpty, ArrowForward } from "@mui/icons-material";
+
+// Components
 import {
   useBatchAddListener,
   useItemProgressListener,
   useRequestPreSend,
   useUploady,
 } from "@rpldy/uploady";
-import { useEffect, useState } from "react";
 import MDTypography from "components/MDTypography";
-import "./style.scss";
-import { Check, HourglassEmpty, ArrowForward } from "@mui/icons-material";
+import { Circle } from "rc-progress";
+import axios from "axios";
 
+// Styles
+import "./style.scss";
+// Utils
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
 const UploadProgress = ({

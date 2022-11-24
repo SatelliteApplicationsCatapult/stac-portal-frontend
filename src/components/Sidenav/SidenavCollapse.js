@@ -6,6 +6,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MDBox from "components/MDBox";
 import { useState } from "react";
 
+// Styles
 import "./style.scss";
 
 function SidenavCollapse({ icon, name, ...rest }) {

@@ -1,6 +1,9 @@
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+
+// @mui components
 import { Delete } from "@mui/icons-material";
 
 const File = ({ file, index, handleRemoveFile }) => {

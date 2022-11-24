@@ -1,11 +1,15 @@
+// React
 import React, { useEffect, useMemo, useState } from "react";
 
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-
-// STAC Portal components
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import Table from "components/Table";
+import MDButton from "components/MDButton";
+
+// @mui components
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 // Layout components
@@ -17,9 +21,6 @@ import {
   runStoredSearchParamUpdate,
 } from "interface/collections";
 
-// Table
-import Table from "components/Table";
-import MDButton from "components/MDButton";
 
 const Updater = () => {
   const [params, setParams] = useState([]);

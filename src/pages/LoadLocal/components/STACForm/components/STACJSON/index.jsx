@@ -1,9 +1,16 @@
-import {useEffect} from "react";
-import {GenerateSTAC} from "interface/metadata";
-import {TextField} from "@mui/material";
+// React
+import { useEffect } from "react";
+
+// Interface
+import { GenerateSTAC } from "interface/metadata";
+
+// @mui components
+import { TextField } from "@mui/material";
+
+// Components
 import MDBox from "components/MDBox";
 
-const STACJSON = ({itemsMeta, selectedItem, setItemsMeta}) => {
+const STACJSON = ({ itemsMeta, selectedItem, setItemsMeta }) => {
   useEffect(() => {
     const returnSTAC = async () => {
       const stac = new GenerateSTAC(itemsMeta[selectedItem]);
@@ -34,7 +41,7 @@ const STACJSON = ({itemsMeta, selectedItem, setItemsMeta}) => {
         [selectedItem]: {
           ...prev[selectedItem],
           json: {
-            status: 'Generating STAC JSON...',
+            status: "Generating STAC JSON...",
           },
         },
       }));

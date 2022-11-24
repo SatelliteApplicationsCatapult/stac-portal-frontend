@@ -1,11 +1,19 @@
+// React
 import React, { useEffect, useState } from "react";
-import Card from "@mui/material/Card";
+
+// Layout
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
+// @mui components
+import Card from "@mui/material/Card";
+
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
+
+// Interface
 import { addPrivateCollection } from "interface/collections";
 
 const AddPrivateCollection = () => {
