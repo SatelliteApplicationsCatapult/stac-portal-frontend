@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // Layout components
-import Sidenav from "components/Generic/Sidenav";
+import Sidenav from "components/Sidenav";
 
 // STAC Portal routes
 import routes from "routes";

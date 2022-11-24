@@ -10,16 +10,15 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Layout components
-import SidenavCollapse from "components/Generic/Sidenav/SidenavCollapse";
+import SidenavCollapse from "components/Sidenav/SidenavCollapse";
 
 // Custom styles for the Sidenav
-import SidenavRoot from "components/Generic//Sidenav/SidenavRoot";
+import SidenavRoot from "components//Sidenav/SidenavRoot";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
 
-  // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(
     ({ type, name, icon, title, noCollapse, key, href, route }) => {
       let returnValue;
@@ -67,10 +66,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               marginBottom: "0.4rem",
               marginLeft: "1rem",
             }}
-            pl={3}
-            mt={2}
-            mb={1}
-            ml={1}
           >
             {title}
           </MDTypography>
@@ -89,7 +84,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         <MDBox sx={{ cursor: "pointer" }}></MDBox>
         <MDBox component={NavLink} to="/">
           {brand && <img src={brand} alt="brand" className="sidenav-brand" />}
-          <MDBox >
+          <MDBox>
             <MDTypography
               component="h6"
               variant="button"

@@ -3,7 +3,6 @@ import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 
 export default styled(Drawer)(() => {
-
   const drawerCloseStyles = () => ({
     background: "linear-gradient(180deg, #404047 0%, #1c1c1c 100%)",
     margin: "1em",

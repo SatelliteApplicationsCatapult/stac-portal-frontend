@@ -1,5 +1,7 @@
 .breadcrumbs {
   margin-bottom: 4em;
+  display:flex;
+  justify-content: space-between;
 
   &__container {
     display: flex;
