@@ -11,7 +11,6 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import Table from "components/Table";
-// import MDButton from "components/MDButton";
 import { retrieveAllLoadStatuses } from "interface/loadstatuses";
 
 const LoadStatuses = () => {
@@ -22,7 +21,6 @@ const LoadStatuses = () => {
       console.log(data);
       setStatuses(data);
     }
-
     getStatuses();
   }, []);
 
@@ -76,8 +74,8 @@ const LoadStatuses = () => {
     {
       accessorFn: (row) => {
         // collections is either row.newly_stored_collections or row.updated_collections
-        let newCollections = row.newly_stored_collections;
-        let updatedCollections = row.updated_collections;
+        const newCollections = row.newly_stored_collections;
+        const updatedCollections = row.updated_collections;
         let collections = newCollections.concat(updatedCollections);
         // remove empty and duplicate collections
         collections = collections.filter((item) => item);

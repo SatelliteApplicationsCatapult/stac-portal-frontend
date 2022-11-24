@@ -76,13 +76,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDTypography>
         );
       } else if (type === "divider") {
-        returnValue = (
-          <hr
-            key={key}
-          >
-          </hr>
-          
-        );
+        returnValue = <hr key={key}></hr>;
       }
 
       return returnValue;
@@ -90,10 +84,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   );
 
   return (
-    <SidenavRoot
-      {...rest}
-      variant="permanent"
-    >
+    <SidenavRoot {...rest} variant="permanent">
       <MDBox pt={3} pb={1} px={4} textAlign="center">
         <MDBox
           display={{ xs: "block", xl: "none" }}
@@ -104,10 +95,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           sx={{ cursor: "pointer" }}
         ></MDBox>
         <MDBox component={NavLink} to="/" display="flex">
-          {brand && (
-            <img src={brand} alt="brand" className="sidenav-brand" />
-
-          )}
+          {brand && <img src={brand} alt="brand" className="sidenav-brand" />}
           <MDBox width={"100%"} height={"40%"}>
             <MDTypography
               component="h6"

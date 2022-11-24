@@ -11,8 +11,6 @@ import "./styles/style.scss";
 function SidenavCollapse({ icon, name, ...rest }) {
   const [active, setActive] = useState(false);
 
-  console.log("Rest: ", rest);
-
   return (
     <ListItem
       className="sidenav-collapse"

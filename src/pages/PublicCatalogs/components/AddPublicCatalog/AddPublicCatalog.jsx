@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MDBox from "components/MDBox";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-import Card from "@mui/material/Card";
 import { addPublicCatalog } from "interface/catalogs";
 
 const AddPublicCatalog = () => {

@@ -6,7 +6,6 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
@@ -16,8 +15,6 @@ const Applications = () => {
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            {/*<MDTypography variant="h4">Current Applications</MDTypography>*/}
-            {/*<br />*/}
             <Card>
               <MDBox p={3}>
                 <MDTypography variant="h5">STAC Browser</MDTypography>
@@ -27,11 +24,13 @@ const Applications = () => {
                     Radiant Earth
                   </a>
                 </p>
-                <br/>
+                <br />
                 <MDButton
                   color="primary"
                   onClick={async () => {
-                    window.open(process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL);
+                    window.open(
+                      process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL
+                    );
                   }}
                 >
                   Launch
@@ -41,7 +40,6 @@ const Applications = () => {
           </Grid>
         </Grid>
       </MDBox>
-      
     </DashboardLayout>
   );
 };

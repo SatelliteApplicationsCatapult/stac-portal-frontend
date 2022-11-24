@@ -1,8 +1,6 @@
-import { forwardRef } from "react";
 import { Icon, TextField } from "@mui/material";
 
-const MDInput = forwardRef(({ error, success, disabled, ...rest }, ref) => (
-  // <input className="form-input" ref={ref} {...rest} />
+const MDInput = ({ error, success, disabled, ...rest }) => (
   <TextField
     error={error}
     disabled={disabled}
@@ -31,6 +29,6 @@ const MDInput = forwardRef(({ error, success, disabled, ...rest }, ref) => (
     }}
     {...rest}
   />
-));
+);
 
 export default MDInput;

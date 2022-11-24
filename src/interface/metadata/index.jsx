@@ -177,12 +177,10 @@ export class GenerateSTAC {
 
     if (this.metadata.additional) {
       this.additional = this.metadata.additional;
-      // delete this.metadata.additional;
     }
 
     if (this.metadata.otherAssets) {
       this.otherAssets = this.metadata.otherAssets;
-      // delete this.metadata.otherAssets;
     }
 
     // Remove non tiffs or tifs

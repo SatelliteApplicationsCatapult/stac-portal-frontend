@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 // react-router-dom components
 import { useLocation } from "react-router-dom";
 
@@ -12,6 +10,7 @@ function DashboardLayout({ children }) {
 
   // Remove forward slash and convert to title case
   let page = pathname.replace("/", "").replace(/-/g, " ");
+
   // Convert each word to title case
   page = page
     .split(" ")

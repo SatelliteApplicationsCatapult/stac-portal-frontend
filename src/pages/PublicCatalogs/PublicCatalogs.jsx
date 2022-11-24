@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 
-import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
+import AddPublicCatalog from "./components/AddPublicCatalog/AddPublicCatalog";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
@@ -26,14 +26,14 @@ const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [publicCollections, setpublicCollections] = useState([]);
   useEffect(() => {
-    async function getAll() {
+    async function getData() {
       let data = await retrieveAllPublicCatalogs();
       let publicCollections = await retrieveAllPublicCollections();
       setCatalogs(data);
       setpublicCollections(publicCollections);
     }
 
-    getAll();
+    getData();
   }, []);
   const catalogsColumns = useMemo(() => [
     {
@@ -79,17 +79,6 @@ const PublicCatalogs = () => {
     },
     {
       accessorFn: (row) => {
-        // Add a tooltip that shows the full description
-        // return (
-        //   <CustomWidthTooltip
-        //     title={row.id}
-        //     disableTouchListener={false}
-        //     disableFocusListener={false}
-        //     enterDelay={1000}
-        //   >
-        //     <div>{row.id.substring(0, 40) + "..."}</div>
-        //   </CustomWidthTooltip>
-        // );
         return row.id;
       },
       header: "Collection ID",

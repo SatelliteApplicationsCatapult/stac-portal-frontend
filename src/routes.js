@@ -1,6 +1,5 @@
 // STAC Portal pages
 import Validator from "pages/Validator/Validator";
-import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import PrivateCollectionsSearcher from "pages/PrivateCollectionsSearcher/PrivateCollectionsSearcher";
 import PublicCollectionsSearcher from "pages/PublicCollectionsSearcher/PublicCollectionsSearcher";
@@ -9,9 +8,19 @@ import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
 import PublicCatalogs from "pages/PublicCatalogs/PublicCatalogs";
 import AddPrivateCollection from "pages/AddPrivateCollection/AddPrivateCollection";
-// @mui icons
 
-import { Search, Collections, Update, Add, Storage, CloudDownload, CloudSync, VerifiedUser, Explore } from "@mui/icons-material";
+// @mui icons
+import {
+  Search,
+  Collections,
+  Update,
+  Add,
+  Storage,
+  CloudDownload,
+  CloudSync,
+  VerifiedUser,
+  Explore,
+} from "@mui/icons-material";
 
 const routes = [
   {
@@ -106,14 +115,11 @@ const routes = [
     name: "STAC Browser",
     key: "stac-browser",
     icon: <Explore />,
-    href: "https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/",
+    href: process.env.REACT_APP_STAC_BROWSER_URL,
   },
 ];
 
 // Array of all icons used
-const icons = [
-
-];
-
+const icons = [];
 
 export default routes;

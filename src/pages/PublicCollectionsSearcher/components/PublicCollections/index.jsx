@@ -14,7 +14,6 @@ const PublicCollections = ({
   startDate,
   endDate,
 }) => {
-  // Table Columns
 
   const collectionColumns = useMemo(() => [
     {
@@ -26,7 +25,6 @@ const PublicCollections = ({
     },
     {
       accessorFn: (row) => {
-        // Add a tooltip that shows the full description
         return (
           <CustomWidthTooltip
             title={row.description}

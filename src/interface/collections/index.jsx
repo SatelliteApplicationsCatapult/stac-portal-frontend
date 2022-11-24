@@ -1,9 +1,8 @@
 // import auth from src/auth
-import {retrieveAllPublicCatalogs} from "../catalogs";
+import { retrieveAllPublicCatalogs } from "../catalogs";
 
 import format from "date-fns/format";
 import axios from "axios";
-
 
 export const retrieveAllCollections = async () => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/stac/`;
@@ -193,7 +192,7 @@ export const addPrivateCollection = async (
 ) => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/private_catalog/collections/`;
   const body = {
-    type:"Collection",
+    type: "Collection",
     id: collectionId,
     title: collectionTitle,
     license: license,

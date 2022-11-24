@@ -24,7 +24,6 @@ const MDTypography = forwardRef(
 
     return (
       <span ref={ref} {...rest}>
-        {/* Component can be p or h2, h3 ,h6 etc. */}
         {createElement(
           component,
           {

@@ -5,7 +5,6 @@ import { CircularProgress, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import MDAlert from "components/MDAlert";
 
 import Icon from "@mui/material/Icon";
 import {
@@ -28,7 +27,6 @@ import axios from "axios";
 
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
-  const [validatorResponse, setValidatorResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [alertBox, setAlertBox] = useState({
     display: false,
@@ -59,7 +57,6 @@ const Validator = () => {
       let data = res.data;
       if (data.message === "Valid STAC") {
         setValidJSON(true);
-        setValidatorResponse(null);
         setAlertBox({
           display: true,
           message: "Valid STAC",
@@ -68,7 +65,6 @@ const Validator = () => {
         });
       } else {
         setValidJSON(false);
-        setValidatorResponse(data);
         setAlertBox({
           display: true,
           message: generateErrorMessage(data),
@@ -213,7 +209,6 @@ const Validator = () => {
                   });
 
                   setValidJSON(null);
-                  setValidatorResponse(null);
                 }
               }}
               // on paste

@@ -1,4 +1,3 @@
-
 import { forwardRef } from "react";
 
 const MDBox = forwardRef(({ children, ...rest }, ref) => {
@@ -8,6 +7,5 @@ const MDBox = forwardRef(({ children, ...rest }, ref) => {
     </div>
   );
 });
-
 
 export default MDBox;

@@ -1,5 +1,5 @@
 import MaterialReactTable from "material-react-table";
-import { Button, Icon } from "@mui/material";
+import { Icon } from "@mui/material";
 import "./Table.scss";
 import MDButton from "components/MDButton";
 
