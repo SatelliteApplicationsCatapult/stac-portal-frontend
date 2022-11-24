@@ -28,7 +28,7 @@ const Table = ({
         },
       }}
       /**
-       * Custom Table Actions
+       * Table Actions
        */
       renderTopToolbarCustomActions={() => (
         <div className="table-toolbar-buttons">
