@@ -4,6 +4,7 @@ import "./style.scss";
 
 // Icons
 import LogoutIcon from "@mui/icons-material/Logout";
+import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 
 const Breadcrumbs = ({ page }) => {
   return (
@@ -23,16 +24,16 @@ const Breadcrumbs = ({ page }) => {
         </div>
       </div>
       <div className="breadcrumbs__container">
-        <MDButton
-          buttonType="delete"
-          onClick={() => {
-            window.location.href = "/.auth/logout";
-          }}
-          noIcon
-        >
-          <LogoutIcon style={{ marginRight: "5px" }} />
-          Logout
-        </MDButton>
+        <CustomWidthTooltip title="Logout" placement="bottom" arrow>
+          <LogoutIcon
+            style={{
+              marginRight: "5px",
+              color: "#e18080",
+              cursor: "pointer",
+            }}
+            onClick={() => (window.location.href = "/.auth/logout")}
+          />
+        </CustomWidthTooltip>
       </div>
     </div>
   );

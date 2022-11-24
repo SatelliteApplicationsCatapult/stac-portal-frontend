@@ -97,6 +97,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDBox>
         </MDBox>
       </MDBox>
+      <hr></hr>
       <List>{renderRoutes}</List>
     </SidenavRoot>
   );
