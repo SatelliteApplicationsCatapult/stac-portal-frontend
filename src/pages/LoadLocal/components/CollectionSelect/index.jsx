@@ -158,7 +158,6 @@ const CollectionSelect = ({ setSelectedCollection }) => {
               sx={{
                 width: "30%",
                 minWidth: "200px",
-                // backgroundColor: "#119F9A",
               }}
             >
               Create
@@ -239,8 +238,6 @@ const CollectionSelect = ({ setSelectedCollection }) => {
                     buttonType="create"
                     className="btn-full-width"
                     onClick={() => {
-                      // Set show loading
-                      // If input is empty
                       if (
                         newCollection.id === "" ||
                         newCollection.description === ""

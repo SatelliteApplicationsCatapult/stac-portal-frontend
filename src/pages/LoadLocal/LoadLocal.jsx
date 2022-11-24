@@ -155,7 +155,6 @@ const LoadLocal = () => {
                     Step 5 - View STAC Records
                   </MDTypography>
                   <MDButton
-                    // Publish all files
                     onClick={publish}
                     buttonType="create"
                     disabled={!selectedCollection}

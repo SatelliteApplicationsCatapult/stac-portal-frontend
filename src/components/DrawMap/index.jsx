@@ -164,7 +164,6 @@ const DrawMap = ({
                   datetime += "..";
                 }
                 console.log("Datetime is: ", datetime);
-                //let datetime = `${startDate.toISOString()}/${endDate.toISOString()}`;
                 let searchedCollections = await searchCollections(
                   bbox,
                   datetime
@@ -240,14 +239,12 @@ const DrawMap = ({
 
         <Box display="flex" justifyContent="flex-end" alignItems="center">
           <MDButton
-            variant="text"
-            
-            // style hidden if showMap is false
+            buttonType="update"
             style={{ display: showMap ? "block" : "none" }}
             onClick={() => {
-              // Hide the map
               setShowMap(!showMap);
             }}
+            noIcon
           >
             {showMap ? "Hide Map" : "Show Map"}
           </MDButton>
