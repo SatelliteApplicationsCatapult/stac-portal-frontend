@@ -7,14 +7,9 @@ import { useLocation } from "react-router-dom";
 import MDBox from "components/MDBox";
 import Breadcrumbs from "components/Breadcrumbs";
 
-// STAC Portal context
-import { useMaterialUIController, setLayout } from "context";
-
 function DashboardLayout({ children }) {
-  const [controller, dispatch] = useMaterialUIController();
   const { pathname } = useLocation();
 
-  console.log("Pathbname", pathname);
   // Remove forward slash and convert to title case
   let page = pathname.replace("/", "").replace(/-/g, " ");
   // Convert each word to title case
@@ -22,10 +17,6 @@ function DashboardLayout({ children }) {
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-
-  useEffect(() => {
-    setLayout(dispatch, "dashboard");
-  }, [pathname]);
 
   return (
     <>

@@ -3,9 +3,7 @@ import { useLocation, NavLink } from "react-router-dom";
 
 // @mui material components
 import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
-import Icon from "@mui/material/Icon";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
@@ -17,13 +15,7 @@ import SidenavCollapse from "components/Generic/Sidenav/SidenavCollapse";
 // Custom styles for the Sidenav
 import SidenavRoot from "components/Generic//Sidenav/SidenavRoot";
 
-// STAC Portal context
-import { useMaterialUIController } from "context";
-
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
-  const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
-    controller;
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
 
@@ -101,7 +93,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     <SidenavRoot
       {...rest}
       variant="permanent"
-      ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
     >
       <MDBox pt={3} pb={1} px={4} textAlign="center">
         <MDBox
@@ -130,12 +121,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           </MDBox>
         </MDBox>
       </MDBox>
-      <Divider
-        light={
-          (!darkMode && !whiteSidenav && !transparentSidenav) ||
-          (darkMode && !transparentSidenav && whiteSidenav)
-        }
-      />
       <List>{renderRoutes}</List>
     </SidenavRoot>
   );

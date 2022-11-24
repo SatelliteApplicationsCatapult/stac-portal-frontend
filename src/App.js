@@ -9,9 +9,6 @@ import Sidenav from "components/Generic/Sidenav";
 // STAC Portal routes
 import routes from "routes";
 
-// STAC Portal contexts
-import { useMaterialUIController } from "context";
-
 import STAClogo from "assets/images/stac.png";
 
 import "./assets/styles/base.scss";
