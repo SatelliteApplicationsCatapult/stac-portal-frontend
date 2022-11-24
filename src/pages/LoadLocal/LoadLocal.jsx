@@ -7,8 +7,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import "./style.scss";
 import { useEffect, useState } from "react";

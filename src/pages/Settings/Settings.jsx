@@ -5,8 +5,8 @@ import {TextField} from "@mui/material";
 import MDBox from "components/MDBox";
 
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 
 // Text editor box

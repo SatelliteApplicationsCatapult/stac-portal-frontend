@@ -22,8 +22,6 @@ const MDTypography = forwardRef(
       component = variant;
     }
 
-    console.log("Variant", variant);
-
     return (
       <span ref={ref} {...rest}>
         {/* Component can be p or h2, h3 ,h6 etc. */}

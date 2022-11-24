@@ -34,10 +34,7 @@ const DrawMap = ({
   setStartDate,
   endDate,
   setEndDate,
-  publicCollections,
   setPublicCollections,
-  downloadedCollections,
-  setDownloadedCollections,
 }) => {
   const [rectangleBounds, setRectangleBounds] = useState(null);
   const [showMap, setShowMap] = useState(true);

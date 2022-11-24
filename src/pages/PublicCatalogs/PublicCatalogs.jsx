@@ -7,8 +7,8 @@ import MDBox from "components/MDBox";
 
 import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";

@@ -11,7 +11,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// STAC Portal example components
+// Layout components
 import SidenavCollapse from "components/Generic/Sidenav/SidenavCollapse";
 
 // Custom styles for the Sidenav

@@ -16,8 +16,8 @@ import {
   Error,
 } from "@mui/icons-material";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import { Box } from "@mui/system";
 import { useState } from "react";

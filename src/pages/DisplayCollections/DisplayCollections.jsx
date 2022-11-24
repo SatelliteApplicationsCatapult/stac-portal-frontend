@@ -8,8 +8,8 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import DownloadedCollections from "./components/DownloadedCollections";
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -142,10 +141,7 @@ const AddPrivateCollection = () => {
                   buttonType="create"
                   className="btn-full-width"
                   onClick={() => {
-                    // Set show loading
-                    // If input is empty
                     if (collectionId === "" || collectionTitle === "") {
-                      // alert("Please fill in required fields");
                       window.alert("Please fill in required fields");
                       return;
                     }

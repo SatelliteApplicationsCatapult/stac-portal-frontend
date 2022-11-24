@@ -7,8 +7,8 @@ import Card from "@mui/material/Card";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import Table from "components/Table";
 // import MDButton from "components/MDButton";

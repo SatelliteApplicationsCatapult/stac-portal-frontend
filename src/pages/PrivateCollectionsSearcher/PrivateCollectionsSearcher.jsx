@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 import { useState } from "react";
 import Iframe from "react-iframe";

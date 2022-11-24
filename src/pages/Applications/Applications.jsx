@@ -4,19 +4,15 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-
 import MDButton from "components/MDButton";
 
-// Text editor box
+
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 const Applications = () => {
   return (
     <DashboardLayout>
-      
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
           <Grid item xs={12}>
