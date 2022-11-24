@@ -26,7 +26,7 @@ const File = ({file, index, handleRemoveFile}) => {
         <Icon>delete</Icon>
       </MDButton>
 
-      <MDTypography variant="h6" color="textSecondary">
+      <MDTypography variant="h6" >
         {file.name}
       </MDTypography>
     </MDBox>

@@ -73,7 +73,7 @@ const LoadLocal = () => {
                 height: "100%",
               }}
             >
-              <MDTypography variant="h5" color="textSecondary">
+              <MDTypography variant="h5" >
                 Step 1 - Select Folder(s)
               </MDTypography>
               <MDTypography variant="overline" mb={2}>
@@ -109,7 +109,7 @@ const LoadLocal = () => {
                   height: "100%",
                 }}
               >
-                <MDTypography variant="h5" color="textSecondary">
+                <MDTypography variant="h5" >
                   Step 4 - Choose Collection
                 </MDTypography>
                 <MDTypography variant="overline" 
@@ -156,7 +156,7 @@ const LoadLocal = () => {
                     justifyContent: "space-between",
                   }}
                 >
-                  <MDTypography variant="h5" color="textSecondary">
+                  <MDTypography variant="h5" >
                     Step 5 - View STAC Records
                   </MDTypography>
                   <MDButton
@@ -223,7 +223,7 @@ const LoadLocal = () => {
                     color: "#54A19A",
                   }}
                 />
-                <MDTypography variant="h5" color="textSecondary" mt={2}>
+                <MDTypography variant="h5"  mt={2}>
                   Publishing...
                 </MDTypography>
               </MDBox>

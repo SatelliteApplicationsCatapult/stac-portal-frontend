@@ -194,7 +194,7 @@ const STACForm = ({
             borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <MDTypography variant="h6" color="textSecondary">
+          <MDTypography variant="h6" >
             Items
           </MDTypography>
         </MDBox>
@@ -291,7 +291,7 @@ const STACForm = ({
             borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <MDTypography variant="h6" color="textSecondary">
+          <MDTypography variant="h6" >
             Data
           </MDTypography>
         </MDBox>
@@ -360,7 +360,7 @@ const STACForm = ({
 
                           }}
                         >
-                          <MDTypography variant="h6" color="textSecondary">
+                          <MDTypography variant="h6" >
                             Loading...
                           </MDTypography>
                         </MDBox>
@@ -378,7 +378,7 @@ const STACForm = ({
                 p={2}
                 marginBottom="10px"
               >
-                <MDTypography variant="h6" color="textSecondary">
+                <MDTypography variant="h6" >
                   Generating STAC Metadata for {selectedItem}
                 </MDTypography>
               </MDBox>
@@ -390,7 +390,7 @@ const STACForm = ({
               p={2}
               marginBottom="10px"
             >
-              <MDTypography variant="h6" color="textSecondary"></MDTypography>
+              <MDTypography variant="h6" ></MDTypography>
             </MDBox>
           )}
         </MDBox>

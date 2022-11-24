@@ -19,7 +19,6 @@
     }
   }
 
-
   &__body {
     display: flex;
     flex-direction: column;
@@ -34,7 +33,6 @@
   flex-direction: column;
   border: 1px solid #e8e8e8;
   border-radius: 4px;
-
 
   &__header {
     display: flex;
@@ -69,7 +67,6 @@
       flex-direction: column;
 
       &__title {
-
         margin-bottom: 15px;
       }
 
@@ -83,7 +80,6 @@
           width: 30%;
           max-width: 300px;
         }
-
       }
     }
   }

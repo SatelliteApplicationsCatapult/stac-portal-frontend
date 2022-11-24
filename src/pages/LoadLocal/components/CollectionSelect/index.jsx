@@ -13,7 +13,7 @@ import "./style.scss";
 import MDInput from "components/MDInput";
 import { CircularProgress } from "@mui/material";
 
-const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
+const CollectionSelect = ({ setSelectedCollection }) => {
   const [collections, setCollections] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [newCollection, setNewCollection] = useState({
@@ -75,7 +75,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             width: "100%",
           }}
         >
-          <MDTypography variant="h6" color="textSecondary">
+          <MDTypography variant="h6">
             Choose an existing collection
           </MDTypography>
           <MDTypography variant="overline" mb={2}>
@@ -136,9 +136,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
             width: "100%",
           }}
         >
-          <MDTypography variant="h6" color="textSecondary">
-            Create a new collection
-          </MDTypography>
+          <MDTypography variant="h6">Create a new collection</MDTypography>
           <MDTypography variant="overline" mb={2}>
             Create a new collection to add to your organisation's existing
             Catalog.
@@ -185,13 +183,19 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
           >
             {!showLoading ? (
               <>
-                <MDTypography variant="h6" color="textSecondary">
-                  Create a new collection
-                </MDTypography>
-                <MDTypography variant="body2" mb={2}>
-                  Create a new collection to add to your organisation's existing
-                  Catalog.
-                </MDTypography>
+                <MDBox
+                  style={{
+                    marginBottom: "16px",
+                  }}
+                >
+                  <MDTypography variant="h4">
+                    Create a new collection
+                  </MDTypography>
+                  <MDTypography variant="overline">
+                    Create a new collection to add to your organisation's
+                    existing Catalog.
+                  </MDTypography>
+                </MDBox>
                 <MDBox
                   style={{
                     display: "flex",
@@ -232,7 +236,8 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
 
                   {/* Button */}
                   <MDButton
-                    
+                    buttonType="create"
+                    className="btn-full-width"
                     onClick={() => {
                       // Set show loading
                       // If input is empty
@@ -245,17 +250,6 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
                       }
                       setShowLoading(true);
                       createCollection();
-                    }}
-                    sx={{
-                      width: "30%",
-                      mt: 2,
-                      backgroundColor: "#54A19A",
-                      color: "white!important",
-                      width: "100%",
-                      // On hover
-                      "&:hover": {
-                        backgroundColor: "#66B08A",
-                      },
                     }}
                   >
                     Create
@@ -287,7 +281,7 @@ const CollectionSelect = ({ selectedCollection, setSelectedCollection }) => {
                       color: "#54A19A",
                     }}
                   />
-                  <MDTypography variant="h5" color="textSecondary" mt={2}>
+                  <MDTypography variant="h5" mt={2}>
                     Creating Collection...
                   </MDTypography>
                 </MDBox>

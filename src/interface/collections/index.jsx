@@ -59,7 +59,6 @@ export const callSelectiveIngester = async (
   startDate,
   endDate
 ) => {
-  // alert("Download");
   let startDateString = "..";
   if (startDate) {
     const startDateDateTime = new Date(startDate);
@@ -154,14 +153,14 @@ export const addItemsToCollection = async (collection, items) => {
     // Get the item
     const item = items[key];
     try {
-      const response = await axios({
+      await axios({
         method: "POST",
         url: url,
         data: item.json,
       });
     } catch (error) {
       console.log("Doing put instead of post");
-      const responseWithPut = await axios({
+      await axios({
         method: "PUT",
         url: url + item.json.id + "/",
         data: item.json,

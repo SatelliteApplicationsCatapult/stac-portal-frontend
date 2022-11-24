@@ -24,7 +24,7 @@ const Items = ({selectedMeta, items}) => {
           <MDTypography
             variant="h6"
             className="items__title"
-            color="textSecondary"
+            
           >
             Assets ({items ? items.length : "0"})
           </MDTypography>
