@@ -12,7 +12,7 @@ import STACForm from "./components/STACForm";
 // @mui components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { Button, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
