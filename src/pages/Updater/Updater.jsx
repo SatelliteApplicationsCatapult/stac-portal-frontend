@@ -58,7 +58,12 @@ const Updater = () => {
     },
     {
       accessorFn: (row) => {
-        return row.datetime;
+        // Returns: 2021-11-22T00:00:00Z/2022-11-22T00:00:00Z
+        // Want: 2021-11-22 to 2022-11-22
+        let datetime = row.datetime.split("/");
+        let start = datetime[0].split("T")[0];
+        let end = datetime[1].split("T")[0];
+        return `${start} / ${end}`;
       },
       header: "Temporal Extent",
       size: 180, //medium column
