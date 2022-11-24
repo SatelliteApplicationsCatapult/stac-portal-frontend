@@ -172,9 +172,7 @@ const LoadLocal = () => {
                   View the newly created STAC records for each item.
                 </MDTypography>
                 <STACForm
-                  uploads={uploads}
                   groupedFiles={groupedFiles}
-                  files={files}
                   groupedDownloads={groupedDownloads}
                   itemsMeta={itemsMeta}
                   setItemsMeta={setItemsMeta}

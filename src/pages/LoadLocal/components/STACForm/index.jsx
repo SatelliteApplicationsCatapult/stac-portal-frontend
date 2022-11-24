@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Icon } from "@mui/material";
+import { Loop } from "@mui/icons-material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
@@ -13,8 +13,6 @@ const STACForm = ({
   groupedDownloads,
   itemsMeta,
   setItemsMeta,
-  files,
-  uploads,
 }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
@@ -33,7 +31,6 @@ const STACForm = ({
           if (
             !loadingGDAL.includes(file.name) &&
             !loadedGDAL.includes(file.name)
-            // !isItemStillBeingDownloaded(file.name)
           ) {
             setLoadingGDAL((prev) => [...prev, file.name]);
 
@@ -219,7 +216,8 @@ const STACForm = ({
                   },
                 }}
                 style={{
-                  padding: "2em",
+                  boxSize: "border-box",
+                  padding: "1em 0",
                   borderBottom: "1px solid #e0e0e0",
                   display: "flex",
                   justifyContent: "space-between",
@@ -227,6 +225,7 @@ const STACForm = ({
                   width: "100%",
                   flexWrap: "wrap",
                   cursor: "pointer",
+                  alignItems: "center",
                   backgroundColor:
                     selectedItem === key
                       ? "rgba(0, 0, 0, 0.04)"
@@ -238,6 +237,7 @@ const STACForm = ({
                   variant="h6"
                   sx={{
                     color: selectedItem === key ? "rgb(17,159,154)" : "black",
+                    marginLeft: "1em",
                   }}
                 >
                   {key}
@@ -248,20 +248,18 @@ const STACForm = ({
                     alignItems: "center",
                   }}
                 >
-                  <MDTypography  mr={1}>
+                  <MDTypography variant="overline">
                     {/* Check if item is being loaded */}
                     {checkIfItemIsBeingLoaded(key) ? (
-                      <Icon
-                        sx={{
-                          color: "rgb(17,159,154)",
-                          animation: "spin 1s linear infinite",
-                        }}
-                      >
-                        loop
-                      </Icon>
+                      <Loop sx={{ color: "rgb(17,159,154)" }} />
                     ) : (
                       // Show amount of files
-                      <MDTypography  mr={1}>
+                      <MDTypography
+                        variant="overline"
+                        sx={{
+                          marginRight: "1em",
+                        }}
+                      >
                         {groupedFiles[key].length} Items
                       </MDTypography>
                     )}
@@ -279,7 +277,7 @@ const STACForm = ({
           minWidth: "300px",
         }}
       >
-        {/* Header  */}
+        {/* Header */}
         <MDBox
           style={{
             display: "flex",
@@ -287,6 +285,7 @@ const STACForm = ({
             alignItems: "center",
             padding: "8px",
             borderBottom: "1px solid #e0e0e0",
+            boxSize: "border-box",
           }}
         >
           <MDTypography variant="h6">Data</MDTypography>
@@ -298,6 +297,7 @@ const STACForm = ({
             flexDirection: "column",
             width: "100%",
             padding: "2em",
+            boxSizing: "border-box",
           }}
         >
           {selectedItem ? (
@@ -308,6 +308,7 @@ const STACForm = ({
                   display: "flex",
                   flexDirection: "column",
                   width: "100%",
+                  boxSize: "border-box",
                 }}
               >
                 <MDBox>
@@ -363,26 +364,14 @@ const STACForm = ({
                 </MDBox>
               </MDBox>
             ) : (
-              <MDBox
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                p={2}
-                marginBottom="10px"
-              >
+              <MDBox>
                 <MDTypography variant="h6">
                   Generating STAC Metadata for {selectedItem}
                 </MDTypography>
               </MDBox>
             )
           ) : (
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              p={2}
-              marginBottom="10px"
-            >
+            <MDBox>
               <MDTypography variant="h6"></MDTypography>
             </MDBox>
           )}

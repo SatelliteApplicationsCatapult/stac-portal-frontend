@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import MDTypography from "components/MDTypography";
 import "./style.scss";
-import { Icon } from "@mui/material";
+import { Check, HourglassEmpty, ArrowForward } from "@mui/icons-material";
 
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
@@ -29,14 +29,10 @@ const UploadProgress = ({
 
   // Add staged items to state
   useBatchAddListener((batch) => {
-    console.log("Batch added", batch);
-    for (const item of batch.items) {
-      console.log(item.file.name);
-    }
     setStagedItems((items) => items.concat(batch.items));
   });
 
-  useRequestPreSend(async ({ items, options }) => {
+  useRequestPreSend(async ({ items }) => {
     if (!items[0].file.item) {
       return;
     }
@@ -50,7 +46,6 @@ const UploadProgress = ({
     return Promise.resolve({
       options: {
         destination: {
-          // url: `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/stac_assets/upload/`,
           url: sasToken.data.endpoint,
         },
         method: "PUT",
@@ -67,7 +62,6 @@ const UploadProgress = ({
   // Activate upload
   useEffect(() => {
     if (toDownload.length > 0) {
-      console.log("Downloadaaaa ::", toDownload);
       processPending();
     }
   }, [toDownload]);
@@ -157,7 +151,9 @@ const UploadProgress = ({
               return (
                 <div key={item.id} className="progress-item">
                   {/* Icon for waiting */}
-                  <Icon style={{ color: "#119F9A" }}>hourglass_empty</Icon>
+                  <HourglassEmpty
+                    style={{ color: "#119F9A", fontSize: "2rem" }}
+                  />
                   <p>{item.file.name}</p>
                 </div>
               );
@@ -189,9 +185,7 @@ const UploadProgress = ({
         </div>
 
         {/* Arrow pointing right */}
-        <Icon style={{ color: "#119F9A", marginTop: "1em" }}>
-          arrow_forward
-        </Icon>
+        <ArrowForward style={{ color: "#119F9A", marginTop: "1em" }} />
 
         <div className="progress-container">
           {/* Header that says uploading */}
@@ -207,7 +201,7 @@ const UploadProgress = ({
               return (
                 <div key={id} className="progress-item">
                   {lastProgress === 100 ? (
-                    <Icon>check</Icon>
+                    <Check />
                   ) : (
                     <Circle
                       strokeWidth={5}

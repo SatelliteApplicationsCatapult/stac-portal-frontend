@@ -1,7 +1,7 @@
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import { Icon } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 const File = ({ file, index, handleRemoveFile }) => {
   return (
@@ -20,8 +20,7 @@ const File = ({ file, index, handleRemoveFile }) => {
           marginRight: "20px",
         }}
       >
-        {/* Icon for delete */}
-        <Icon>delete</Icon>
+        <Delete />
       </MDButton>
 
       <MDTypography variant="h6">{file.name}</MDTypography>

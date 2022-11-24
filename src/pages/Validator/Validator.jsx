@@ -119,7 +119,6 @@ const Validator = () => {
                 }
               });
             }}
-            startIcon={<Icon>content_paste</Icon>}
             noIcon
           >
             {" "}
