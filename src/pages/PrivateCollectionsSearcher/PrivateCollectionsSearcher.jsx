@@ -1,7 +1,11 @@
+// Components
 import MDBox from "components/MDBox";
-import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
+// Layout
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 import Iframe from "react-iframe";
+
+// Styles
 import "./style.scss";
 
 const PrivateCollectionsSearcher = () => {

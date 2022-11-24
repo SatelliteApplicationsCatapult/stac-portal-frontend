@@ -1,26 +1,28 @@
+// React
 import React, { useEffect, useMemo, useState } from "react";
+
+// Components
+import MDBox from "components/MDBox";
+import AddPublicCatalog from "./components/AddPublicCatalog/AddPublicCatalog";
+import MDButton from "components/MDButton";
+import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
+import MDTypography from "components/MDTypography";
+
+// @mui components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
-// STAC Portal components
-import MDBox from "components/MDBox";
-
-import AddPublicCatalog from "./components/AddPublicCatalog/AddPublicCatalog";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-import MDButton from "components/MDButton";
-import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-import CloudSyncIcon from "@mui/icons-material/CloudSync";
-
+// Interface
 import Table from "components/Table";
 import {
   retrieveAllPublicCatalogs,
   syncAllPublicCatalogs,
 } from "interface/catalogs";
 import { retrieveAllPublicCollections } from "interface/collections";
-import MDTypography from "components/MDTypography";
 
 const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);

@@ -1,17 +1,25 @@
+// React
+import { useEffect, useState } from "react";
+
+// Components
+import MDInput from "components/MDInput";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
+
+// @mui components
+import { CircularProgress } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import MDButton from "components/MDButton";
+
+// Interface
 import {
   createNewCollection,
   retrieveAllPrivateCollections,
 } from "interface/collections";
-import { useEffect, useState } from "react";
 
+// Styles
 import "./style.scss";
-import MDInput from "components/MDInput";
-import { CircularProgress } from "@mui/material";
 
 const CollectionSelect = ({ setSelectedCollection }) => {
   const [collections, setCollections] = useState();

@@ -1,12 +1,15 @@
-import Grid from "@mui/material/Grid";
-import { CircularProgress, TextField } from "@mui/material";
+// React
+import { useState } from "react";
 
-// STAC Portal components
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import axios from "axios";
 
-import Icon from "@mui/material/Icon";
+// @mui components
+import Grid from "@mui/material/Grid";
+import { CircularProgress, TextField } from "@mui/material";
 import {
   ContentPaste,
   SaveAlt,
@@ -14,16 +17,13 @@ import {
   TaskAlt,
   Error,
 } from "@mui/icons-material";
+import { Box } from "@mui/system";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-import { Box } from "@mui/system";
-import { useState } from "react";
-
+// Styles
 import "./Validator.scss";
-
-import axios from "axios";
 
 const Validator = () => {
   const [validJSON, setValidJSON] = useState(null);
@@ -79,7 +79,8 @@ const Validator = () => {
     <DashboardLayout>
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
-          Use the space below to paste your STAC JSON and validate it against the STAC standard.
+          Use the space below to paste your STAC JSON and validate it against
+          the STAC standard.
         </MDTypography>
         {alertBox.display ? (
           <div className={`alert alert-${alertBox.severity}`}>
@@ -211,6 +212,8 @@ const Validator = () => {
               // on paste
               onPaste={(e) => {
                 let textField = document.getElementById("text-field");
+                // Set alert box to false
+                setAlertBox({ display: false, message: "", severity: "error" });
 
                 try {
                   e.preventDefault();
@@ -243,7 +246,18 @@ const Validator = () => {
                   : ""
               } ${isLoading ? "hide" : ""}`}
             />
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "45%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </Grid>
       </MDBox>

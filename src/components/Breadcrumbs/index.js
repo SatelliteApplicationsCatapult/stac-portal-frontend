@@ -1,10 +1,12 @@
+// @mui components
 import { Home, ChevronRight } from "@mui/icons-material";
-import MDButton from "components/MDButton";
-import "./style.scss";
 
 // Icons
 import LogoutIcon from "@mui/icons-material/Logout";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
+
+// Styles
+import "./style.scss";
 
 const Breadcrumbs = ({ page }) => {
   return (

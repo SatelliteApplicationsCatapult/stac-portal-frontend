@@ -1,6 +1,11 @@
-import { Done } from "@mui/icons-material";
-import MDTypography from "components/MDTypography";
+// React
 import { useState } from "react";
+
+// @mui components
+import { Done } from "@mui/icons-material";
+
+// Components
+import MDTypography from "components/MDTypography";
 
 const Item = ({ item, selectedMeta }) => {
   const [showInfo, setShowInfo] = useState(false);

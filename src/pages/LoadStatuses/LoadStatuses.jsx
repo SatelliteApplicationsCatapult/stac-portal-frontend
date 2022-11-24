@@ -1,16 +1,19 @@
+// React
 import React, { useEffect, useMemo, useState } from "react";
 
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-
-// STAC Portal components
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import Table from "components/Table";
+
+// @mui components
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
-import Table from "components/Table";
+// Interface
 import { retrieveAllLoadStatuses } from "interface/loadstatuses";
 
 const LoadStatuses = () => {

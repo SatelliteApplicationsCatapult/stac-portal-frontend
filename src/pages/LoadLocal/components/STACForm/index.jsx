@@ -1,12 +1,20 @@
+// React
 import { useEffect, useState } from "react";
-import { Loop } from "@mui/icons-material";
+
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-import { returnTiffMeta } from "interface/gdal";
-import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import STACJSON from "./components/STACJSON";
+
+// @mui components
+import { Loop } from "@mui/icons-material";
+
+// Interface
+import { returnTiffMeta } from "interface/gdal";
+
+// Utils
+import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 
 const STACForm = ({
   groupedFiles,

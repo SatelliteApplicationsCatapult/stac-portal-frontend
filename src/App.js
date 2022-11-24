@@ -1,16 +1,17 @@
+// React
 import { useEffect } from "react";
-
-// react-router components
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 // Layout components
 import Sidenav from "components/Sidenav";
 
-// STAC Portal routes
+// Routes
 import routes from "routes";
 
+// Images
 import STAClogo from "assets/images/stac.png";
 
+// Styles
 import "./assets/styles/base.scss";
 
 export default function App() {
@@ -44,11 +45,7 @@ export default function App() {
 
   return (
     <>
-      <Sidenav
-        brand={STAClogo}
-        brandName="STAC Portal"
-        routes={routes}
-      />
+      <Sidenav brand={STAClogo} brandName="STAC Portal" routes={routes} />
       <div
         style={{
           display: "flex",

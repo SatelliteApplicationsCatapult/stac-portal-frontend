@@ -1,9 +1,15 @@
-import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
-import MDTypography from "components/MDTypography";
-import "./style.scss";
-
-import Item from "../Item";
+// React
 import { useState } from "react";
+
+// Components
+import MDTypography from "components/MDTypography";
+import Item from "../Item";
+
+// @mui components
+import { ArrowDropUp, ArrowDropDown } from "@mui/icons-material";
+
+// Styles
+import "./style.scss";
 
 const Items = ({ selectedMeta, items }) => {
   const [showAssets, setShowAssets] = useState(false);

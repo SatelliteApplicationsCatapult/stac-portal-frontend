@@ -1,20 +1,27 @@
-// State
+// React
 import { useState } from "react";
+
+// Modules
+import axios from "axios";
 
 // Leaflet
 import * as L from "leaflet"; // This must be imported for use by react-leaflet
 import { MapContainer, TileLayer, FeatureGroup, Polygon } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
-import { Icon, TextField } from "@mui/material";
 
+// Components
+import MDButton from "components/MDButton";
+
+// @mui components
+import { Search } from "@mui/icons-material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import axios from "axios";
-import "./map.scss";
+import { TextField } from "@mui/material";
 import { Stack, Box } from "@mui/system";
-import MDButton from "components/MDButton";
-import { Search } from "@mui/icons-material";
+
+// Styles
+import "./map.scss";
 
 const searchCollections = async (bbox, datetime) => {
   const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/public_catalogs/collections/search/`;
@@ -78,8 +85,8 @@ const DrawMap = ({
             <TextField
               id="aoi"
               label="AOI"
+              autoComplete="off"
               style={{ margin: 6, width: "50%", padding: "0" }}
-              // If showMap is true then set placeholder to "Click to draw"
               placeholder={"Click to draw AOI on the map"}
               margin="normal"
               InputLabelProps={{
@@ -125,8 +132,6 @@ const DrawMap = ({
               <DatePicker
                 label="End Date"
                 value={endDate}
-                // allow time
-
                 onChange={(e) => setEndDate(e)}
                 renderInput={(params) => <TextField {...params} />}
                 className="date-picker"
@@ -140,6 +145,8 @@ const DrawMap = ({
               onClick={async () => {
                 // Hide map
                 setShowMap(false);
+                // Empty the collections
+                setPublicCollections([]);
                 let bbox = AOI;
                 let datetime = "";
                 if (startDate) {
@@ -163,7 +170,6 @@ const DrawMap = ({
                 } else {
                   datetime += "..";
                 }
-                console.log("Datetime is: ", datetime);
                 let searchedCollections = await searchCollections(
                   bbox,
                   datetime

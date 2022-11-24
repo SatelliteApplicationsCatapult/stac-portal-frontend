@@ -1,7 +1,12 @@
+// Components
+import MDButton from "components/MDButton";
+
+// @mui components
 import MaterialReactTable from "material-react-table";
 import { Icon } from "@mui/material";
+
+// Styles
 import "./Table.scss";
-import MDButton from "components/MDButton";
 
 const Table = ({
   columns,
@@ -23,7 +28,7 @@ const Table = ({
         },
       }}
       /**
-       * Custom Table Actions
+       * Table Actions
        */
       renderTopToolbarCustomActions={() => (
         <div className="table-toolbar-buttons">
@@ -31,7 +36,7 @@ const Table = ({
             toolbarButtons.map((button) => (
               <MDButton
                 key={button.label}
-                buttonType={'update'}
+                buttonType={"update"}
                 color={button.color}
                 className="table-toolbar-button"
                 onClick={button.onCustomClick}
@@ -63,7 +68,8 @@ const Table = ({
       }}
       muiTableHeadRowProps={{
         sx: {
-          backgroundColor: "#252527",
+          backgroundColor: "#2C2C2F",
+          color: "white",
         },
       }}
       muiTableHeadCellProps={{

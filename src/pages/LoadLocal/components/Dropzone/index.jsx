@@ -1,17 +1,16 @@
+// React
 import { forwardRef, useCallback } from "react";
+
+// Components
 import Uploady from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import UploadProgress from "./components/UploadProgress";
 import { asUploadButton } from "@rpldy/upload-button";
 
+// Styles
 import "./style.scss";
 
-const Dropzone = ({
-  setFiles,
-  uploads,
-  setUploads,
-  setGroupedDownloads,
-}) => {
+const Dropzone = ({ setFiles, uploads, setUploads, setGroupedDownloads }) => {
   const clickableDropZone = forwardRef((props, ref) => {
     const { onClick, ...buttonProps } = props;
 

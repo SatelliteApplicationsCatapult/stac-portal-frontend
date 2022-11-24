@@ -1,11 +1,15 @@
+// React
 import React, { useEffect, useMemo, useState } from "react";
 
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-
-// STAC Portal components
+// Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import Table from "components/Table";
+import MDButton from "components/MDButton";
+
+// @mui components
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 // Layout components
@@ -17,9 +21,6 @@ import {
   runStoredSearchParamUpdate,
 } from "interface/collections";
 
-// Table
-import Table from "components/Table";
-import MDButton from "components/MDButton";
 
 const Updater = () => {
   const [params, setParams] = useState([]);
@@ -58,7 +59,12 @@ const Updater = () => {
     },
     {
       accessorFn: (row) => {
-        return row.datetime;
+        // Returns: 2021-11-22T00:00:00Z/2022-11-22T00:00:00Z
+        // Want: 2021-11-22 to 2022-11-22
+        let datetime = row.datetime.split("/");
+        let start = datetime[0].split("T")[0];
+        let end = datetime[1].split("T")[0];
+        return `${start} / ${end}`;
       },
       header: "Temporal Extent",
       size: 180, //medium column

@@ -1,10 +1,15 @@
+// React
 import React, { useMemo } from "react";
 
+// Components
 import Table from "components/Table";
-// Interface
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 import MDButton from "components/MDButton";
+
+// Utils
 import { shortenDescription } from "../TableUtils";
+
+// Interface
 import {
   deletePrivateCollection,
   deletePublicCollection,

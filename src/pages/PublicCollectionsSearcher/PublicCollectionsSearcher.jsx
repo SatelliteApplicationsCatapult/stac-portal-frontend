@@ -1,12 +1,17 @@
+// React
 import React, { useState } from "react";
-import Grid from "@mui/material/Grid";
+
+// Components
+import DrawMap from "../../components/DrawMap";
+import PublicCollections from "./components/PublicCollections";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+// @mui components
+import Grid from "@mui/material/Grid";
 
-import DrawMap from "../../components/DrawMap";
-import PublicCollections from "./components/PublicCollections";
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 const PublicCollectionsSearcher = () => {
   const [AOI, setAOI] = useState("");
