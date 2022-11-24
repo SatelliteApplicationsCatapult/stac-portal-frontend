@@ -9,12 +9,16 @@ const MDButton = ({
   // style
   style,
   noIcon,
+  noText,
   ...rest
 }) => {
   // Add button type to className
   const buttonTypeClassName = buttonType ? `btn-${buttonType}` : "";
   // Add all classes to a string
   const classes = `btn ${buttonTypeClassName} ${className}`;
+
+  // If noText, then add
+  console.log("Style", style);
 
   return (
     <button className={classes} onClick={onClick} style={style}>

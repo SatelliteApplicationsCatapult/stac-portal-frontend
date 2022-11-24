@@ -47,7 +47,6 @@ const Validator = () => {
     setAlertBox({ display: false, message: "", severity: "error" });
     setIsLoading(true);
     let textField = document.getElementById("text-field");
-    const url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`;
 
     axios(`${process.env.REACT_APP_PORTAL_BACKEND_URL}/validate/json/`, {
       method: "POST",
@@ -92,7 +91,7 @@ const Validator = () => {
           <div className={`alert alert-${alertBox.severity}`}>
             <Error />
             <MDTypography variant="overline" color="white">
-              {alertBox.message}
+              <strong>{alertBox.message}</strong>
             </MDTypography>
           </div>
         ) : null}
@@ -103,9 +102,25 @@ const Validator = () => {
             buttonType="update"
             style={{ marginRight: "10px" }}
             onClick={() => {
+              // Remove any existing alert
+              setAlertBox({ display: false, message: "", severity: "error" });
               navigator.clipboard.readText().then((text) => {
                 const textField = document.getElementById("text-field");
-                textField.value = text;
+
+                try {
+                  let ugly = JSON.parse(text);
+                  let pretty = JSON.stringify(ugly, undefined, 4);
+                  textField.value = pretty;
+                } catch {
+                  textField.value = "";
+                  setAlertBox({
+                    display: true,
+                    message:
+                      "Invalid JSON, please put this through a JSON formatter before validating STAC",
+                    severity: "error",
+                    icon: "error",
+                  });
+                }
               });
             }}
             startIcon={<Icon>content_paste</Icon>}
@@ -186,7 +201,7 @@ const Validator = () => {
               id="text-field"
               placeholder="Paste STAC JSON here"
               multiline
-              rows={35}
+              rows={30}
               margin="normal"
               fullWidth
               onInput={() => {
@@ -195,6 +210,33 @@ const Validator = () => {
                     display: false,
                     message: "",
                     severity: "error",
+                  });
+
+                  setValidJSON(null);
+                  setValidatorResponse(null);
+                }
+              }}
+              // on paste
+              onPaste={(e) => {
+                let textField = document.getElementById("text-field");
+
+                try {
+                  e.preventDefault();
+
+                  const text = e.clipboardData.getData("text/plain");
+                  // Clear the text field
+
+                  let ugly = JSON.parse(text);
+                  let pretty = JSON.stringify(ugly, undefined, 4);
+                  textField.value = pretty;
+                } catch (err) {
+                  textField.value = "";
+                  setAlertBox({
+                    display: true,
+                    message:
+                      "Invalid JSON, please put this through a JSON formatter before validating STAC",
+                    severity: "error",
+                    icon: "error",
                   });
                 }
               }}

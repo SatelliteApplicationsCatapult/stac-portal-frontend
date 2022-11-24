@@ -1,13 +1,17 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 
 import Table from "components/Table";
 // Interface
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
 import MDButton from "components/MDButton";
-import {shortenDescription} from "../TableUtils";
-import {deletePrivateCollection, deletePublicCollection, retrieveAllCollections,} from "interface/collections";
+import { shortenDescription } from "../TableUtils";
+import {
+  deletePrivateCollection,
+  deletePublicCollection,
+  retrieveAllCollections,
+} from "interface/collections";
 
-const DownloadedCollections = ({collections, setCollections}) => {
+const DownloadedCollections = ({ collections, setCollections }) => {
   // Table Columns
   const collectionColumns = useMemo(() => [
     {
@@ -68,7 +72,8 @@ const DownloadedCollections = ({collections, setCollections}) => {
       accessorFn: (row) => {
         return (
           <MDButton
-            color="error"
+            buttonType={"delete"}
+            noText
             onClick={async () => {
               // ask the user are they sure they want to delete
               let confirmation = window.confirm(

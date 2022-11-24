@@ -6,6 +6,7 @@ import Card from "@mui/material/Card";
 // STAC Portal components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 // STAC Portal example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -66,11 +67,14 @@ const Updater = () => {
       accessorFn: (row) => {
         return (
           <MDButton
+            buttonType={"update"}
+            noIcon
             onClick={() => {
               runStoredSearchParamUpdate(row.id);
               alert(`Updating ${row.collection} from ${row.parentCatalogName}`);
             }}
           >
+            <CloudSyncIcon sx={{ mr: 1 }} />
             Update
           </MDButton>
         );
