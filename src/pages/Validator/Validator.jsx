@@ -246,7 +246,18 @@ const Validator = () => {
                   : ""
               } ${isLoading ? "hide" : ""}`}
             />
-            {isLoading && <CircularProgress />}
+            {isLoading && (
+              <div 
+                style={{
+                  position: "absolute",
+                  top: "45%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <CircularProgress />
+              </div>
+            )}
           </Grid>
         </Grid>
       </MDBox>
