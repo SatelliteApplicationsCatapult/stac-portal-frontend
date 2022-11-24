@@ -1,30 +1,28 @@
-import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { useState } from "react";
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+
 import Iframe from "react-iframe";
-import './style.scss'
+import "./style.scss";
 
 const PrivateCollectionsSearcher = () => {
   return (
     <>
       <DashboardLayout>
-        <DashboardNavbar />
         <MDBox
-          pt={6}
-          pb={3}
-          sx={{
+          style={{
             width: "100%",
-            height: "86vh",
+            height: "83vh",
           }}
         >
           <Iframe
-            src="https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/"
+            src={process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}
             width="100%"
             height="100%"
             frameBorder="0"
             id="stac-browser-iframe"
+            onError={(e) => {
+              console.log(e);
+            }}
           />
         </MDBox>
       </DashboardLayout>

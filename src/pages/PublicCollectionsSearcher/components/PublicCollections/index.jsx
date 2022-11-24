@@ -1,20 +1,19 @@
-import React, {useMemo} from "react";
+import React, { useMemo } from "react";
 import Table from "components/Table";
 // Interface
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
-import {callSelectiveIngester} from "interface/collections";
-import {shortenDescription} from "../TableUtils";
+import { callSelectiveIngester } from "interface/collections";
+import { shortenDescription } from "../TableUtils";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 
 const PublicCollections = ({
-                             collections,
-                             setCollections,
-                             AOI,
-                             startDate,
-                             endDate,
-                           }) => {
-  // Table Columns
+  collections,
+  AOI,
+  startDate,
+  endDate,
+}) => {
 
   const collectionColumns = useMemo(() => [
     {
@@ -26,7 +25,6 @@ const PublicCollections = ({
     },
     {
       accessorFn: (row) => {
-        // Add a tooltip that shows the full description
         return (
           <CustomWidthTooltip
             title={row.description}
@@ -48,21 +46,12 @@ const PublicCollections = ({
       header: "Catalog",
       size: 200,
     },
-    // {
-    //   accessorFn: (row) => {
-    //     // catalog url
-    //     return row.catalog.url;
-    //   },
-    //   header: "Catalog URL",
-    //   size: 200,
-    // },
-
-    // add column for the button
     {
       accessorFn: (row) => {
         return (
           <MDButton
-            color="success"
+            buttonType="create"
+            noIcon
             onClick={() => {
               const parentCatalogId = row.catalog.id;
               const collectionId = row.id;
@@ -76,6 +65,11 @@ const PublicCollections = ({
               alert(`Ingesting ${row.title} from ${row.catalog.name}...`);
             }}
           >
+            <CloudDownloadIcon
+              sx={{
+                mr: 2,
+              }}
+            />
             Load
           </MDButton>
         );

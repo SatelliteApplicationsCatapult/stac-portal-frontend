@@ -1,21 +1,19 @@
-import {useEffect, useState} from "react";
-import {Icon} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Loop } from "@mui/icons-material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-import {returnTiffMeta} from "interface/gdal";
-import {returnAdditionalMeta} from "pages/LoadLocal/loader/utils";
+import { returnTiffMeta } from "interface/gdal";
+import { returnAdditionalMeta } from "pages/LoadLocal/loader/utils";
 import Items from "./components/Items";
 import STACJSON from "./components/STACJSON";
 
 const STACForm = ({
-                    groupedFiles,
-                    groupedDownloads,
-                    itemsMeta,
-                    setItemsMeta,
-                    files,
-                    uploads,
-                  }) => {
+  groupedFiles,
+  groupedDownloads,
+  itemsMeta,
+  setItemsMeta,
+}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedMeta, setSelectedMeta] = useState(null);
 
@@ -33,7 +31,6 @@ const STACForm = ({
           if (
             !loadingGDAL.includes(file.name) &&
             !loadedGDAL.includes(file.name)
-            // !isItemStillBeingDownloaded(file.name)
           ) {
             setLoadingGDAL((prev) => [...prev, file.name]);
 
@@ -167,39 +164,40 @@ const STACForm = ({
   }, [itemsMeta]);
 
   return (
-    <MDBox display="flex" border="1px solid #e0e0e0">
+    <MDBox
+      style={{
+        display: "flex",
+        border: "1px solid #e0e0e0",
+      }}
+    >
       <MDBox
-        display="flex"
-        flexDirection="column"
-        width="30%"
-        minWidth="300px"
-        borderRight="1px solid #e0e0e0"
-        borderBottom="1px solid #e0e0e0"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "30%",
+          minWidth: "300px",
+          borderRight: "1px solid #e0e0e0",
+          borderBottom: "1px solid #e0e0e0",
+        }}
       >
         {/* Header */}
         <MDBox
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={2}
-          borderBottom="1px solid #e0e0e0"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "8px",
+            borderBottom: "1px solid #e0e0e0",
+          }}
         >
-          <MDTypography variant="h6" color="textSecondary">
-            Items
-          </MDTypography>
+          <MDTypography variant="h6">Items</MDTypography>
         </MDBox>
         {groupedFiles &&
           Object.keys(groupedFiles).map((key) => {
             return (
               <MDBox
                 key={key}
-                p={2}
-                borderBottom="1px solid #e0e0e0"
-                display="flex"
-                justifyContent="space-between"
-                flexDirection="row"
-                width="100%"
-                flexWrap="wrap"
                 sx={{
                   cursor: "pointer",
                   backgroundColor:
@@ -217,31 +215,51 @@ const STACForm = ({
                     color: "rgb(17,159,154)",
                   },
                 }}
+                style={{
+                  boxSize: "border-box",
+                  padding: "1em 0",
+                  borderBottom: "1px solid #e0e0e0",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  width: "100%",
+                  flexWrap: "wrap",
+                  cursor: "pointer",
+                  alignItems: "center",
+                  backgroundColor:
+                    selectedItem === key
+                      ? "rgba(0, 0, 0, 0.04)"
+                      : "transparent",
+                }}
                 onClick={() => setSelectedItem(key)}
               >
                 <MDTypography
                   variant="h6"
                   sx={{
                     color: selectedItem === key ? "rgb(17,159,154)" : "black",
+                    marginLeft: "1em",
                   }}
                 >
                   {key}
                 </MDTypography>
-                <MDBox display="flex" alignItems="center">
-                  <MDTypography variant="body2" mr={1}>
+                <MDBox
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <MDTypography variant="overline">
                     {/* Check if item is being loaded */}
                     {checkIfItemIsBeingLoaded(key) ? (
-                      <Icon
-                        sx={{
-                          color: "rgb(17,159,154)",
-                          animation: "spin 1s linear infinite",
-                        }}
-                      >
-                        loop
-                      </Icon>
+                      <Loop sx={{ color: "rgb(17,159,154)" }} />
                     ) : (
                       // Show amount of files
-                      <MDTypography variant="body2" mr={1}>
+                      <MDTypography
+                        variant="overline"
+                        sx={{
+                          marginRight: "1em",
+                        }}
+                      >
                         {groupedFiles[key].length} Items
                       </MDTypography>
                     )}
@@ -251,25 +269,48 @@ const STACForm = ({
             );
           })}
       </MDBox>
-      <MDBox display="flex" flexDirection="column" width="70%">
-        {/* Header  */}
+      <MDBox
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "70%",
+          minWidth: "300px",
+        }}
+      >
+        {/* Header */}
         <MDBox
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          p={2}
-          borderBottom="1px solid #e0e0e0"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "8px",
+            borderBottom: "1px solid #e0e0e0",
+            boxSize: "border-box",
+          }}
         >
-          <MDTypography variant="h6" color="textSecondary">
-            Data
-          </MDTypography>
+          <MDTypography variant="h6">Data</MDTypography>
         </MDBox>
         {/* Generated Item Form */}
-        <MDBox display="flex" flexDirection="column" width="100%" p={4}>
+        <MDBox
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            padding: "2em",
+            boxSizing: "border-box",
+          }}
+        >
           {selectedItem ? (
             // If the selected item does not exist in the loadingGDAL array, show the form else show a spinner
             !checkIfItemIsBeingLoaded(selectedItem) ? (
-              <MDBox display="flex" flexDirection="column" width="100%">
+              <MDBox
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  boxSize: "border-box",
+                }}
+              >
                 <MDBox>
                   <Items
                     selectedMeta={selectedMeta}
@@ -280,16 +321,22 @@ const STACForm = ({
                 <MDBox>
                   {/* Header  */}
                   <MDBox
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    flexDirection="column"
-                    p={2}
-                    border="1px solid #e0e0e0"
-                    marginBottom="10px"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      padding: "2em",
+                      border: "1px solid #e0e0e0",
+                      marginBottom: "10px",
+                    }}
                   >
                     {/* Raw STAC JSON */}
-                    <MDBox width="100%">
+                    <MDBox
+                      style={{
+                        width: "100%",
+                      }}
+                    >
                       {selectedItem &&
                       !checkIfItemIsBeingLoaded(selectedItem) ? (
                         <STACJSON
@@ -299,17 +346,17 @@ const STACForm = ({
                         />
                       ) : (
                         <MDBox
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          flexDirection="column"
-                          p={2}
-                          border="1px solid #e0e0e0"
-                          marginBottom="10px"
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                            padding: "2em",
+                            border: "1px solid #e0e0e0",
+                            marginBottom: "10px",
+                          }}
                         >
-                          <MDTypography variant="h6" color="textSecondary">
-                            Loading...
-                          </MDTypography>
+                          <MDTypography variant="h6">Loading...</MDTypography>
                         </MDBox>
                       )}
                     </MDBox>
@@ -317,27 +364,15 @@ const STACForm = ({
                 </MDBox>
               </MDBox>
             ) : (
-              <MDBox
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-                p={2}
-                marginBottom="10px"
-              >
-                <MDTypography variant="h6" color="textSecondary">
+              <MDBox>
+                <MDTypography variant="h6">
                   Generating STAC Metadata for {selectedItem}
                 </MDTypography>
               </MDBox>
             )
           ) : (
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              p={2}
-              marginBottom="10px"
-            >
-              <MDTypography variant="h6" color="textSecondary"></MDTypography>
+            <MDBox>
+              <MDTypography variant="h6"></MDTypography>
             </MDBox>
           )}
         </MDBox>

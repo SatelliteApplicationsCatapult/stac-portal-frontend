@@ -1,37 +1,5 @@
-/**
- =========================================================
- * STAC Portal - v2.1.0
- =========================================================
- * Product Page: https://www.creative-tim.com/product/material-dashboard-react
- * Copyright 2022 Creative Tim (https://www.creative-tim.com)
- Coded by www.creative-tim.com
- =========================================================
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- */
-/**
- All of the routes for the STAC Portal are added here,
- You can add a new route, customize the routes and delete the routes here.
- Once you add a new route on this file it will be visible automatically on
- the Sidenav.
- For adding a new route you can follow the existing routes in the routes array.
- 1. The `type` key with the `collapse` value is used for a route.
- 2. The `type` key with the `title` value is used for a title inside the Sidenav.
- 3. The `type` key with the `divider` value is used for a divider between Sidenav items.
- 4. The `name` key is used for the name of the route on the Sidenav.
- 5. The `key` key is used for the key of the route (It will help you with the key prop inside a loop).
- 6. The `icon` key is used for the icon of the route on the Sidenav, you have to add a node.
- 7. The `collapse` key is used for making a collapsible item on the Sidenav that has other routes
- inside (nested routes), you need to pass the nested routes inside an array as a value for the `collapse` key.
- 8. The `route` key is used to store the route location which is used for the react router.
- 9. The `href` key is used to store the external links location.
- 10. The `title` key is only for the item with the type of `title` and its used for the title text on the Sidenav.
- 10. The `component` key is used to store the component of its route.
- */
-// STAC Portal layouts
-
 // STAC Portal pages
 import Validator from "pages/Validator/Validator";
-import Applications from "pages/Applications/Applications";
 import LoadLocal from "pages/LoadLocal/LoadLocal";
 import PrivateCollectionsSearcher from "pages/PrivateCollectionsSearcher/PrivateCollectionsSearcher";
 import PublicCollectionsSearcher from "pages/PublicCollectionsSearcher/PublicCollectionsSearcher";
@@ -40,19 +8,30 @@ import LoadStatuses from "pages/LoadStatuses/LoadStatuses";
 import DisplayCollections from "pages/DisplayCollections/DisplayCollections";
 import PublicCatalogs from "pages/PublicCatalogs/PublicCatalogs";
 import AddPrivateCollection from "pages/AddPrivateCollection/AddPrivateCollection";
+
 // @mui icons
-import Icon from "@mui/material/Icon";
+import {
+  Search,
+  Collections,
+  Update,
+  Add,
+  Storage,
+  CloudDownload,
+  CloudSync,
+  VerifiedUser,
+  Explore,
+} from "@mui/icons-material";
 
 const routes = [
   {
     type: "title",
-    title: "SAC Catalog",
+    title: "Catapult Catalog",
   },
   {
     type: "collapse",
     name: "Local Searcher",
     key: "local-searcher",
-    icon: <Icon fontSize="small">search</Icon>,
+    icon: <Search />,
     route: "/local-searcher",
     component: <PrivateCollectionsSearcher />,
   },
@@ -60,7 +39,7 @@ const routes = [
     type: "collapse",
     name: "Local Catalog",
     key: "local-catalog",
-    icon: <Icon fontSize="small">collections</Icon>,
+    icon: <Collections />,
     route: "/local-catalog",
     component: <DisplayCollections />,
   },
@@ -68,7 +47,7 @@ const routes = [
     type: "collapse",
     name: "Update Collection",
     key: "updater",
-    icon: <Icon fontSize="small">update</Icon>,
+    icon: <Update />,
     route: "/updater",
     component: <Updater />,
   },
@@ -76,7 +55,7 @@ const routes = [
     type: "collapse",
     name: "Add Collection",
     key: "add-collection",
-    icon: <Icon fontSize="small">add</Icon>,
+    icon: <Add />,
     route: "/add-collection",
     component: <AddPrivateCollection />,
   },
@@ -85,7 +64,7 @@ const routes = [
     type: "collapse",
     name: "Load Local Data",
     key: "load-local-data",
-    icon: <Icon fontSize="small">storage</Icon>,
+    icon: <Storage />,
     route: "/load-local-data",
     component: <LoadLocal />,
   },
@@ -98,7 +77,7 @@ const routes = [
     type: "collapse",
     name: "Public Catalogs",
     key: "public-catalogs",
-    icon: <Icon fontSize="small">cloud_download</Icon>,
+    icon: <CloudDownload />,
     route: "/public-catalogs",
     component: <PublicCatalogs />,
   },
@@ -106,7 +85,7 @@ const routes = [
     type: "collapse",
     name: "Public Searcher",
     key: "searcher",
-    icon: <Icon fontSize="small">search</Icon>,
+    icon: <Search />,
     route: "/searcher",
     component: <PublicCollectionsSearcher />,
   },
@@ -114,7 +93,7 @@ const routes = [
     type: "collapse",
     name: "Load Status",
     key: "load-status",
-    icon: <Icon fontSize="small">cloud_sync</Icon>,
+    icon: <CloudSync />,
     route: "/load-status",
     component: <LoadStatuses />,
   },
@@ -127,7 +106,7 @@ const routes = [
     type: "collapse",
     name: "STAC Validator",
     key: "validator",
-    icon: <Icon fontSize="small">verified_user</Icon>,
+    icon: <VerifiedUser />,
     route: "/validator",
     component: <Validator />,
   },
@@ -135,8 +114,12 @@ const routes = [
     type: "collapse",
     name: "STAC Browser",
     key: "stac-browser",
-    icon: <Icon fontSize="small">explore</Icon>,
-    href: "https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/",
+    icon: <Explore />,
+    href: process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL,
   },
 ];
+
+// Array of all icons used
+const icons = [];
+
 export default routes;

@@ -1,21 +1,19 @@
-import {forwardRef, useCallback} from "react";
+import { forwardRef, useCallback } from "react";
 import Uploady from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 import UploadProgress from "./components/UploadProgress";
-import {asUploadButton} from "@rpldy/upload-button";
+import { asUploadButton } from "@rpldy/upload-button";
 
 import "./style.scss";
 
 const Dropzone = ({
-                    files,
-                    setFiles,
-                    uploads,
-                    setUploads,
-                    groupedDownloads,
-                    setGroupedDownloads,
-                  }) => {
+  setFiles,
+  uploads,
+  setUploads,
+  setGroupedDownloads,
+}) => {
   const clickableDropZone = forwardRef((props, ref) => {
-    const {onClick, ...buttonProps} = props;
+    const { onClick, ...buttonProps } = props;
 
     const onZoneClick = useCallback(
       (e) => {
@@ -31,7 +29,7 @@ const Dropzone = ({
         {...buttonProps}
         ref={ref}
         onDragOverClassName="active"
-        extraProps={{onClick: onZoneClick}}
+        extraProps={{ onClick: onZoneClick }}
         htmlDirContentParams={{
           recursive: true,
           webkitdirectory: true,
@@ -42,9 +40,9 @@ const Dropzone = ({
         className="dropzone"
       >
         Drag and Drop Folder(s) Here
-        <br/>
+        <br />
         <small
-          style={{color: "gray", fontStyle: "italic", fontSize: "0.7em"}}
+          style={{ color: "gray", fontStyle: "italic", fontSize: "0.7em" }}
         >
           {" "}
           Please ensure that <b> Manifest</b> files are included{" "}
@@ -74,13 +72,11 @@ const Dropzone = ({
       maxGroupSize={1}
       maxFiles={1}
     >
-      <DropZoneButton/>
+      <DropZoneButton />
       <UploadProgress
-        files={files}
         setFiles={setFiles}
         uploads={uploads}
         setUploads={setUploads}
-        groupedDownloads={groupedDownloads}
         setGroupedDownloads={setGroupedDownloads}
       />
     </Uploady>

@@ -4,14 +4,15 @@ import Card from "@mui/material/Card";
 
 // STAC Portal components
 import MDBox from "components/MDBox";
-import Footer from "examples/Footer";
-import AddPublicCatalog from "pages/AddPublicCatalog/AddPublicCatalog";
 
-// STAC Portal example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import AddPublicCatalog from "./components/AddPublicCatalog/AddPublicCatalog";
+
+// Layout components
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+
 import MDButton from "components/MDButton";
 import CustomWidthTooltip from "components/Tooltip/CustomWidthTooltip";
+import CloudSyncIcon from "@mui/icons-material/CloudSync";
 
 import Table from "components/Table";
 import {
@@ -25,14 +26,14 @@ const PublicCatalogs = () => {
   const [catalogs, setCatalogs] = useState([]);
   const [publicCollections, setpublicCollections] = useState([]);
   useEffect(() => {
-    async function getAll() {
+    async function getData() {
       let data = await retrieveAllPublicCatalogs();
       let publicCollections = await retrieveAllPublicCollections();
       setCatalogs(data);
       setpublicCollections(publicCollections);
     }
 
-    getAll();
+    getData();
   }, []);
   const catalogsColumns = useMemo(() => [
     {
@@ -78,17 +79,6 @@ const PublicCatalogs = () => {
     },
     {
       accessorFn: (row) => {
-        // Add a tooltip that shows the full description
-        // return (
-        //   <CustomWidthTooltip
-        //     title={row.id}
-        //     disableTouchListener={false}
-        //     disableFocusListener={false}
-        //     enterDelay={1000}
-        //   >
-        //     <div>{row.id.substring(0, 40) + "..."}</div>
-        //   </CustomWidthTooltip>
-        // );
         return row.id;
       },
       header: "Collection ID",
@@ -153,8 +143,7 @@ const PublicCatalogs = () => {
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Card
@@ -162,30 +151,29 @@ const PublicCatalogs = () => {
                 p: 3,
                 display: "flex",
                 flexDirection: "column",
-                width: "100%",
               }}
             >
-              <MDTypography variant="h4" color="textPrimary">
+              <MDTypography variant="h4">
                 Synchronise with STAC Index
               </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
+              <MDTypography variant="overline">
                 Running this operation will synchronise list of your public
-                catalogs and collections with STAC Index.
+                Catalogs and Collections with STAC Index.
               </MDTypography>
 
               <br></br>
 
               <MDButton
-                color="secondary"
-                variant="contained"
+                buttonType="update"
                 onClick={async () => {
                   await syncAllPublicCatalogs();
                   window.alert(
                     "Synchronization operation started. Please wait for a few minutes and refresh the page to see the updated list of catalogs and collections."
                   );
                 }}
-                sx={{ width: "30%" }}
+                noIcon
               >
+                <CloudSyncIcon sx={{ mr: 1 }} />
                 Synchronize
               </MDButton>
             </Card>
@@ -197,16 +185,12 @@ const PublicCatalogs = () => {
                 p: 3,
                 display: "flex",
                 flexDirection: "column",
-                height: "100%",
               }}
             >
-              <MDTypography variant="h4" color="textPrimary">
-                Add Public Catalog
-              </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
-                Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
-                loin, kielbasa turducken sausage prosciutto frankfurter biltong
-                beef tenderloin jowl buffalo.
+              <MDTypography variant="h4">Add Public Catalog</MDTypography>
+              <MDTypography variant="overline">
+                Add the details of a STAC-compliant public Catalog that you have
+                identified.
               </MDTypography>
               <br></br>
               <AddPublicCatalog />
@@ -215,13 +199,21 @@ const PublicCatalogs = () => {
 
           <Grid item xs={12}>
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
-              <MDTypography variant="h4" color="textPrimary">
-                Public Catalogs
-              </MDTypography>
-              <MDTypography variant="body2" color="textPrimary">
-                Bacon ipsum dolor amet pancetta hamburger doner meatloaf pork
-                loin, kielbasa turducken sausage prosciutto frankfurter biltong
-                beef tenderloin jowl buffalo.
+              <MDTypography variant="h4">Public Catalogs</MDTypography>
+              <MDTypography variant="overline">
+                See the list of STAC-compliant public Catalogs that you can load
+                into your catalog using the{" "}
+                <a
+                  href="/searcher"
+                  style={{
+                    color: "#54A19A",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Public Searcher
+                </a>{" "}
+                tool.
               </MDTypography>
               <Table
                 columns={catalogsColumns}
@@ -235,8 +227,21 @@ const PublicCatalogs = () => {
           </Grid>
           <Grid item xs={12}>
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
-              <MDTypography variant="h4" color="textPrimary">
-                Public Collections
+              <MDTypography variant="h4">Public Collections</MDTypography>
+              <MDTypography variant="overline">
+                See the list of STAC-compliant public Collections that you can
+                load into your Catalog using the{" "}
+                <a
+                  href="/searcher"
+                  style={{
+                    color: "#54A19A",
+                    textDecoration: "none",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Public Searcher
+                </a>{" "}
+                tool.
               </MDTypography>
               <Table
                 columns={paramsColumnsPublic}
@@ -251,7 +256,6 @@ const PublicCatalogs = () => {
           </Grid>
         </Grid>
       </MDBox>
-      <Footer />
     </DashboardLayout>
   );
 };

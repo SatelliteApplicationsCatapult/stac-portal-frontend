@@ -52,9 +52,9 @@ export const FindMoreCollections = ({open, columns, onClose, onSubmit}) => {
       <DialogActions sx={{p: "1.25rem"}}>
         <Button onClick={onClose}>Cancel</Button>
         <Button
-          color="primary"
+          
           onClick={handleSubmit}
-          variant="contained"
+          
           sx={{color: "white!important"}}
         >
           Add New STAC Collection

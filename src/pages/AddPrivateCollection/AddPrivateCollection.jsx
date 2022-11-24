@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
@@ -35,24 +34,10 @@ const AddPrivateCollection = () => {
   };
   return (
     <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox
-        sx={{
-          backgroundColor: "background.default",
-          minHeight: "100%",
-          py: 3,
-        }}
-      >
+      <MDBox>
         <MDBox sx={{ pt: 3 }}>
-          <Card
-            sx={{
-              p: 3,
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-            }}
-          >
-            <MDTypography variant="h4" color="textPrimary">
+          <Card className="card-title">
+            <MDTypography variant="h4" >
               Add Private Collection
             </MDTypography>
           </Card>
@@ -62,6 +47,12 @@ const AddPrivateCollection = () => {
             flexDirection="column"
             width="30%"
             minWidth="450px"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "30%",
+              minWidth: "450px",
+            }}
           >
             <Card
               sx={{
@@ -69,113 +60,98 @@ const AddPrivateCollection = () => {
                 display: "flex",
                 flexDirection: "column",
                 height: "100%",
-                width: "100%",
               }}
             >
-              <MDInput
-                label="Collection Title"
-                placeholder="Enter collection title"
-                onChange={(event) => {
-                  setCollectionName(event.target.value);
-                  // split the string by spaces and add - to the end of each word
-                  // then join the array back into a string
-                  let id = event.target.value
-                    .split(" ")
-                    .map((word) => word + "-")
-                    .join("")
-                    .slice(0, -1);
-                  setCollectionId(id);
-                }}
-                autocomplete="off"
-                required={true}
-                sx={{ mb: 2 }}
-              />
+              <div>
+                <MDInput
+                  label="Collection Title"
+                  placeholder="Enter collection title"
+                  onChange={(event) => {
+                    setCollectionName(event.target.value);
+                    // split the string by spaces and add - to the end of each word
+                    // then join the array back into a string
+                    let id = event.target.value
+                      .split(" ")
+                      .map((word) => word + "-")
+                      .join("")
+                      .slice(0, -1);
+                    setCollectionId(id);
+                  }}
+                  autocomplete="off"
+                  required={true}
+                  sx={{ mb: 2 }}
+                />
 
-              <MDInput
-                label="Collection ID"
-                placeholder="Enter collection ID"
-                onChange={(event) => {
-                  setCollectionId(event.target.value);
-                }}
-                value={collectionId}
-                autocomplete="off"
-                required={true}
-                sx={{ mb: 2 }}
-              />
+                <MDInput
+                  label="Collection ID"
+                  placeholder="Enter collection ID"
+                  onChange={(event) => {
+                    setCollectionId(event.target.value);
+                  }}
+                  value={collectionId}
+                  autocomplete="off"
+                  required={true}
+                  sx={{ mb: 2 }}
+                />
 
-              <MDInput
-                label="Description"
-                placeholder="Enter description"
-                onChange={(event) => {
-                  setDescription(event.target.value);
-                }}
-                autocomplete="off"
-                sx={{ mb: 2 }}
-              />
+                <MDInput
+                  label="Description"
+                  placeholder="Enter description"
+                  onChange={(event) => {
+                    setDescription(event.target.value);
+                  }}
+                  autocomplete="off"
+                  sx={{ mb: 2 }}
+                />
 
-              <MDInput
-                label="Enter keywords separated by commas"
-                placeholder="Enter keywords separated by commas"
-                onChange={(event) => {
-                  let keywords = event.target.value.split(",");
-                  setKeywords(keywords);
-                }}
-                autocomplete="off"
-                sx={{ mb: 2 }}
-              />
+                <MDInput
+                  label="Enter keywords separated by commas"
+                  placeholder="Enter keywords separated by commas"
+                  onChange={(event) => {
+                    let keywords = event.target.value.split(",");
+                    setKeywords(keywords);
+                  }}
+                  autocomplete="off"
+                  sx={{ mb: 2 }}
+                />
 
-              <MDInput
-                value={license}
-                label="License"
-                placeholder="Enter license"
-                onChange={(event) => {
-                  setLicense(event.target.value);
-                }}
-                autocomplete="off"
-                sx={{ mb: 2 }}
-              />
+                <MDInput
+                  value={license}
+                  label="License"
+                  placeholder="Enter license"
+                  onChange={(event) => {
+                    setLicense(event.target.value);
+                  }}
+                  autocomplete="off"
+                  sx={{ mb: 2 }}
+                />
 
-              <MDInput
-                value={stacVersion}
-                label="STAC Version"
-                placeholder="Enter STAC version"
-                onChange={(event) => {
-                  setStacVersion(event.target.value);
-                }}
-                autocomplete="off"
-                sx={{ mb: 2 }}
-              />
+                <MDInput
+                  value={stacVersion}
+                  label="STAC Version"
+                  placeholder="Enter STAC version"
+                  onChange={(event) => {
+                    setStacVersion(event.target.value);
+                  }}
+                  autocomplete="off"
+                  sx={{ mb: 2 }}
+                />
 
-              <MDButton
-                variant="contained"
-                onClick={() => {
-                  // Set show loading
-                  // If input is empty
-                  if (collectionId === "" || collectionTitle === "") {
-                    // alert("Please fill in required fields");
-                    window.alert("Please fill in required fields");
-                    return;
-                  }
+                <MDButton
+                  buttonType="create"
+                  className="btn-full-width"
+                  onClick={() => {
+                    if (collectionId === "" || collectionTitle === "") {
+                      window.alert("Please fill in required fields");
+                      return;
+                    }
 
-                  handleSubmit();
-                }}
-                sx={{
-                  width: "30%",
-                  mt: 2,
-                  backgroundColor: "#54A19A",
-                  color: "white!important",
-                  width: "100%",
-                  // On hover
-                  "&:hover": {
-                    backgroundColor: "#66B08A",
-                  },
-                  "&:focus:not(:hover)": {
-                    backgroundColor: "#66B08A",
-                  },
-                }}
-              >
-                Create
-              </MDButton>
+                    handleSubmit();
+                  }}
+                >
+                  Create
+                </MDButton>
+              </div>
             </Card>
           </MDBox>
         </MDBox>

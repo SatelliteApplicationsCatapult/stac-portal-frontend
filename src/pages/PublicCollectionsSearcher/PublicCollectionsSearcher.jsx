@@ -1,38 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import Footer from "examples/Footer";
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
+import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
+
 import DrawMap from "../../components/DrawMap";
 import PublicCollections from "./components/PublicCollections";
-import {retrieveAllCollections} from "interface/collections";
 
 const PublicCollectionsSearcher = () => {
   const [AOI, setAOI] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
-  const [downloadedCollections, setDownloadedCollections] = useState([]);
   const [publicCollections, setPublicCollections] = useState([]);
-
-  // Retrieve Collection Data
-  useEffect(() => {
-    async function getCollections() {
-      let resp = await retrieveAllCollections();
-      if (resp && resp.collections) {
-        setDownloadedCollections(resp.collections);
-      }
-    }
-
-    getCollections();
-  }, []);
 
   return (
     <DashboardLayout>
-      <DashboardNavbar/>
-      <MDBox pt={6} pb={3}>
+      <MDBox>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <MDTypography variant="overline" gutterBottom>
@@ -50,12 +34,7 @@ const PublicCollectionsSearcher = () => {
                 setStartDate={setStartDate}
                 endDate={endDate}
                 setEndDate={setEndDate}
-                publicCollections={publicCollections}
                 setPublicCollections={setPublicCollections}
-                downloadedCollections={downloadedCollections}
-                setDownloadedCollections={setDownloadedCollections}
-                rowClickAction={(row, table) => {
-                }}
               />
             </MDBox>
           </Grid>
@@ -63,18 +42,14 @@ const PublicCollectionsSearcher = () => {
             <Grid item xs={12}>
               <PublicCollections
                 collections={publicCollections}
-                setCollections={setPublicCollections}
                 AOI={AOI}
                 startDate={startDate}
                 endDate={endDate}
-                rowClickAction={(row, table) => {
-                }}
               />
             </Grid>
           </Grid>
         </Grid>
       </MDBox>
-      <Footer/>
     </DashboardLayout>
   );
 };
