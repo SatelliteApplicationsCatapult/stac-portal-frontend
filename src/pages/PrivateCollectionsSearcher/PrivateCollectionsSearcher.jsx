@@ -5,7 +5,6 @@ import Iframe from "react-iframe";
 import "./style.scss";
 
 const PrivateCollectionsSearcher = () => {
-  console.log('REACT_APP_PORTAL_STAC_API_BROWSER_URL', process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL);
   return (
     <>
       <DashboardLayout>

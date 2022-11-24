@@ -14,11 +14,9 @@ import { Check, HourglassEmpty, ArrowForward } from "@mui/icons-material";
 import { findProvider } from "pages/LoadLocal/loader/utils";
 
 const UploadProgress = ({
-  files,
   setFiles,
   uploads,
   setUploads,
-  groupedDownloads,
   setGroupedDownloads,
 }) => {
   const [stagedItems, setStagedItems] = useState([]);

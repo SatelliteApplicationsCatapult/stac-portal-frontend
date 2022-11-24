@@ -55,7 +55,6 @@ const LoadLocal = () => {
         "_blank"
       );
     }, 1500);
-
   };
 
   return (
@@ -81,11 +80,9 @@ const LoadLocal = () => {
               </MDTypography>
               {/* Drag and Drop */}
               <Dropzone
-                files={files}
                 setFiles={setFiles}
                 uploads={uploads}
                 setUploads={setUploads}
-                groupedDownloads={groupedDownloads}
                 setGroupedDownloads={setGroupedDownloads}
               />
             </Card>
