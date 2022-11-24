@@ -158,7 +158,7 @@ const PublicCatalogs = () => {
               </MDTypography>
               <MDTypography variant="overline">
                 Running this operation will synchronise list of your public
-                catalogs and collections with STAC Index.
+                Catalogs and Collections with STAC Index.
               </MDTypography>
 
               <br></br>
@@ -189,7 +189,7 @@ const PublicCatalogs = () => {
             >
               <MDTypography variant="h4">Add Public Catalog</MDTypography>
               <MDTypography variant="overline">
-                Add the details of a STAC-compliant public catalog that you have
+                Add the details of a STAC-compliant public Catalog that you have
                 identified.
               </MDTypography>
               <br></br>
@@ -201,7 +201,7 @@ const PublicCatalogs = () => {
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
               <MDTypography variant="h4">Public Catalogs</MDTypography>
               <MDTypography variant="overline">
-                See the list of STAC-compliant public catalogs that you can load
+                See the list of STAC-compliant public Catalogs that you can load
                 into your catalog using the{" "}
                 <a
                   href="/searcher"
@@ -229,8 +229,8 @@ const PublicCatalogs = () => {
             <Card sx={{ p: 3, display: "flex", flexDirection: "column" }}>
               <MDTypography variant="h4">Public Collections</MDTypography>
               <MDTypography variant="overline">
-                See the list of STAC-compliant public collections that you can
-                load into your catalog using the{" "}
+                See the list of STAC-compliant public Collections that you can
+                load into your Catalog using the{" "}
                 <a
                   href="/searcher"
                   style={{

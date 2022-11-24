@@ -56,7 +56,6 @@ const LoadLocal = () => {
       );
     }, 1500);
 
-    // Navigate to https://ctplt-pda-rg-dev-stac-api-browser.azurewebsites.net/collections/{collectionId} in new tab
   };
 
   return (

@@ -115,7 +115,7 @@ const routes = [
     name: "STAC Browser",
     key: "stac-browser",
     icon: <Explore />,
-    href: process.env.REACT_APP_STAC_BROWSER_URL,
+    href: process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL,
   },
 ];
 
