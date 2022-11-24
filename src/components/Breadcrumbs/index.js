@@ -25,7 +25,9 @@ const Breadcrumbs = ({ page }) => {
       <div className="breadcrumbs__container">
         <MDButton
           buttonType="delete"
-          onClick={() => (window.location.href = "/")}
+          onClick={() => {
+            window.location.href = "/.auth/logout";
+          }}
           noIcon
         >
           <LogoutIcon style={{ marginRight: "5px" }} />

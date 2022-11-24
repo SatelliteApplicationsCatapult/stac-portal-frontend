@@ -79,9 +79,7 @@ const Validator = () => {
     <DashboardLayout>
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
-          Spicy jalapeno bacon ipsum dolor amet prosciutto sausage meatloaf
-          tongue, drumstick jowl kielbasa rump. Doner jerky tenderloin tail
-          t-bone bresaola pork belly.
+          Use the space below to paste your STAC JSON and validate it against the STAC standard.
         </MDTypography>
         {alertBox.display ? (
           <div className={`alert alert-${alertBox.severity}`}>
