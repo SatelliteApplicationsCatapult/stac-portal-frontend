@@ -79,7 +79,8 @@ const Validator = () => {
     <DashboardLayout>
       <Grid item xs={12} pt={2}>
         <MDTypography variant="overline" gutterBottom>
-          Use the space below to paste your STAC JSON and validate it against the STAC standard.
+          Use the space below to paste your STAC JSON and validate it against
+          the STAC standard.
         </MDTypography>
         {alertBox.display ? (
           <div className={`alert alert-${alertBox.severity}`}>
@@ -211,6 +212,8 @@ const Validator = () => {
               // on paste
               onPaste={(e) => {
                 let textField = document.getElementById("text-field");
+                // Set alert box to false
+                setAlertBox({ display: false, message: "", severity: "error" });
 
                 try {
                   e.preventDefault();
