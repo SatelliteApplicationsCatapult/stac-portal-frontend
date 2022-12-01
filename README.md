@@ -1,5 +1,5 @@
 # STAC Portal Frontend
-Front end react app for https://github.com/SpatialDays/stac-portal-backend
+Front end react app for https://github.com/SatelliteApplicationsCatapult/stac-portal-backend
 
 # Deployment
 

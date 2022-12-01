@@ -7,8 +7,8 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 // Auth
-import { auth } from "auth/auth";
-auth();
+// import { auth } from "auth/auth";
+// auth();
 
 ReactDOM.render(
   <BrowserRouter>
