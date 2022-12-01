@@ -1,6 +1,7 @@
-// import auth from src/auth
+// Components
 import { retrieveAllPublicCatalogs } from "../catalogs";
 
+// Modules
 import format from "date-fns/format";
 import axios from "axios";
 

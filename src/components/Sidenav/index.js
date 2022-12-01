@@ -20,8 +20,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const collapseName = location.pathname.replace("/", "");
 
   const renderRoutes = routes.map(
-    ({ type, name, icon, title, noCollapse, key, href, route }) => {
+    ({ type, name, icon, title, key, href, route }) => {
       let returnValue;
+
+      if (!key) {
+        key = Math.random();
+      }
 
       if (type === "collapse") {
         returnValue = href ? (
@@ -35,8 +39,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <SidenavCollapse
               name={name}
               icon={icon}
-              active={key === collapseName}
-              noCollapse={noCollapse}
+              selected={key === collapseName}
             />
           </Link>
         ) : (
@@ -44,7 +47,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <SidenavCollapse
               name={name}
               icon={icon}
-              active={key === collapseName}
+              selected={key === collapseName}
             />
           </NavLink>
         );
@@ -53,7 +56,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           <MDTypography
             key={key}
             display="block"
-            variant="caption"
+            variant="span"
             fontWeight="bold"
             textTransform="uppercase"
             color="white"
@@ -72,8 +75,9 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         );
       } else if (type === "divider") {
         returnValue = <hr key={key}></hr>;
+      } else {
+        returnValue = <div key={key} />;
       }
-
       return returnValue;
     }
   );

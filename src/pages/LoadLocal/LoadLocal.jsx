@@ -7,57 +7,148 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import Dropzone from "./components/Dropzone";
 import CollectionSelect from "./components/CollectionSelect";
-import STACForm from "./components/STACForm";
+import STACTable from "./components/STACTable";
 
 // @mui components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { CircularProgress } from "@mui/material";
 
 // Layout components
 import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 
 // Styles
-import "./style.scss"
+import "./style.scss";
+
+// Constants
+import { metadataFileNames } from "./consts";
 
 // Utils
-import { addItemsToCollection } from "interface/collections";
+import {
+  readManifest,
+  processManifest,
+  uploadFile,
+  processTiff,
+  groupFilesByID,
+  checkItemCount,
+  generateSTAC,
+} from "./utils";
 
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
-  const [groupedFiles, setGroupedFiles] = useState();
-  const [uploads, setUploads] = useState({});
-  const [groupedDownloads, setGroupedDownloads] = useState({});
-  const [selectedCollection, setSelectedCollection] = useState(null);
-  const [itemsMeta, setItemsMeta] = useState({});
-
-  const [showLoading, setShowLoading] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState();
+  const [errorFiles, setErrorFiles] = useState([]);
+  const [stac, setStac] = useState({});
 
   useEffect(() => {
-    let filesGroupedByItemId = files.reduce((acc, file) => {
-      if (file.itemId) {
-        acc[file.itemId] = acc[file.itemId] || [];
-        acc[file.itemId].push(file);
-      }
-      return acc;
-    }, {});
-
-    setGroupedFiles(filesGroupedByItemId);
-  }, [files]);
-
-  const publish = async () => {
-    setShowLoading(true);
-    await addItemsToCollection(selectedCollection, itemsMeta);
-    setShowLoading(false);
-
-    // Wait for 2 seconds and then redirect to collection
-    setTimeout(() => {
-      window.open(
-        `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}/collections/${selectedCollection.id}`,
-        "_blank"
+    const handleFileUpload = async (e) => {
+      // Check for unprocessed metadata files
+      const metafiles = files.filter(
+        (file) => metadataFileNames.includes(file.originalName) && !file.started
       );
-    }, 1500);
-  };
+
+      if (!metafiles.length) {
+        return;
+      }
+
+      // Read each metadata file
+      const promises = metafiles.map((file) => {
+        return readManifest(file);
+      });
+      // Resolve all promises
+      await Promise.all(promises);
+
+      // Process each metadata file and group associated files by item ID
+      const processed = metafiles.map((file) => {
+        return processManifest(file, files);
+      });
+      // Resolve all promises
+      await Promise.all(processed);
+
+      // Start the file upload and processing
+      // Filter the files,, the other files should be marked as error
+      files
+        .filter((file) => file.itemID)
+        // Remove any duplicate files if they have the same name
+        .filter((file, index, self) => {
+          // Mark the ones that get filtered out as error
+          if (index !== self.findIndex((f) => f.name === file.name)) {
+            file.error = true;
+            file.errorMessage = "Duplicate file name";
+            file.started = false;
+
+            // Remove from files state
+            files.splice(files.indexOf(file), 1);
+            setErrorFiles([...errorFiles, file]);
+          }
+
+          return (
+            index ===
+            self.findIndex(
+              (f) => f.name === file.name && f.provider === file.provider
+            )
+          );
+        });
+
+      // All files without an item ID are marked as error
+      files
+        .filter((file) => !file.itemID)
+        .forEach((file) => {
+          file.error = true;
+          file.errorMessage = "No associated metadata file";
+          file.started = false;
+
+          // Remove from files state
+          files.splice(files.indexOf(file), 1);
+          setErrorFiles([...errorFiles, file]);
+        });
+
+      // Update the files
+      setFiles([...files]);
+
+      const uploadPromises = files.map(async (file) => {
+        const response = await uploadFile(file);
+        // Set complete to true
+
+        // If file not a TIFF, mark as complete
+        if (file.type === "image/tiff") {
+          const response = await processTiff(file);
+          file.complete = true;
+          file.GDALInfo = response;
+        } else {
+          file.complete = true;
+        }
+
+        setFiles([...files]);
+        return response;
+      });
+
+      // Resolve all promises with a progress bar
+      await Promise.all(uploadPromises);
+
+      // Now to generate the STAC with the items we have
+      const items = groupFilesByID(files);
+      Object.keys(items).forEach(async (itemID) => {
+        const item = items[itemID];
+        if (item.complete === true) {
+          //if (checkItemCount(item)) {
+          const stacJSON = await generateSTAC(item);
+
+          console.log(item.itemID, "Generated STAC JSON", stacJSON);
+
+          // Add itemID and stacJSON to stac state
+          setStac((prev) => {
+            return {
+              ...prev,
+              [item.itemID]: stacJSON,
+            };
+          });
+          //}
+        }
+      });
+    };
+
+    handleFileUpload();
+  }, [files]);
 
   return (
     <DashboardLayout>
@@ -80,13 +171,26 @@ const LoadLocal = () => {
                 Drag and drop the folder containing the imagery files from your
                 source provider e.g. Planet, Maxar etc.
               </MDTypography>
-              {/* Drag and Drop */}
-              <Dropzone
-                setFiles={setFiles}
-                uploads={uploads}
-                setUploads={setUploads}
-                setGroupedDownloads={setGroupedDownloads}
-              />
+
+              <MDBox
+                style={{
+                  display: "flex",
+                  height: "100%",
+                  marginTop: "2em",
+                }}
+              >
+                {/* Directory folder upload */}
+                <MDBox
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "100%",
+                  }}
+                >
+                  {/* Dropzone */}
+                  <Dropzone files={files} setFiles={setFiles} />
+                </MDBox>
+              </MDBox>
             </Card>
           </Grid>
 
@@ -152,13 +256,13 @@ const LoadLocal = () => {
                   <MDTypography variant="h5">
                     Step 5 - View STAC Records
                   </MDTypography>
-                  <MDButton
+                  {/* <MDButton
                     onClick={publish}
                     buttonType="create"
                     disabled={!selectedCollection}
                   >
                     Publish All
-                  </MDButton>
+                  </MDButton> */}
                 </MDBox>
 
                 <MDTypography
@@ -169,63 +273,40 @@ const LoadLocal = () => {
                 >
                   View the newly created STAC records for each item.
                 </MDTypography>
-                <STACForm
-                  groupedFiles={groupedFiles}
-                  groupedDownloads={groupedDownloads}
-                  itemsMeta={itemsMeta}
-                  setItemsMeta={setItemsMeta}
-                />
+                <STACTable files={files} stac={stac} />
               </Card>
             </MDBox>
           </Grid>
         </Grid>
       </MDBox>
-
-      {/* Modal for loading */}
-      {showLoading && (
-        <MDBox
-          className="modal"
-          onClick={() => {
-            //setShowLoading(false);
-          }}
-        >
-          <MDBox
-            className="modal-content"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            {/* Loading */}
-            <MDBox
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              height="100%"
-            >
-              <MDBox
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
-                height="100%"
-              >
-                <CircularProgress
-                  // BLue
-                  sx={{
-                    color: "#54A19A",
-                  }}
-                />
-                <MDTypography variant="h5" mt={2}>
-                  Publishing...
-                </MDTypography>
-              </MDBox>
-            </MDBox>
-          </MDBox>
-        </MDBox>
-      )}
     </DashboardLayout>
   );
+};
+
+// Type for file props
+export type FileProps = {
+  // Basic file properties
+  originalName: string,
+  name: string,
+  path: string,
+  size: number,
+  type: string,
+
+  // Frontend attributes
+  started: boolean,
+  progress: number,
+  complete: boolean,
+  error: boolean,
+  errorMessage: string,
+  GDALInfo: Object,
+  GDALProcessing: boolean,
+
+  // Data attributes
+  itemID: string,
+  sasToken: string,
+  blob?: Blob,
+  data?: any,
+  provider?: string,
 };
 
 export default LoadLocal;

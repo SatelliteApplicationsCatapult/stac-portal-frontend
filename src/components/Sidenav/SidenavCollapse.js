@@ -9,7 +9,7 @@ import { useState } from "react";
 // Styles
 import "./style.scss";
 
-function SidenavCollapse({ icon, name, ...rest }) {
+function SidenavCollapse({ icon, name, selected, ...rest }) {
   const [active, setActive] = useState(false);
 
   return (
@@ -27,7 +27,7 @@ function SidenavCollapse({ icon, name, ...rest }) {
         {...rest}
         className={`
         sidenav-collapse-item ${
-          (active ? "sidenav-active" : "", rest.active ? "sidenav-current" : "")
+          (active ? "sidenav-active" : "", selected ? "sidenav-current" : "")
         }
       `}
       >
@@ -35,7 +35,7 @@ function SidenavCollapse({ icon, name, ...rest }) {
         <ListItemText
           primary={name}
           className={`sidenav-collapse-item__text 
-        ${rest.active ? "sidenav-collapse-item__text-active" : ""}`}
+        ${selected ? "sidenav-collapse-item__text-active" : ""}`}
         />
       </MDBox>
     </ListItem>

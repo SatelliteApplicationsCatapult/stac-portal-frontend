@@ -57,12 +57,8 @@ export class GenerateSTAC {
   parseStaticVariables() {
     Object.keys(this.metadata).forEach((key) => {
       const {
-        bands,
-        wgs84Extent,
         description,
-        cornerCoordinates,
         coordinateSystem,
-        ...rest
       } = this.metadata[key];
 
       if (key === "additional") {
@@ -87,7 +83,6 @@ export class GenerateSTAC {
         geoTransform,
         size,
         driverLongName,
-        ...rest
       } = this.metadata[key];
 
       if (key === "additional") {
@@ -148,12 +143,12 @@ export class GenerateSTAC {
   async sendToSTAC() {
     let url = process.env.REACT_APP_PORTAL_BACKEND_URL;
     let body = {
-      metadata: this.generatePayload()
-    }
+      metadata: this.generatePayload(),
+    };
     console.log("Body to stac generator is", body);
     const response = await axios.post(
       url + "/stac_generator/",
-      
+
       body,
       {
         headers: {
@@ -163,7 +158,6 @@ export class GenerateSTAC {
     );
 
     const json = await response.data;
-
 
     this.stacJSON = json;
   }
