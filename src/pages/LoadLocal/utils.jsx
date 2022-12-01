@@ -91,8 +91,6 @@ export const processManifest = (file: FileProps, files: []) => {
     associatedFile.provider = file.provider;
   });
 
-  console.log("Associated files", associatedFiles);
-
   // Same for the metadata file
   file.name = itemID + "_" + file.originalName;
   file.itemID = itemID;
@@ -103,7 +101,7 @@ export const uploadFile = async (file: FileProps) => {
     `${process.env.REACT_APP_PORTAL_BACKEND_URL}/file/sas_token/${file.name}/`
   );
 
-  const endpoint = sasToken.data.endpoint; // https://ctpltstacstrgdev.blob.core.windows.net/stac-items/017078208010_01_017078208010_01_STRIP_SHAPE.shp?se=2022-11-30T10%3A46%3A25Z&sp=w&sv=2021-08-06&sr=b&sig=syJ6r02zkNNP6wDWNhx8NaVONyOL/N6M6P2IkEqKrhs%3D
+  const endpoint = sasToken.data.endpoint;
 
   // Upload the file
   const response = await axios.put(endpoint, file.blob, {
@@ -175,7 +173,6 @@ export const groupFilesByID = (files) => {
 
 // TODO: Check this function out, it's not wrong, just a lot of folders do actually not have the same count
 export const checkItemCount = (files) => {
-  console.log("Checking item count");
   if (files.provider === "Maxar") {
     const manifestFile = providerToManifest(files.provider);
     // Open the manifest file
@@ -210,11 +207,8 @@ const readFromFile = async (file) => {
 };
 
 export const generateSTAC = async (item) => {
-  console.log("Generating Stac for", item.itemID);
   // Gather all files that gdalInfo is not null
   const filesWithGdalInfo = item.files.filter((file) => file.GDALInfo !== null);
-
-  console.log("Files with gdal info", filesWithGdalInfo);
 
   // Read the geoms from the Tiffs (can be multiple)
   const projGeoms = filesWithGdalInfo.map(
@@ -264,8 +258,6 @@ export const generateSTAC = async (item) => {
   let timeAcquired;
   let additional;
 
-  console.log("Item Provider", item.provider);
-
   if (item.provider === "Maxar") {
     // Read the Delivery
     const metadataFileName = providerToManifest(item.provider);
@@ -279,8 +271,6 @@ export const generateSTAC = async (item) => {
     const xml = parser.parseFromString(metadata, "text/xml");
     timeAcquired = xml.getElementsByTagName("earliestAcquisitionTime")[0]
       .textContent;
-
-    console.log("Time acquired", timeAcquired);
 
     // Parse the Readme.xml
     const readmeXML = item.files.find((file) =>
@@ -312,8 +302,6 @@ export const generateSTAC = async (item) => {
 
     // Parse to JSON
     const metadataJSON = JSON.parse(metadata);
-
-    console.log("Metadata JSON", metadataJSON);
 
     timeAcquired = metadataJSON.properties.acquired;
 
