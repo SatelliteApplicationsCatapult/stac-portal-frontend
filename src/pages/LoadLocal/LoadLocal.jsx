@@ -72,6 +72,7 @@ const LoadLocal = () => {
         .filter((file, index, self) => {
           // Mark the ones that get filtered out as error
           if (index !== self.findIndex((f) => f.name === file.name)) {
+            console.log('Duplicate file found: ', file.name);
             file.error = true;
             file.errorMessage = "Duplicate file name";
             file.started = false;
@@ -84,7 +85,7 @@ const LoadLocal = () => {
           return (
             index ===
             self.findIndex(
-              (f) => f.name === file.name && f.provider === file.provider
+              (f) => f.name === file.name
             )
           );
         });

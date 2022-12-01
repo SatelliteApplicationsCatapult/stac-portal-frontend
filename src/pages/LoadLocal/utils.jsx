@@ -42,6 +42,10 @@ export const readManifest = async (file: FileProps) => {
 };
 
 export const processManifest = (file: FileProps, files: []) => {
+  let associatedFiles, itemID;
+
+  console.log('Processing manifest', file.originalName, file.provider);
+
   if (file.provider === "Maxar") {
     // Read the manifest and group the associated files
     const products = file.data.getElementsByTagName("productFile");
@@ -51,24 +55,45 @@ export const processManifest = (file: FileProps, files: []) => {
     const relativeDirectory =
       products[0].getElementsByTagName("relativeDirectory")[0].innerHTML;
 
-    const associatedFiles = files.filter(
+    // Get the associated files and Item ID
+    associatedFiles = files.filter(
       (file) =>
         filePaths.includes(file.originalName) && !file.started && !file.name
     );
+    itemID = relativeDirectory.split("/")[0];
+  }
 
-    // Group the files
-    const itemID = relativeDirectory.split("/")[0];
-    associatedFiles.forEach((file) => {
-      file.itemID = itemID;
-      file.started = true;
-      file.name = itemID + "_" + file.originalName;
-      file.provider = "Maxar";
+  if (file.provider === "Planet") {
+    const filePaths = file.data.files.map((file) => {
+      let path = file.path;
+      // Get the last index after slash
+      const index = path.lastIndexOf("/");
+      // Get the substring after the last slash
+      path = path.substring(index + 1);
+      return path;
     });
 
-    // Same for the metadata file
-    file.name = itemID + "_" + file.originalName;
-    file.itemID = itemID;
+    // Get the associated files and Item ID
+    associatedFiles = files.filter(
+      (file) =>
+        filePaths.includes(file.originalName) && !file.started && !file.name
+    );
+    itemID = file.data.files[0].annotations["planet/item_id"];
   }
+
+  associatedFiles.forEach((associatedFile) => {
+    associatedFile.itemID = itemID;
+    associatedFile.started = true;
+    associatedFile.name = itemID + "_" + associatedFile.originalName;
+    associatedFile.provider = file.provider;
+  });
+
+  console.log('Associated files', associatedFiles);
+
+  // Same for the metadata file
+  file.name = itemID + "_" + file.originalName;
+  file.itemID = itemID;
+
 };
 
 export const uploadFile = async (file: FileProps) => {
@@ -237,6 +262,8 @@ export const generateSTAC = async (item) => {
   let timeAcquired;
   let additional;
 
+  console.log('Item Provider', item.provider)
+
   if (item.provider === "Maxar") {
     // Read the Delivery
     const metadataFileName = providerToManifest(item.provider);
@@ -251,6 +278,8 @@ export const generateSTAC = async (item) => {
     timeAcquired = xml.getElementsByTagName("earliestAcquisitionTime")[0]
       .textContent;
 
+    console.log("Time acquired", timeAcquired);
+
     // Parse the Readme.xml
     const readmeXML = item.files.find((file) =>
       file.name.includes("README.XML")
@@ -264,6 +293,35 @@ export const generateSTAC = async (item) => {
       sunElevation: xml.getElementsByTagName("sunElevation")[0].textContent,
       sunAzimuth: xml.getElementsByTagName("sunAzimuth")[0].textContent,
       offNadirAngle: xml.getElementsByTagName("offNadirAngle")[0].textContent,
+    };
+
+    additional = additionalData;
+  }
+
+  if (item.provider === "Planet") {
+    // Find file that ends with {itemID}_metadata.json
+    const metadataFileName = item.itemID + "_metadata.json";
+    const metadataFile = item.files.find((file) =>
+      file.name.includes(metadataFileName)
+    );
+
+    // Read the file
+    const metadata = await readFromFile(metadataFile);
+
+    // Parse to JSON
+    const metadataJSON = JSON.parse(metadata);
+
+    console.log("Metadata JSON", metadataJSON);
+
+    timeAcquired = metadataJSON.properties.acquired;
+
+    // TODO: Come back here later
+    let additionalData = {
+      cloudCover: metadataJSON.properties.cloud_cover,
+      sunElevation: metadataJSON.properties.sun_elevation,
+      sunAzimuth: metadataJSON.properties.sun_azimuth,
+      offNadirAngle: metadataJSON.properties.view_angle,
+      gsd: metadataJSON.properties.gsd,
     };
 
     additional = additionalData;

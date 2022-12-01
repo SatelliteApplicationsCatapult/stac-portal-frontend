@@ -1,5 +1,6 @@
 const providers = {
   "DeliveryMetadata.xml": "Maxar",
+  "manifest.json": "Planet",
 };
 
 export const metadataFileNames = Object.keys(providers);
