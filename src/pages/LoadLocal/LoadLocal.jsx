@@ -43,7 +43,10 @@ const LoadLocal = () => {
     const handleFileUpload = async (e) => {
       // Check for unprocessed metadata files
       const metafiles = files.filter(
-        (file) => metadataFileNames.includes(file.originalName) && !file.started
+        (file) =>
+          metadataFileNames.includes(file.originalName) &&
+          !file.started &&
+          !file.complete
       );
 
       if (!metafiles.length) {
@@ -72,7 +75,7 @@ const LoadLocal = () => {
         .filter((file, index, self) => {
           // Mark the ones that get filtered out as error
           if (index !== self.findIndex((f) => f.name === file.name)) {
-            console.log('Duplicate file found: ', file.name);
+            console.log("Duplicate file found: ", file.name);
             file.error = true;
             file.errorMessage = "Duplicate file name";
             file.started = false;
@@ -82,12 +85,7 @@ const LoadLocal = () => {
             setErrorFiles([...errorFiles, file]);
           }
 
-          return (
-            index ===
-            self.findIndex(
-              (f) => f.name === file.name
-            )
-          );
+          return index === self.findIndex((f) => f.name === file.name);
         });
 
       // All files without an item ID are marked as error
@@ -106,22 +104,25 @@ const LoadLocal = () => {
       // Update the files
       setFiles([...files]);
 
-      const uploadPromises = files.map(async (file) => {
-        const response = await uploadFile(file);
-        // Set complete to true
+      const uploadPromises = files
+        // Filter by not complete
+        .filter((file) => !file.complete)
+        .map(async (file) => {
+          const response = await uploadFile(file);
+          // Set complete to true
 
-        // If file not a TIFF, mark as complete
-        if (file.type === "image/tiff") {
-          const response = await processTiff(file);
-          file.complete = true;
-          file.GDALInfo = response;
-        } else {
-          file.complete = true;
-        }
+          // If file not a TIFF, mark as complete
+          if (file.type === "image/tiff") {
+            const response = await processTiff(file);
+            file.complete = true;
+            file.GDALInfo = response;
+          } else {
+            file.complete = true;
+          }
 
-        setFiles([...files]);
-        return response;
-      });
+          setFiles([...files]);
+          return response;
+        });
 
       // Resolve all promises with a progress bar
       await Promise.all(uploadPromises);
@@ -130,7 +131,9 @@ const LoadLocal = () => {
       const items = groupFilesByID(files);
       Object.keys(items).forEach(async (itemID) => {
         const item = items[itemID];
-        if (item.complete === true) {
+        // If item not already STAC processed (itemID not in stac state)
+        console.log('Is there a stac item?', stac[item.itemID])
+        if (item.complete === true && !stac[item.itemID]) {
           //if (checkItemCount(item)) {
           const stacJSON = await generateSTAC(item);
 
