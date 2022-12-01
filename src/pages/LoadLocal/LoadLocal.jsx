@@ -222,7 +222,6 @@ const LoadLocal = () => {
                   variant="contained"
                   color="error"
                   onClick={() => {
-                    console.log("Error files", errorFiles);
                     setShowErrorFiles(!showErrorFiles);
                   }}
                 >

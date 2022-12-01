@@ -163,7 +163,6 @@ const CollectionSelect = ({ setSelectedCollection }) => {
             <MDButton
               buttonType="create"
               onClick={() => {
-                console.log("Create new collection");
                 setOpenModal(true);
               }}
               sx={{

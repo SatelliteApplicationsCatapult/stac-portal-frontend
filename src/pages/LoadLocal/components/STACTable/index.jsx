@@ -206,7 +206,6 @@ const STACTable = ({ files, stac }) => {
                       // Round down to 2 decimal places
                       const size = Math.floor(kb * 100) / 100;
 
-                      console.log('Row', row)
                       return (
                         <MDBox
                           style={{

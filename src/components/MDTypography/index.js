@@ -25,7 +25,6 @@ const MDTypography = forwardRef(
 
     return (
       <span ref={ref} {...rest}>
-        {/* React ignore */}
         {createElement(
           component,
           {

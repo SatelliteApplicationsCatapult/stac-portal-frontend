@@ -44,8 +44,6 @@ export const readManifest = async (file: FileProps) => {
 export const processManifest = (file: FileProps, files: []) => {
   let associatedFiles, itemID;
 
-  console.log("Processing manifest", file.originalName, file.provider);
-
   if (file.provider === "Maxar") {
     // Read the manifest and group the associated files
     const products = file.data.getElementsByTagName("productFile");
@@ -116,7 +114,6 @@ export const uploadFile = async (file: FileProps) => {
 };
 
 export const processTiff = async (file: FileProps) => {
-  console.log("Processing tiff", file.name);
   let url = `${process.env.REACT_APP_PORTAL_BACKEND_URL}/gdal_info/`;
   const fileName = process.env.REACT_APP_BLOB_URL + file.name;
 
