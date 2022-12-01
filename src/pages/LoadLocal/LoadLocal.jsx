@@ -96,7 +96,7 @@ const LoadLocal = () => {
         .filter((file) => !file.itemID)
         .forEach((file) => {
           file.error = true;
-          file.errorMessage = "No associated metadata file";
+          file.errorMessage = "No record in metadata file";
           file.started = false;
 
           // Remove from files state
@@ -139,12 +139,9 @@ const LoadLocal = () => {
       Object.keys(items).forEach(async (itemID) => {
         const item = items[itemID];
         // If item not already STAC processed (itemID not in stac state)
-        console.log("Is there a stac item?", stac[item.itemID]);
         if (item.complete === true && !stac[item.itemID]) {
           //if (checkItemCount(item)) {
           const stacJSON = await generateSTAC(item);
-
-          console.log(item.itemID, "Generated STAC JSON", stacJSON);
 
           // Add itemID and stacJSON to stac state
           setStac((prev) => {
@@ -162,6 +159,11 @@ const LoadLocal = () => {
   }, [files]);
 
   const publish = async () => {
+    // if stac empty object, alert
+    if (Object.keys(stac).length === 0) {
+      alert("No items to publish");
+      return;
+    }
     await addItemsToCollection(selectedCollection, stac);
 
     // Wait for 2 seconds and then redirect to collection
@@ -348,6 +350,11 @@ const LoadLocal = () => {
                     onClick={publish}
                     buttonType="create"
                     disabled={!selectedCollection}
+                    // If not selected collection make gray
+                    style={{
+                      backgroundColor: selectedCollection ? "#54A19A" : "#ccc",
+                      cursor: selectedCollection ? "pointer" : "none",
+                    }}
                   >
                     Publish All
                   </MDButton>

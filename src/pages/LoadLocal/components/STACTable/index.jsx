@@ -1,8 +1,11 @@
 // Reac
 import { useState, useEffect } from "react";
+
 // @mui components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import { CircularProgress } from "@mui/material";
+
 // Styles
 import "./style.scss";
 
@@ -19,6 +22,15 @@ const STACTable = ({ files, stac }) => {
     const itemIDs = groupFilesByID(files);
     setRows(itemIDs);
   }, [files]);
+
+  // If none selected, select first row
+  useEffect(() => {
+    if (selectedRows.length === 0 && rows.length > 0) {
+      const id = rows[0].itemID;
+      setSelectedId(id);
+      setSelectedRows(rows[0].files);
+    }
+  }, [rows, selectedRows]);
 
   return (
     <>
@@ -59,7 +71,14 @@ const STACTable = ({ files, stac }) => {
               borderBottom: "1px solid #54A19A60",
             }}
           >
-            <MDTypography variant="h5">Items</MDTypography>
+            <MDTypography
+              variant="h5"
+              style={{
+                fontSize: "0.8em",
+              }}
+            >
+              Items
+            </MDTypography>
           </MDBox>
           {/* List all item IDs */}
           <MDBox
@@ -76,7 +95,7 @@ const STACTable = ({ files, stac }) => {
                       ? "stac-table-item-row-selected"
                       : ""
                   }`}
-                  key={row.itemID}
+                  key={"r" + row.name}
                   onClick={() => {
                     // Get all rows with the same item ID
                     const selectedRows = files.filter(
@@ -88,7 +107,18 @@ const STACTable = ({ files, stac }) => {
                 >
                   <MDTypography variant="h6">{row.itemID}</MDTypography>
                   <MDBox>
-                    <MDTypography variant="h6">{row.count}</MDTypography>
+                    {/* If stac state doesnt contain item ID */}
+                    {stac[row.itemID] === undefined ? (
+                      <CircularProgress
+                        size={20}
+                        style={{
+                          // Color white if selected, otherwise color blue
+                          color: selectedId === row.itemID ? "#fff" : "#54A19A",
+                        }}
+                      />
+                    ) : (
+                      <MDTypography variant="h6">{row.count}</MDTypography>
+                    )}
                   </MDBox>
                 </MDBox>
               );
@@ -121,7 +151,14 @@ const STACTable = ({ files, stac }) => {
               borderBottom: "1px solid #54A19A60",
             }}
           >
-            <MDTypography variant="h5">Files</MDTypography>
+            <MDTypography
+              variant="h5"
+              style={{
+                fontSize: "0.8em",
+              }}
+            >
+              Files
+            </MDTypography>
           </MDBox>
           {/* List all files */}
           <MDBox
@@ -164,6 +201,12 @@ const STACTable = ({ files, stac }) => {
                   {selectedRows
                     .sort((a, b) => b.size - a.size)
                     .map((row) => {
+                      const kb = row.size / 1024;
+
+                      // Round down to 2 decimal places
+                      const size = Math.floor(kb * 100) / 100;
+
+                      console.log('Row', row)
                       return (
                         <MDBox
                           style={{
@@ -177,12 +220,17 @@ const STACTable = ({ files, stac }) => {
                             borderBottom: "0.2px solid #54A19A30",
                             padding: "0 2.5em",
                           }}
+                          className="stac-table-asset-row"
+                          key={"a" + row.name}
+                          onClick={() => {
+                            console.log(row);
+                          }}
                         >
                           <MDTypography variant="overline">
                             {row.name}
                           </MDTypography>
                           <MDTypography variant="overline">
-                            {row.size}
+                            {size} kB
                           </MDTypography>
                         </MDBox>
                       );
@@ -222,29 +270,49 @@ const STACTable = ({ files, stac }) => {
                       padding: "1em",
                       border: "1px solid #54A19A",
                       borderRadius: "5px",
-
                     }}
                   >
                     {/* {JSON.stringify(stac[selectedId], null, 2)} */}
-
-                    <JSONTree
-                      data={stac[selectedId]}
-                      theme={{
-                        scheme: "apathy",
-                        // full width
-                        // Padding 
-                        // Border
-                        tree: {
+                    {/* If Stac itemID */}
+                    {stac[selectedId] ? (
+                      <JSONTree
+                        data={stac[selectedId]}
+                        theme={{
+                          scheme: "apathy",
+                          // full width
+                          // Padding
+                          // Border
+                          tree: {
+                            width: "100%",
+                            padding: "1.5em",
+                            boxSizing: "border-box",
+                          },
+                        }}
+                        invertTheme={true}
+                        shouldExpandNode={() => true}
+                      />
+                    ) : (
+                      <MDBox
+                        style={{
                           width: "100%",
-                          padding: "1.5em",
-                          boxSizing: "border-box",
-
-                        },
-                        
-                      }}
-                      invertTheme={true}
-                      shouldExpandNode={() => true}
-                    />
+                          // Align center
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <CircularProgress
+                          style={{
+                            color: "#54A19A",
+                            marginBottom: "1em",
+                          }}
+                        />
+                        <MDTypography variant="overline">
+                          Generating STAC Item Record
+                        </MDTypography>
+                      </MDBox>
+                    )}
                   </MDBox>
                 </MDBox>
               </>

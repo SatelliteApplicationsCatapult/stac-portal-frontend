@@ -25,4 +25,13 @@
       }
     }
   }
+
+
+  &-asset-row {
+
+    &:hover {
+      background-color: #54a19a39;
+      color: rgb(0, 0, 0);
+    }
+  }
 }

@@ -8,12 +8,18 @@ const MDButton = ({
   buttonType,
   style,
   noIcon,
+  disabled,
   noText,
 }) => {
   const buttonTypeClassName = buttonType ? `btn-${buttonType}` : "";
   const classes = `btn ${buttonTypeClassName} ${className}`;
   return (
-    <button className={classes} onClick={onClick} style={style}>
+    <button
+      className={classes}
+      onClick={onClick}
+      style={style}
+      disabled={disabled}
+    >
       {!noIcon && (
         <span className="btn-icon">
           {buttonType === "create" && <Add />}
