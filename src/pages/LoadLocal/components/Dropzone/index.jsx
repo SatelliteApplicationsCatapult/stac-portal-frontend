@@ -8,6 +8,9 @@ import MDTypography from "components/MDTypography";
 // Types
 import { FileProps } from "../../LoadLocal";
 
+// Styles
+import "./style.scss";
+
 const Dropzone = ({ files, setFiles }) => {
   const handleChange = (e) => {
     const filesArray = Array.from(e.target.files);
@@ -64,6 +67,7 @@ const Dropzone = ({ files, setFiles }) => {
           cursor: "pointer",
         }}
         onClick={() => document.getElementById("file-input").click()}
+        className="dropzone"
       >
         <MDTypography variant="overline">
           Click here to upload a folder for processing

@@ -44,7 +44,7 @@ export const readManifest = async (file: FileProps) => {
 export const processManifest = (file: FileProps, files: []) => {
   let associatedFiles, itemID;
 
-  console.log('Processing manifest', file.originalName, file.provider);
+  console.log("Processing manifest", file.originalName, file.provider);
 
   if (file.provider === "Maxar") {
     // Read the manifest and group the associated files
@@ -54,13 +54,16 @@ export const processManifest = (file: FileProps, files: []) => {
     );
     const relativeDirectory =
       products[0].getElementsByTagName("relativeDirectory")[0].innerHTML;
+    itemID = relativeDirectory.split("/")[0];
 
     // Get the associated files and Item ID
     associatedFiles = files.filter(
       (file) =>
-        filePaths.includes(file.originalName) && !file.started && !file.name
+        filePaths.includes(file.originalName) &&
+        !file.started &&
+        !file.name &&
+        file.path.includes(itemID)
     );
-    itemID = relativeDirectory.split("/")[0];
   }
 
   if (file.provider === "Planet") {
@@ -88,12 +91,11 @@ export const processManifest = (file: FileProps, files: []) => {
     associatedFile.provider = file.provider;
   });
 
-  console.log('Associated files', associatedFiles);
+  console.log("Associated files", associatedFiles);
 
   // Same for the metadata file
   file.name = itemID + "_" + file.originalName;
   file.itemID = itemID;
-
 };
 
 export const uploadFile = async (file: FileProps) => {
@@ -262,7 +264,7 @@ export const generateSTAC = async (item) => {
   let timeAcquired;
   let additional;
 
-  console.log('Item Provider', item.provider)
+  console.log("Item Provider", item.provider);
 
   if (item.provider === "Maxar") {
     // Read the Delivery

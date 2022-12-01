@@ -14,11 +14,12 @@ const Progress = ({ files }) => {
         style={{
           display: "flex",
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-start",
           justifyContent: "space-between",
           width: "100%",
           height: "100%",
           marginTop: "1rem",
+          flexWrap: "wrap",
         }}
       >
         {/* Processing */}
@@ -29,8 +30,9 @@ const Progress = ({ files }) => {
             alignItems: "center",
             justifyContent: "flex-start",
             width: "50%",
-            height: "100%",
+            minWidth: "400px",
           }}
+          id="processing"
         >
           <MDTypography variant="h5">Processing</MDTypography>
           <MDTypography variant="overline">
@@ -113,6 +115,7 @@ const Progress = ({ files }) => {
             width: "50%",
             height: "100%",
           }}
+          id="completed"
         >
           <MDTypography variant="h5">Completed</MDTypography>
           <MDTypography variant="overline">

@@ -152,19 +152,20 @@ export const addItemsToCollection = async (collection, items) => {
   // Loop through items object
   Object.keys(items).forEach(async (key) => {
     // Get the item
+
     const item = items[key];
     try {
       await axios({
         method: "POST",
         url: url,
-        data: item.json,
+        data: item,
       });
     } catch (error) {
       console.log("Doing put instead of post");
       await axios({
         method: "PUT",
-        url: url + item.json.id + "/",
-        data: item.json,
+        url: url + item.id + "/",
+        data: item,
       });
       console.log("Updated item with PUT");
     }

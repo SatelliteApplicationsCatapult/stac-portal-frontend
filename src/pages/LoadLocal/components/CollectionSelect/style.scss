@@ -1,3 +1,15 @@
+// 1250px
+@media (max-width: 1250px) {
+  #collection-select {
+    flex-direction: column !important;
+    // Flex spacing
+
+    // All first divs shoould have margin-bottom
+    > div:nth-child(2) {
+      margin-bottom: 25px !important;
+    }
+  }
+}
 .modal {
   // Modal that tints the background and centers the content
   position: fixed;

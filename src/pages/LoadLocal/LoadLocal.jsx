@@ -32,11 +32,13 @@ import {
   checkItemCount,
   generateSTAC,
 } from "./utils";
+import { addItemsToCollection } from "interface/collections";
 
 const LoadLocal = () => {
   const [files, setFiles] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState();
   const [errorFiles, setErrorFiles] = useState([]);
+  const [showErrorFiles, setShowErrorFiles] = useState(false);
   const [stac, setStac] = useState({});
 
   useEffect(() => {
@@ -69,20 +71,21 @@ const LoadLocal = () => {
 
       // Start the file upload and processing
       // Filter the files,, the other files should be marked as error
+      let errors = [];
       files
         .filter((file) => file.itemID)
         // Remove any duplicate files if they have the same name
         .filter((file, index, self) => {
-          // Mark the ones that get filtered out as error
           if (index !== self.findIndex((f) => f.name === file.name)) {
-            console.log("Duplicate file found: ", file.name);
             file.error = true;
             file.errorMessage = "Duplicate file name";
             file.started = false;
 
             // Remove from files state
             files.splice(files.indexOf(file), 1);
-            setErrorFiles([...errorFiles, file]);
+
+            // Add to errors
+            errors.push(file);
           }
 
           return index === self.findIndex((f) => f.name === file.name);
@@ -98,8 +101,12 @@ const LoadLocal = () => {
 
           // Remove from files state
           files.splice(files.indexOf(file), 1);
-          setErrorFiles([...errorFiles, file]);
+          //setErrorFiles([...errorFiles, file]);
+          errors.push(file);
         });
+
+      // Append to error files
+      setErrorFiles([...errorFiles, ...errors]);
 
       // Update the files
       setFiles([...files]);
@@ -132,7 +139,7 @@ const LoadLocal = () => {
       Object.keys(items).forEach(async (itemID) => {
         const item = items[itemID];
         // If item not already STAC processed (itemID not in stac state)
-        console.log('Is there a stac item?', stac[item.itemID])
+        console.log("Is there a stac item?", stac[item.itemID]);
         if (item.complete === true && !stac[item.itemID]) {
           //if (checkItemCount(item)) {
           const stacJSON = await generateSTAC(item);
@@ -153,6 +160,18 @@ const LoadLocal = () => {
 
     handleFileUpload();
   }, [files]);
+
+  const publish = async () => {
+    await addItemsToCollection(selectedCollection, stac);
+
+    // Wait for 2 seconds and then redirect to collection
+    setTimeout(() => {
+      window.open(
+        `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}collections/${selectedCollection.id}`,
+        "_blank"
+      );
+    }, 1500);
+  };
 
   return (
     <DashboardLayout>
@@ -195,6 +214,71 @@ const LoadLocal = () => {
                   <Dropzone files={files} setFiles={setFiles} />
                 </MDBox>
               </MDBox>
+              {/* Button for show errors */}
+              {errorFiles.length > 0 && (
+                <MDButton
+                  variant="contained"
+                  color="error"
+                  onClick={() => {
+                    console.log("Error files", errorFiles);
+                    setShowErrorFiles(!showErrorFiles);
+                  }}
+                >
+                  {showErrorFiles ? "Hide" : "Show"} Error Files (
+                  {errorFiles.length})
+                </MDButton>
+              )}
+              {/* Error files */}
+              {showErrorFiles && (
+                <MDBox>
+                  <MDBox
+                    style={{
+                      boxSizing: "border-box",
+                      width: "100%",
+                      padding: "1rem",
+                      height: "250px",
+                      maxWidth: "1000px",
+                    }}
+                  >
+                    <MDBox
+                      style={{
+                        // Scroll bar
+                        overflowY: "scroll",
+                        height: "100%",
+                        width: "100%",
+                        border: "1px dotted #ccc",
+                        paddingTop: "0.5em",
+                      }}
+                    >
+                      {errorFiles.map((file) => {
+                        return (
+                          <MDBox
+                            key={Math.random().toString(36).substring(7)}
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              width: "100%",
+                              paddingLeft: "2em",
+                              paddingRight: "2em",
+                              boxSizing: "border-box",
+                              height: "1.5em",
+                            }}
+                          >
+                            <MDTypography variant="overline">
+                              {file.originalName}
+                            </MDTypography>
+                            <MDTypography variant="overline">
+                              {file.errorMessage}
+                            </MDTypography>
+                          </MDBox>
+                        );
+                      })}
+                    </MDBox>
+                  </MDBox>
+                </MDBox>
+              )}
             </Card>
           </Grid>
 
@@ -260,13 +344,13 @@ const LoadLocal = () => {
                   <MDTypography variant="h5">
                     Step 5 - View STAC Records
                   </MDTypography>
-                  {/* <MDButton
+                  <MDButton
                     onClick={publish}
                     buttonType="create"
                     disabled={!selectedCollection}
                   >
                     Publish All
-                  </MDButton> */}
+                  </MDButton>
                 </MDBox>
 
                 <MDTypography
