@@ -169,7 +169,7 @@ const LoadLocal = () => {
     // Wait for 2 seconds and then redirect to collection
     setTimeout(() => {
       window.open(
-        `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}collections/${selectedCollection.id}`,
+        `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}/collections/${selectedCollection.id}`,
         "_blank"
       );
     }, 1500);
