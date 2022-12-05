@@ -100,9 +100,10 @@ export const uploadFile = async (file: FileProps) => {
   );
 
   const endpoint = sasToken.data.endpoint;
-
+  
   // Upload the file
-  const response = await axios.put(endpoint, file.blob, {
+  const uploaderInstance = axios.create();
+  const response = await uploaderInstance.put(endpoint, file.blob, {
     headers: {
       "x-ms-blob-type": "BlockBlob",
       "x-ms-blob-content-disposition": "attachment",
