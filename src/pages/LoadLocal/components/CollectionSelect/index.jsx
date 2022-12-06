@@ -73,14 +73,17 @@ const CollectionSelect = ({ setSelectedCollection }) => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
+          flexWrap: "wrap",
         }}
+        id="collection-select"
       >
         <MDBox
           style={{
             display: "flex",
             flexDirection: "column",
             marginBottom: "16px",
-            width: "100%",
+            width: "50%",
+            minWidth: "400px",
           }}
         >
           <MDTypography variant="h6">
@@ -122,7 +125,7 @@ const CollectionSelect = ({ setSelectedCollection }) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            width: "20%",
+            width: "5%",
           }}
         >
           <MDTypography
@@ -141,7 +144,7 @@ const CollectionSelect = ({ setSelectedCollection }) => {
             display: "flex",
             flexDirection: "column",
             marginBottom: "16px",
-            width: "100%",
+            width: "40%",
           }}
         >
           <MDTypography variant="h6">Create a new collection</MDTypography>
@@ -160,7 +163,6 @@ const CollectionSelect = ({ setSelectedCollection }) => {
             <MDButton
               buttonType="create"
               onClick={() => {
-                console.log("Create new collection");
                 setOpenModal(true);
               }}
               sx={{

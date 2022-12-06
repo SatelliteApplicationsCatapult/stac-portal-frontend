@@ -21,7 +21,6 @@ const LoadStatuses = () => {
   useEffect(() => {
     async function getStatuses() {
       let data = await retrieveAllLoadStatuses();
-      console.log(data);
       setStatuses(data);
     }
     getStatuses();
