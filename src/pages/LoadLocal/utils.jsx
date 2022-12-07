@@ -305,8 +305,8 @@ export const generateSTAC = async (item) => {
 
     // TODO: Come back here later
     let additionalData = {
-      cloudCover: metadataJSON.properties.cloud_cover,
-      cloudPercentage: metadataJSON.properties.cloud_percent,
+     //cloudCover: metadataJSON.properties.cloud_cover,
+      cloudCover: metadataJSON.properties.cloud_percent,
       sunElevation: metadataJSON.properties.sun_elevation,
       sunAzimuth: metadataJSON.properties.sun_azimuth,
       offNadirAngle: metadataJSON.properties.view_angle,
