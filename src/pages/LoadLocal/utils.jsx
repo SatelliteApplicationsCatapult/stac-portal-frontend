@@ -7,6 +7,8 @@ import { FileProps } from "./LoadLocal";
 // Functions
 import { manifestToProvider, providerToManifest } from "./consts";
 
+import {findProvider} from "./providers/providers"
+
 export const readManifest = async (file: FileProps) => {
   // Async function to read the manifest file
   file.provider = manifestToProvider(file.originalName);
@@ -41,46 +43,10 @@ export const readManifest = async (file: FileProps) => {
   return promise;
 };
 
-export const processManifest = (file: FileProps, files: []) => {
+export const processManifest = async (file: FileProps, files: []) => {
   let associatedFiles, itemID;
 
-  if (file.provider === "Maxar") {
-    // Read the manifest and group the associated files
-    const products = file.data.getElementsByTagName("productFile");
-    const filePaths = Array.from(products).map(
-      (file) => file.getElementsByTagName("filename")[0].innerHTML
-    );
-    const relativeDirectory =
-      products[0].getElementsByTagName("relativeDirectory")[0].innerHTML;
-    itemID = relativeDirectory.split("/")[0];
-
-    // Get the associated files and Item ID
-    associatedFiles = files.filter(
-      (file) =>
-        filePaths.includes(file.originalName) &&
-        !file.started &&
-        !file.name &&
-        file.path.includes(itemID)
-    );
-  }
-
-  if (file.provider === "Planet") {
-    const filePaths = file.data.files.map((file) => {
-      let path = file.path;
-      // Get the last index after slash
-      const index = path.lastIndexOf("/");
-      // Get the substring after the last slash
-      path = path.substring(index + 1);
-      return path;
-    });
-
-    // Get the associated files and Item ID
-    associatedFiles = files.filter(
-      (file) =>
-        filePaths.includes(file.originalName) && !file.started && !file.name
-    );
-    itemID = file.data.files[0].annotations["planet/item_id"];
-  }
+  [itemID, associatedFiles] = await findProvider(file.provider).getPathsAndId(file, files);
 
   associatedFiles.forEach((associatedFile) => {
     associatedFile.itemID = itemID;
@@ -187,23 +153,6 @@ export const checkItemCount = (files) => {
   }
 };
 
-const readFromFile = async (file) => {
-  const reader = new FileReader();
-  const fileBlob = file.blob;
-  const promise = new Promise((resolve, reject) => {
-    reader.onload = (e) => {
-      const content = reader.result;
-      resolve(content);
-    };
-    reader.onerror = (e) => {
-      reject(e);
-    };
-  });
-  reader.readAsText(fileBlob);
-  const readmeContent = await promise;
-  return readmeContent;
-};
-
 export const generateSTAC = async (item) => {
   // Gather all files that gdalInfo is not null
   const filesWithGdalInfo = item.files.filter((file) => file.GDALInfo !== null);
@@ -256,65 +205,7 @@ export const generateSTAC = async (item) => {
   let timeAcquired;
   let additional;
 
-  if (item.provider === "Maxar") {
-    // Read the Delivery
-    const metadataFileName = providerToManifest(item.provider);
-    const metadataFile = item.files.find(
-      (file) => file.name === item.itemID + "_" + metadataFileName
-    );
-    const metadata = await readFromFile(metadataFile);
-
-    // Parse to XML
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(metadata, "text/xml");
-    timeAcquired = xml.getElementsByTagName("earliestAcquisitionTime")[0]
-      .textContent;
-
-    // Parse the Readme.xml
-    const readmeXML = item.files.find((file) =>
-      file.name.includes("README.XML")
-    );
-    const readmeXMLContent = await readFromFile(readmeXML);
-    const readmeXMLData = parser.parseFromString(readmeXMLContent, "text/xml");
-
-    let additionalData = {
-      cloudCover:
-        readmeXMLData.getElementsByTagName("CLOUDCOVER")[0]?.textContent,
-      sunElevation: xml.getElementsByTagName("sunElevation")[0].textContent,
-      sunAzimuth: xml.getElementsByTagName("sunAzimuth")[0].textContent,
-      offNadirAngle: xml.getElementsByTagName("offNadirAngle")[0].textContent,
-    };
-
-    additional = additionalData;
-  }
-
-  if (item.provider === "Planet") {
-    // Find file that ends with {itemID}_metadata.json
-    const metadataFileName = item.itemID + "_metadata.json";
-    const metadataFile = item.files.find((file) =>
-      file.name.includes(metadataFileName)
-    );
-
-    // Read the file
-    const metadata = await readFromFile(metadataFile);
-
-    // Parse to JSON
-    const metadataJSON = JSON.parse(metadata);
-
-    timeAcquired = metadataJSON.properties.acquired;
-
-    // TODO: Come back here later
-    let additionalData = {
-     //cloudCover: metadataJSON.properties.cloud_cover,
-      cloudCover: metadataJSON.properties.cloud_percent,
-      sunElevation: metadataJSON.properties.sun_elevation,
-      sunAzimuth: metadataJSON.properties.sun_azimuth,
-      offNadirAngle: metadataJSON.properties.view_angle,
-      gsd: metadataJSON.properties.gsd,
-    };
-
-    additional = additionalData;
-  }
+  [timeAcquired, additional] = await findProvider(item.provider).getAdditionalInfo(item);
 
   const payload = {
     assets: assets,
