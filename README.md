@@ -7,6 +7,10 @@ Front end react app for https://github.com/SatelliteApplicationsCatapult/stac-po
 Two build jobs set up, for building both prod and dev docker image
 from Dockerfile_dev and Dockerfile_prod.
 
+```bash
+docker build -f ./Dockerfile_dev -t pdm-test:dev .
+```
+
 ## Environment variables
 
 | Var name| Used for |
