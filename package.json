@@ -14,7 +14,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "5.10.3",
     "@mui/styled-engine": "5.10.3",
-    "@mui/x-date-pickers": "^5.0.5",
+    "@mui/x-date-pickers": "^5.0.15",
     "@rpldy/mock-sender": "^1.1.0",
     "@rpldy/upload-button": "^1.1.0",
     "@rpldy/upload-drop-zone": "^1.1.0",
