@@ -1,5 +1,5 @@
 import {readFromFile} from "../readfromfile"
-import { manifestToProvider, providerToManifest } from "../consts";
+import { providerToManifest } from "../consts";
 
 export class MaxarProvider {
 

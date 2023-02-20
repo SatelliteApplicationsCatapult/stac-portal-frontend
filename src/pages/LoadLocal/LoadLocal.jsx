@@ -20,7 +20,7 @@ import DashboardLayout from "layout/LayoutContainers/DashboardLayout";
 import "./style.scss";
 
 // Constants
-import { metadataFileNames } from "./consts";
+import { isMetadata } from "./consts";
 
 // Utils
 import {
@@ -46,7 +46,7 @@ const LoadLocal = () => {
       // Check for unprocessed metadata files
       const metafiles = files.filter(
         (file) =>
-          metadataFileNames.includes(file.originalName) &&
+          isMetadata(file.originalName) &&
           !file.started &&
           !file.complete
       );
