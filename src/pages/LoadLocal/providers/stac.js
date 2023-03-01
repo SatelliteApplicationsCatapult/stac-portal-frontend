@@ -41,6 +41,11 @@ export class StacProvider {
 
     const additionalInfo = metadataJSON.properties;
     let timeAcquired = metadataJSON.properties.datetime;
+    // check if we have a length to be missing milliseconds.
+    // If we we can add them on.
+    if (timeAcquired.length == "2019-02-16T00:00:00Z".length) {
+      timeAcquired = timeAcquired.substring(0,19) + ".000" + timeAcquired[19];
+    }
 
     return [timeAcquired, additionalInfo];
   }
