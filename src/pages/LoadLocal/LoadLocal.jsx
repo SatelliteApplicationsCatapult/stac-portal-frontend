@@ -29,7 +29,6 @@ import {
   uploadFile,
   processTiff,
   groupFilesByID,
-  checkItemCount,
   generateSTAC,
 } from "./utils";
 import { addItemsToCollection } from "interface/collections";
@@ -136,6 +135,9 @@ const LoadLocal = () => {
 
       // Now to generate the STAC with the items we have
       const items = groupFilesByID(files);
+
+      // TODO: if items.any((item) => item.files.any((file) => file.GDALInfo.error) display an error
+
       Object.keys(items).forEach(async (itemID) => {
         const item = items[itemID];
         // If item not already STAC processed (itemID not in stac state)
@@ -172,7 +174,7 @@ const LoadLocal = () => {
         `${process.env.REACT_APP_PORTAL_STAC_API_BROWSER_URL}/collections/${selectedCollection.id}`,
         "_blank"
       );
-    }, 1500);
+    }, 2000);
   };
 
   return (

@@ -135,23 +135,6 @@ export const groupFilesByID = (files) => {
   }, []);
 };
 
-// TODO: Check this function out, it's not wrong, just a lot of folders do actually not have the same count
-export const checkItemCount = (files) => {
-  if (files.provider === "Maxar") {
-    const manifestFile = providerToManifest(files.provider);
-    // Open the manifest file
-    const manifest = files.files.find(
-      (file) => file.name === files.itemID + "_" + manifestFile
-    );
-    // Find the amount of <productFile> tags
-    const products = manifest.data.getElementsByTagName("productFile");
-    const count = products.length + 1; // Extra one for the manifest file itself
-    console.log(
-      `Count compared to manifest: ${files.count} vs ${count} for ${files.itemID}`
-    );
-    return count === files.count;
-  }
-};
 
 export const generateSTAC = async (item) => {
   // Gather all files that gdalInfo is not null
@@ -169,9 +152,13 @@ export const generateSTAC = async (item) => {
   ).GDALInfo.description;
 
   // WKT
-  const wkt = filesWithGdalInfo.find(
-    (file) => file.GDALInfo.coordinateSystem.wkt !== null
-  ).GDALInfo.coordinateSystem.wkt;
+  const with_wkt = filesWithGdalInfo.find(
+    (file) => file.GDALInfo.coordinateSystem && file.GDALInfo.coordinateSystem.wkt !== null
+  )
+  let wkt = "";
+  if (with_wkt) {
+    wkt = with_wkt.GDALInfo.coordinateSystem.wkt;
+  }
 
   // Assets
   const assets = filesWithGdalInfo.map((file) => {
