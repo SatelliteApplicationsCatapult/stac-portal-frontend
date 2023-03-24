@@ -3,6 +3,7 @@ import {PlanetProvider} from "./planet"
 import {StacProvider} from "./stac"
 import {BlueskyProvider} from "./bluesky"
 
+
 export const findProvider = (name) => {
     if (name === "Maxar") {
         return new MaxarProvider();
@@ -12,6 +13,7 @@ export const findProvider = (name) => {
         return new StacProvider();
     } else if (name === "Bluesky") {
         return new BlueskyProvider();
+
     }
 
     return null;

@@ -3,6 +3,7 @@ const providers = {
   "manifest.json": "Planet",
   "item.json": "Stac",
   ".xml": "Bluesky", // Note: We will want more smarts here
+
 };
 
 export const metadataFileNames = Object.keys(providers);
@@ -31,6 +32,7 @@ export const manifestToProvider = (manifestName) => {
     if (manifestName.endsWith(".xml")) {
       return providers[".xml"];
     }
+
     throw new Error(`Unknown provider for manifest ${manifestName}`);
   }
 
